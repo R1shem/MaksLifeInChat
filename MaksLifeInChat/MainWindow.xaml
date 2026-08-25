@@ -4,9 +4,36 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaksLifeInChat"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        mc:Ignorable="d" WindowStyle="None" WindowState="Maximized"
+        Title="MainWindow" Height="1200" Width="1920">
+    <Viewbox>
+        <Grid Height="1200" Width="1920">
+            <Border Margin="5,5,5,155" BorderBrush="Black" BorderThickness="10">
+                <Grid x:Name="gameMapGrid"></Grid>
+            </Border>
+            <StackPanel x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
+                <Image Source="/Resource/hand.png" Height="100" Width="100"></Image>
+                <Border x:Name="hand1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border x:Name="hand2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Image Margin="60,0,0,0" Source="/Resource/inventory.png" Height="100" Width="100"></Image>
+                <Border x:Name="inventory1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border x:Name="inventory2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border x:Name="inventory3Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border x:Name="inventory4Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Image Margin="60,0,0,0" Source="/Resource/building.png" Height="100" Width="100"></Image>
+                <Border x:Name="building1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border x:Name="building2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Image Margin="30,0,0,0" Source="/Resource/hp.png" Height="100" Width="100"></Image>
+                <Rectangle Name="hpRectangle" Height="120" Width="12" Fill="#c10f17" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
+                <Image Source="/Resource/mp.png" Height="100" Width="100"></Image>
+                <Rectangle Name="mpRectangle" Height="120" Width="12" Fill="#2d36a6" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
+                <Image Source="/Resource/stamina.png" Height="100" Width="100"></Image>
+                <Rectangle Name="staminaRectangle" Height="120" Width="12" Fill="#1b8b3d" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
+                <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="dayCountTB" FontSize="24" FontWeight="Bold">ХХ д.</TextBlock>
+                    <TextBlock x:Name="levelCountTB" FontSize="24" FontWeight="Bold">ХХ ур.</TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Viewbox>
 </Window>

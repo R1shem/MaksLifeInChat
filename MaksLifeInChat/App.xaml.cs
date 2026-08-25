@@ -9,6 +9,8 @@ namespace MaksLifeInChat
     /// </summary>
     public partial class App : Application
     {
+        public static MainWindow mainWindow;
+        public static int FPS;
     }
 
 }
