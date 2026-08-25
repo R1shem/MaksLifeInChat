@@ -26,6 +26,7 @@
     <None Remove="Resource\kaywalkright0.png" />
     <None Remove="Resource\kaywalkright1.png" />
     <None Remove="Resource\kaywalkup0.png" />
+    <None Remove="Resource\kaywalkup1.png" />
     <None Remove="Resource\kaywallkup1.png" />
     <None Remove="Resource\mp.png" />
     <None Remove="Resource\stamina.png" />
@@ -83,7 +84,7 @@
     <Content Include="Resource\kaywalkup0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\kaywallkup1.png">
+    <Content Include="Resource\kaywalkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\mp.png">

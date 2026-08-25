@@ -3,11 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MaksLifeInChat"
+        xmlns:local="clr-namespace:MaksLifeInChat" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         mc:Ignorable="d" WindowStyle="None" WindowState="Maximized"
         Title="MainWindow" Height="1200" Width="1920">
     <Viewbox>
         <Grid Height="1200" Width="1920">
+            <StackPanel x:Name="developInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25">
+                <TextBlock x:Name="frameCountTB"></TextBlock>
+                <TextBlock x:Name="timeCountTB"></TextBlock>
+                <TextBlock x:Name="spriteCountTB"></TextBlock>
+                <TextBlock x:Name="coordinatesTB"></TextBlock>
+            </StackPanel>
             <Border Margin="5,5,5,155" BorderBrush="Black" BorderThickness="10">
                 <Grid x:Name="gameMapGrid"></Grid>
             </Border>
