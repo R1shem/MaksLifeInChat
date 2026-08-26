@@ -27,21 +27,31 @@ namespace MaksLifeInChat
         SpriteCache cashe;
         Player player;
         Image playerSprite;
+        List<Building> buildings = [];
+        List<Image> buildingSprites = [];
         List<Chatters> chatters = [];
         List<Image> chatterSprites = [];
+        List<Item> equipItems = [];
+        List<Item> inventoryItems = [];
+        string? selectBuilding;
+        bool halalcartZone = false;
         public MainWindow()
         {
             App.mainWindow = this;
             InitializeComponent();
             MenuFrame menuFrame = new();
-            gameMapGrid.Children.Add(menuFrame);
+            gamePlayerMapGrid.Children.Add(menuFrame);
         }
 
         public async void StartGame()
         {
             cashe = new SpriteCache();
-            cashe.GetSpritesList(Constants.unitNames, Constants.states, Constants.rotations);
+            cashe.GetUnitSpritesList(Constants.unitNames, Constants.states, Constants.rotations);
+            cashe.GetItemSpritesList(Constants.itemNames);
+            toolBarStackPanel.Visibility = Visibility.Visible;
             isPlay = true;
+            building1Image.Source = cashe._unit[("wall", "stand", "down")][0];
+            building2Image.Source = cashe._unit[("halalcart", "stand", "down")][0];
             SpawnPlayer();
             await GameTimer();
         }
@@ -79,39 +89,85 @@ namespace MaksLifeInChat
 
         void PlayerGameUpdate() // все методы GameUpdate закинуть в класс GameUpdate и испольлзовать статичные методы оттуда
         {
+            double factSpeed = player.Speed;
+            if (player.IsRun)
+            {
+                if (player.Stamina <= 1) // немного больше единицы, чтобы высота показателя не была отрицательной
+                    player.IsRun = false;
+                else
+                {
+                    factSpeed *= player.RunModificator;
+                    player.Stamina -= player.StaminaConsuption;
+                }
+            }
+            else
+                if (player.Stamina < player.MaxStamina)
+                    player.Stamina += player.RegenStamina;
+            if (player.IsKara)
+            {
+                if (player.MP <= 1)
+                {
+                    player.IsKara = false;
+                    player.Name = "kay";
+                }
+                else
+                {
+                    factSpeed *= player.KaraSpeedModificator;
+                    player.MP -= player.KaraConsuption;
+                }
+            }
+            else
+                if (player.MP < player.MaxMP)
+                    player.MP += player.RegenMP;
+            if (player.HP < player.MaxHP)
+                player.HP += player.RegenHP;
+
+            mpRectangle.Height = player.MP / player.MaxMP * 120;
+            hpRectangle.Height = player.HP / player.MaxHP * 120;
+            staminaRectangle.Height = player.Stamina / player.MaxStamina * 120;
+
             switch (player.State) // для разных классов сделать отдельные методы
             {
                 case "walk":
                     switch (player.Rotation)
                     {
                         case "left":
-                            player.Coordinates = new (player.Coordinates.Left - player.Speed, player.Coordinates.Top, 0,0);
+                            player.Coordinates = new (player.Coordinates.Left - factSpeed, player.Coordinates.Top, 0,0);
                             break;
                         case "right":
-                            player.Coordinates = new(player.Coordinates.Left + player.Speed, player.Coordinates.Top, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left + factSpeed, player.Coordinates.Top, 0, 0);
                             break;
                         case "up":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - player.Speed, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
                             break;
                         case "down":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + player.Speed, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + factSpeed, 0, 0);
                             break;
                     }
                     switch (player.SecondRotation)
                     {
                         case "left":
-                            player.Coordinates = new(player.Coordinates.Left - player.Speed, player.Coordinates.Top, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left - factSpeed, player.Coordinates.Top, 0, 0);
                             break;
                         case "right":
-                            player.Coordinates = new(player.Coordinates.Left + player.Speed, player.Coordinates.Top, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left + factSpeed, player.Coordinates.Top, 0, 0);
                             break;
                         case "up":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - player.Speed, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
                             break;
                         case "down":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + player.Speed, 0, 0);
+                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + factSpeed, 0, 0);
                             break;
                     }
+                    if (player.Coordinates.Left <= -1850)
+                        player.Coordinates = new(player.Coordinates.Left + factSpeed, player.Coordinates.Top, 0, 0);
+                    else if (player.Coordinates.Left >= 1850)
+                        player.Coordinates = new(player.Coordinates.Left - factSpeed, player.Coordinates.Top, 0, 0);
+                    if (player.Coordinates.Top <= -910)
+                        player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + factSpeed, 0, 0);
+                    else if (player.Coordinates.Top >= 910)
+                        player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
+
                     playerSprite.Margin = player.Coordinates;
                     break;
             }
@@ -134,20 +190,54 @@ namespace MaksLifeInChat
 
         void SpriteUpdate()
         {
-            if (player.ProgressSprite >= cashe._cache[(player.Name, player.State, player.Rotation)].Count)
+            if (player.ProgressSprite >= cashe._unit[(player.Name, player.State, player.Rotation)].Count)
                 player.ProgressSprite = 0;
-            playerSprite.Source = cashe._cache[(player.Name, player.State, player.Rotation)][player.ProgressSprite];
+            playerSprite.Source = cashe._unit[(player.Name, player.State, player.Rotation)][player.ProgressSprite];
             player.ProgressSprite++;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            UpdateDirections();
+            if (isPlay)
+            {
+                UpdateDirections();
+                if (Keyboard.IsKeyDown(Key.LeftShift) && !player.IsRun)
+                    player.IsRun = true;
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && !player.IsKara)
+                {
+                    player.IsKara = true;
+                    player.Name = "kara";
+                }
+            }
+            if (Keyboard.IsKeyDown(Key.F11))
+            {
+                if (this.WindowStyle == WindowStyle.None)
+                {
+                    this.WindowState = WindowState.Normal;
+                    this.WindowStyle = WindowStyle.SingleBorderWindow;
+                }
+                else
+                {
+                    this.WindowState = WindowState.Maximized;
+                    this.WindowStyle = WindowStyle.None;
+                }
+            }
+
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            UpdateDirections();
+            if (isPlay)
+            {
+                UpdateDirections();
+                if (!Keyboard.IsKeyDown(Key.LeftShift) && player.IsRun)
+                    player.IsRun = false;
+                if (!Keyboard.IsKeyDown(Key.LeftCtrl) && player.IsKara)
+                {
+                    player.IsKara = false;
+                    player.Name = "kay";
+                }
+            }
         }
 
         private void UpdateDirections()
@@ -181,9 +271,122 @@ namespace MaksLifeInChat
                 Height = player.Size,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Source = cashe._cache[("kay", "stand", "down")][0]
+                Source = cashe._unit[("kay", "stand", "down")][0]
             };
-            gameMapGrid.Children.Add(playerSprite);
+            gamePlayerMapGrid.Children.Add(playerSprite);
+        }
+
+        private void Button_Building1(object sender, RoutedEventArgs e)
+        {
+            BuildClick("wall");
+        }
+
+        private void Button_Building2(object sender, RoutedEventArgs e)
+        {
+            BuildClick("halalcart");
+        }
+
+        void BuildClick(string name)
+        {
+            if (!halalcartZone)
+            {
+                if (selectBuilding == name)
+                {
+                    selectBuilding = null;
+                    mouseDynamicImage.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    mouseDynamicImage.Visibility = Visibility.Visible;
+                    selectBuilding = name;
+                    int size;
+                    if (selectBuilding == "halalcart")
+                        size = Constants.SizeHalalcart;
+                    else
+                        size = Constants.SizeWall;
+                    mouseDynamicImage.Width = size;
+                    mouseDynamicImage.Height = size;
+                    mouseDynamicImage.Source = cashe._unit[(name, "stand", "down")][0];
+                }
+            }
+            else
+            {
+                // buy shawarma logic
+            }
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (selectBuilding != null)
+            {
+                Point p = e.GetPosition(mouseDynamicImageCanvas);
+                Canvas.SetLeft(mouseDynamicImage, p.X - mouseDynamicImage.Width / 2);
+                Canvas.SetTop(mouseDynamicImage, p.Y - mouseDynamicImage.Height / 2);
+            }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (selectBuilding != null)
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    Point p = e.GetPosition(mouseDynamicImageCanvas);
+                    SpawnBuilding(p, selectBuilding);
+                    selectBuilding = null;
+                    mouseDynamicImage.Visibility = Visibility.Collapsed;
+                }
+                else if (e.ChangedButton == MouseButton.Right)
+                {
+                    selectBuilding = null;
+                    mouseDynamicImage.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        void SpawnBuilding(Point p, string name)
+        {
+            Thickness coordinates = new Thickness((p.X - 953) * 2, (p.Y - 527) * 2, 0, 0);
+
+            Building building = new();
+            building.Name = name;
+            switch (selectBuilding)
+            {
+                case "halalcart":
+                    building.Size = Constants.SizeHalalcart;
+                    if (coordinates.Left <= -1850)
+                        coordinates = new(-1700, coordinates.Top, 0, 0);
+                    else if (coordinates.Left >= 1850)
+                        coordinates = new(1700, coordinates.Top, 0, 0);
+                    if (coordinates.Top <= -910)
+                        coordinates = new(coordinates.Left, -850, 0, 0);
+                    else if (coordinates.Top >= 910)
+                        coordinates = new(coordinates.Left, 850, 0, 0);
+                    break;
+                case "wall":
+                    building.Size = Constants.SizeWall;
+                    if (coordinates.Left <= -1850)
+                        coordinates = new(-1850, coordinates.Top, 0, 0);
+                    else if (coordinates.Left >= 1850)
+                        coordinates = new(1850, coordinates.Top, 0, 0);
+                    if (coordinates.Top <= -960)
+                        coordinates = new(coordinates.Left, -960, 0, 0);
+                    else if (coordinates.Top >= 960)
+                        coordinates = new(coordinates.Left, 960, 0, 0);
+                    break;
+            }
+            building.Coordinates = coordinates;
+
+            buildings.Add(building);
+            Image buildingImage = new()
+            {
+                Margin = building.Coordinates,
+                Width = building.Size,
+                Height = building.Size,
+                Source = cashe._unit[(building.Name, "stand", "down")][0]
+            };
+            buildingSprites.Add(buildingImage);
+            gameBuildingMapGrid.Children.Add(buildingImage);
         }
     }
 }

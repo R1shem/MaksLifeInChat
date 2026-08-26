@@ -3,19 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MaksLifeInChat" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
+        xmlns:local="clr-namespace:MaksLifeInChat" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" MouseMove="Window_MouseMove" MouseDown="Window_MouseDown"
         mc:Ignorable="d" WindowStyle="None" WindowState="Maximized"
-        Title="MainWindow" Height="1200" Width="1920">
+        Title="MainWindow" Height="600" Width="960">
     <Viewbox>
         <Grid Height="1200" Width="1920">
+            <Canvas x:Name="mouseDynamicImageCanvas" Margin="5,5,5,155">
+                <Image x:Name="mouseDynamicImage"></Image>
+            </Canvas>
             <StackPanel x:Name="developInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25">
-                <TextBlock x:Name="frameCountTB"></TextBlock>
-                <TextBlock x:Name="timeCountTB"></TextBlock>
-                <TextBlock x:Name="spriteCountTB"></TextBlock>
-                <TextBlock x:Name="coordinatesTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="frameCountTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="timeCountTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="spriteCountTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="coordinatesTB"></TextBlock>
             </StackPanel>
             <Border Margin="5,5,5,155" BorderBrush="Black" BorderThickness="10">
-                <Grid x:Name="gameMapGrid"></Grid>
+                <Grid>
+                    <Grid x:Name="gameUnitMapGrid"/>
+                    <Grid x:Name="gameBuildingMapGrid"/>
+                    <Grid x:Name="gamePlayerMapGrid"/>
+                </Grid>
             </Border>
             <StackPanel x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
                 <Image Source="/Resource/hand.png" Height="100" Width="100"></Image>
@@ -27,8 +34,15 @@
                 <Border x:Name="inventory3Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="inventory4Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Image Margin="60,0,0,0" Source="/Resource/building.png" Height="100" Width="100"></Image>
-                <Border x:Name="building1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Border x:Name="building2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="Button_Building1">
+                        <Image x:Name="building1Image"></Image>
+                    </Button>
+                </Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="Button_Building2">
+                        <Image x:Name="building2Image"></Image>
+                    </Button></Border>
                 <Image Margin="30,0,0,0" Source="/Resource/hp.png" Height="100" Width="100"></Image>
                 <Rectangle Name="hpRectangle" Height="120" Width="12" Fill="#c10f17" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
                 <Image Source="/Resource/mp.png" Height="100" Width="100"></Image>

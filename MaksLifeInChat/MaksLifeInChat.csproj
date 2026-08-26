@@ -10,9 +10,24 @@
 
   <ItemGroup>
     <None Remove="Resource\building.png" />
+    <None Remove="Resource\halalcartstanddown0.png" />
     <None Remove="Resource\hand.png" />
     <None Remove="Resource\hp.png" />
     <None Remove="Resource\inventory.png" />
+    <None Remove="Resource\karastanddown0.png" />
+    <None Remove="Resource\karastanddown1.png" />
+    <None Remove="Resource\karastandleft0.png" />
+    <None Remove="Resource\karastandright0.png" />
+    <None Remove="Resource\karastandup0.png" />
+    <None Remove="Resource\karastandup1.png" />
+    <None Remove="Resource\karawalkdown0.png" />
+    <None Remove="Resource\karawalkdown1.png" />
+    <None Remove="Resource\karawalkleft0.png" />
+    <None Remove="Resource\karawalkleft1.png" />
+    <None Remove="Resource\karawalkright0.png" />
+    <None Remove="Resource\karawalkright1.png" />
+    <None Remove="Resource\karawalkup0.png" />
+    <None Remove="Resource\karawallkup1.png" />
     <None Remove="Resource\kaystanddown0.png" />
     <None Remove="Resource\kaystanddown1.png" />
     <None Remove="Resource\kaystandleft0.png" />
@@ -29,11 +44,18 @@
     <None Remove="Resource\kaywalkup1.png" />
     <None Remove="Resource\kaywallkup1.png" />
     <None Remove="Resource\mp.png" />
+    <None Remove="Resource\nintendo.png" />
+    <None Remove="Resource\shawarmaHP.png" />
+    <None Remove="Resource\shawarmaMP.png" />
     <None Remove="Resource\stamina.png" />
+    <None Remove="Resource\wallstanddown0.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resource\building.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\halalcartstanddown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\hand.png">
@@ -43,6 +65,48 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\inventory.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karastanddown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karastanddown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karastandleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karastandright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karastandup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karastandup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawalkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawallkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kaystanddown0.png">
@@ -90,7 +154,19 @@
     <Content Include="Resource\mp.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\nintendo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\shawarmaHP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\shawarmaMP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\stamina.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\wallstanddown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

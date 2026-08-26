@@ -25,7 +25,9 @@ namespace MaksLifeInChat
 
         private void Button_Start(object sender, RoutedEventArgs e)
         {
-            App.mainWindow.gameMapGrid.Children.Clear();
+            App.mainWindow.gamePlayerMapGrid.Children.Clear();
+            App.mainWindow.gameBuildingMapGrid.Children.Clear();
+            App.mainWindow.gameUnitMapGrid.Children.Clear();
             App.mainWindow.StartGame();
         }
     }

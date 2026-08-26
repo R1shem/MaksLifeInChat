@@ -9,11 +9,12 @@ namespace MaksLifeInChat.Model
 {
     public class SpriteCache
     {
-        public readonly Dictionary<(string Name, string State, string Rotation), List<BitmapImage>> _cache = new();
-        private List<BitmapImage> GetSprites(string name, string state, string rotation)
+        public readonly Dictionary<(string Name, string State, string Rotation), List<BitmapImage>> _unit = new();
+        public readonly Dictionary<string, BitmapImage> _item = new();
+        private List<BitmapImage> GetUnitSprites(string name, string state, string rotation)
         {
             var key = (name, state, rotation);
-            if (_cache.TryGetValue(key, out var list))
+            if (_unit.TryGetValue(key, out var list))
                 return list;
 
             list = new List<BitmapImage>();
@@ -26,8 +27,16 @@ namespace MaksLifeInChat.Model
                 list.Add(image);
                 progress++;
             }
-            _cache[key] = list;
+            _unit[key] = list;
             return list;
+        }
+        private BitmapImage GetItemSprites(string name)
+        {
+            string fileName = $"{Constants.resourceFolder}{name}.png";
+            if (!File.Exists(fileName)) return null;
+            BitmapImage image = LoadImage(fileName);
+            _item[name] = image;
+            return image;
         }
 
         private static BitmapImage LoadImage(string fileName)
@@ -44,12 +53,18 @@ namespace MaksLifeInChat.Model
             return image;
         }
 
-        public void GetSpritesList(string[] unitNames, string[] states, string[] rotations)
+        public void GetUnitSpritesList(string[] unitNames, string[] states, string[] rotations)
         {
             foreach (var name in unitNames)
                 foreach (var state in states)
                     foreach (var rot in rotations)
-                        GetSprites(name, state, rot);
+                        GetUnitSprites(name, state, rot);
+        }
+
+        public void GetItemSpritesList(string[] itemNames)
+        {
+            foreach (var name in itemNames)
+                GetItemSprites(name);
         }
     }
 }
