@@ -43,6 +43,34 @@
     <None Remove="Resource\kaywalkup1.png" />
     <None Remove="Resource\kaywallkup1.png" />
     <None Remove="Resource\mp.png" />
+    <None Remove="Resource\newbie0standdown0.png" />
+    <None Remove="Resource\newbie0standdown1.png" />
+    <None Remove="Resource\newbie0standleft0.png" />
+    <None Remove="Resource\newbie0standright0.png" />
+    <None Remove="Resource\newbie0standup0.png" />
+    <None Remove="Resource\newbie0standup1.png" />
+    <None Remove="Resource\newbie0walkdown0.png" />
+    <None Remove="Resource\newbie0walkdown1.png" />
+    <None Remove="Resource\newbie0walkleft0.png" />
+    <None Remove="Resource\newbie0walkleft1.png" />
+    <None Remove="Resource\newbie0walkright0.png" />
+    <None Remove="Resource\newbie0walkright1.png" />
+    <None Remove="Resource\newbie0walkup0.png" />
+    <None Remove="Resource\newbie0walkup1.png" />
+    <None Remove="Resource\newbie1standdown0.png" />
+    <None Remove="Resource\newbie1standdown1.png" />
+    <None Remove="Resource\newbie1standleft0.png" />
+    <None Remove="Resource\newbie1standright0.png" />
+    <None Remove="Resource\newbie1standup0.png" />
+    <None Remove="Resource\newbie1standup1.png" />
+    <None Remove="Resource\newbie1walkdown0.png" />
+    <None Remove="Resource\newbie1walkdown1.png" />
+    <None Remove="Resource\newbie1walkleft0.png" />
+    <None Remove="Resource\newbie1walkleft1.png" />
+    <None Remove="Resource\newbie1walkright0.png" />
+    <None Remove="Resource\newbie1walkright1.png" />
+    <None Remove="Resource\newbie1walkup0.png" />
+    <None Remove="Resource\newbie1walkup1.png" />
     <None Remove="Resource\nintendo.png" />
     <None Remove="Resource\saucer.png" />
     <None Remove="Resource\shawarmaHP.png" />
@@ -152,6 +180,90 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\mp.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0standdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0standup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie0walkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1standdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1standup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\newbie1walkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\nintendo.png">

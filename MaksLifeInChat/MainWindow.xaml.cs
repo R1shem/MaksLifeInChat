@@ -1,5 +1,6 @@
 ﻿using MaksLifeInChat.Model;
 using System.Numerics;
+using System.Security.Policy;
 using System.Text;
 using System.Timers;
 using System.Windows;
@@ -21,8 +22,10 @@ namespace MaksLifeInChat
     public partial class MainWindow : Window
     {
         bool isPlay = false;
+        bool isBoss = false;
         int count_frame = 0; // frame count (не отражает время)
         int count_sprite_frame = 0;
+        int count_spawn_newbie_delay = 0;
         TimeOnly time = new TimeOnly(0, 0);
         int _lastMinute = -1;
         int count_day = 0;
@@ -33,10 +36,10 @@ namespace MaksLifeInChat
         Image playerSprite;
         List<Building> buildings = [];
         List<Image> buildingSprites = [];
+        List<Newbie> newbies = [];
+        List<Image> newbieSprites = [];
         List<Chatters> chatters = [];
         List<Image> chatterSprites = [];
-        List<Item> equipItems = [];
-        List<Item> inventoryItems = [];
         string? selectBuilding;
         bool halalcartZone = false;
 
@@ -87,15 +90,24 @@ namespace MaksLifeInChat
                 await Task.Delay(Constants.FPS);
                 count_sprite_frame++;
                 count_frame+= Constants.FPS;
-                if (count_frame >= Constants.second)
+                if (count_frame >= Constants.Second)
                 {
                     count_frame = 0;
                     time = time.Add(TimeSpan.FromSeconds(1));
-                    if (time.Minute != _lastMinute)
+                    if (!isBoss)
                     {
-                        dayCountTB.Text = $"{count_day++} д.";
-                        _lastMinute = time.Minute;
-                        // сюда добавить условие
+                        count_spawn_newbie_delay++;
+                        if (count_spawn_newbie_delay >= Constants.SpawnNewbieDelaySec)
+                        {
+                            count_spawn_newbie_delay = 0;
+                            SpawnNewbie();
+                        }
+                        if (time.Minute != _lastMinute)
+                        {
+                            dayCountTB.Text = $"{count_day++} д.";
+                            _lastMinute = time.Minute;
+                            // сюда добавить условие
+                        }
                     }
                 }
                 if (count_sprite_frame == Constants.SpriteUpdateFrameCount)
@@ -114,6 +126,7 @@ namespace MaksLifeInChat
         void GameUpdate()
         {
             PlayerGameUpdate();
+            NewbieGameUpdate();
 
         }
 
@@ -240,9 +253,46 @@ namespace MaksLifeInChat
 
         }
 
-        void NewbieGameUpdate() 
+        void NewbieGameUpdate()
         {
+            for (int i = 0; i < newbies.Count; i++)
+            {
+                if (!newbies[i].IsWelcoming)
+                {
+                    newbies[i].OpacityFrameCountProgress++;
+                    if (newbies[i].OpacityFrameCountProgress >= Constants.NewbieOpacityFrameCount)
+                    {
+                        newbies[i].OpacityFrameCountProgress = 0;
+                        newbies[i].OpacityProgress++;
+                        newbieSprites[i].Opacity-=0.01;
+                        if (newbies[i].OpacityProgress >= 100)
+                        {
+                            gameUnitMapGrid.Children.Remove(newbieSprites[i]);
+                            newbieSprites.RemoveAt(i);
+                            newbies.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                }
+                else
+                {
+                    newbies[i].ChattersingFrameCountProgress++;
+                    if (newbies[i].ChattersingFrameCountProgress >= Constants.NewbieChattersingFrameCount)
+                    {
+                        newbies[i].ChattersingProgress++;
+                        if (newbies[i].ChattersingProgress >= 100)
+                        {
+                            // спавн чаттерса на его позицию с его ротейшн
+                            gameUnitMapGrid.Children.Remove(newbieSprites[i]);
+                            newbieSprites.RemoveAt(i);
+                            newbies.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                }
 
+                // логика движения (можно сделать примитивное лево-право-верх-низ без второго направления)
+            }
         }
 
         void ModeratorGameUpdate() 
@@ -256,6 +306,13 @@ namespace MaksLifeInChat
                 player.ProgressSprite = 0;
             playerSprite.Source = cashe._unit[(player.Name, player.State, player.Rotation)][player.ProgressSprite];
             player.ProgressSprite++;
+            for (int i = 0; i < newbieSprites.Count; i++)
+            {
+                if (newbies[i].ProgressSprite >= cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)].Count) 
+                    newbies[i].ProgressSprite = 0; 
+                newbieSprites[i].Source = cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)][newbies[i].ProgressSprite];
+                newbies[i].ProgressSprite++;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -341,6 +398,36 @@ namespace MaksLifeInChat
             gamePlayerMapGrid.Children.Add(playerSprite);
         }
 
+        void SpawnNewbie()
+        {
+            Random rnd = new Random();
+            int positionX = rnd.Next(-1700,1700);
+            int positionY = rnd.Next(-850, 850);
+            int variationSprite = rnd.Next(0,2);
+            Newbie newbie = new()
+            {
+                Name = "newbie",
+                Size = Constants.NewbieSize,
+                Speed = Constants.NewbieSpeed,
+                MaxHP = Constants.NewbieHP,
+                HP = Constants.NewbieHP,
+                VariationSprite = variationSprite,
+                Coordinates = new Thickness(positionX, positionY,0,0)
+            };
+            Image newbieSprite = new()
+            {
+                Width = newbie.Size,
+                Height = newbie.Size,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Source = cashe._unit[($"{newbie.Name}{variationSprite}", "stand", "down")][0],
+                Margin = newbie.Coordinates
+            };
+            newbies.Add(newbie);
+            newbieSprites.Add(newbieSprite);
+            gameUnitMapGrid.Children.Add(newbieSprite);
+        }
+
         private void Button_Building1(object sender, RoutedEventArgs e)
         {
             BuildClick("wall");
@@ -376,7 +463,18 @@ namespace MaksLifeInChat
             }
             else
             {
-                // buy shawarma logic
+                if (name == "halalcart")
+                {
+                    player.MP += player.MaxMP * Constants.ProcentShawarmaRegenMP;
+                    if (player.MP > player.MaxMP)
+                        player.MP = player.MaxMP;
+                }
+                else
+                {
+                    player.HP += player.MaxHP * Constants.ProcentShawarmaRegenHP;
+                    if (player.HP > player.MaxHP)
+                        player.HP = player.MaxHP;
+                }
             }
         }
 

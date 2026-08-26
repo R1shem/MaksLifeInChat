@@ -35,12 +35,12 @@
                 <Border x:Name="inventory4Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Image x:Name="buildingInterfaceImage" Margin="60,0,0,0" Height="100" Width="100"></Image>
                 <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
-                    <Button Background="Transparent" Click="Button_Building1">
+                    <Button Background="Transparent" Click="Button_Building1" x:Name="buildingButton1">
                         <Image x:Name="building1Image"></Image>
                     </Button>
                 </Border>
                 <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
-                    <Button Background="Transparent" Click="Button_Building2">
+                    <Button Background="Transparent" Click="Button_Building2" x:Name="buildingButton2">
                         <Image x:Name="building2Image"></Image>
                     </Button></Border>
                 <Image Margin="30,0,0,0" Source="/Resource/hp.png" Height="100" Width="100"></Image>

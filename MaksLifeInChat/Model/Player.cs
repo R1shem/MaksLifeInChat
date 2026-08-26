@@ -22,6 +22,8 @@ namespace MaksLifeInChat.Model
         public bool IsKara { get; set; } = false;
         public int EXP { get; set; } = 0;
         public int Level { get; set; } = 0;
+        public List<Item> equipItems { get; set; } = [];
+        public List<Item> inventoryItems { get; set; } = [];
 
     }
 }

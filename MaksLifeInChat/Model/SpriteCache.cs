@@ -21,7 +21,7 @@ namespace MaksLifeInChat.Model
             int progress = 0;
             while (true)
             {
-                string fileName = $"{Constants.resourceFolder}{name}{state}{rotation}{progress}.png";
+                string fileName = $"{Constants.ResourceFolder}{name}{state}{rotation}{progress}.png";
                 if (!File.Exists(fileName)) break;
                 BitmapImage image = LoadImage(fileName);
                 list.Add(image);
@@ -32,7 +32,7 @@ namespace MaksLifeInChat.Model
         }
         private BitmapImage GetItemSprites(string name)
         {
-            string fileName = $"{Constants.resourceFolder}{name}.png";
+            string fileName = $"{Constants.ResourceFolder}{name}.png";
             if (!File.Exists(fileName)) return null;
             BitmapImage image = LoadImage(fileName);
             _item[name] = image;
