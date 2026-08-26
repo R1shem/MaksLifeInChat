@@ -27,7 +27,6 @@
     <None Remove="Resource\karawalkright0.png" />
     <None Remove="Resource\karawalkright1.png" />
     <None Remove="Resource\karawalkup0.png" />
-    <None Remove="Resource\karawallkup1.png" />
     <None Remove="Resource\kaystanddown0.png" />
     <None Remove="Resource\kaystanddown1.png" />
     <None Remove="Resource\kaystandleft0.png" />
@@ -45,6 +44,7 @@
     <None Remove="Resource\kaywallkup1.png" />
     <None Remove="Resource\mp.png" />
     <None Remove="Resource\nintendo.png" />
+    <None Remove="Resource\saucer.png" />
     <None Remove="Resource\shawarmaHP.png" />
     <None Remove="Resource\shawarmaMP.png" />
     <None Remove="Resource\stamina.png" />
@@ -106,7 +106,7 @@
     <Content Include="Resource\karawalkup0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karawallkup1.png">
+    <Content Include="Resource\karawalkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kaystanddown0.png">
@@ -167,6 +167,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\wallstanddown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resource\saucer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

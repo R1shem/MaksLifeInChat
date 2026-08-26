@@ -24,6 +24,10 @@ namespace MaksLifeInChat
         int count_frame = 0; // frame count (не отражает время)
         int count_sprite_frame = 0;
         TimeOnly time = new TimeOnly(0, 0);
+        int _lastMinute = -1;
+        int count_day = 0;
+        int count_cable = 0;
+        int count_meat = 0;
         SpriteCache cashe;
         Player player;
         Image playerSprite;
@@ -35,6 +39,7 @@ namespace MaksLifeInChat
         List<Item> inventoryItems = [];
         string? selectBuilding;
         bool halalcartZone = false;
+
         public MainWindow()
         {
             App.mainWindow = this;
@@ -50,10 +55,29 @@ namespace MaksLifeInChat
             cashe.GetItemSpritesList(Constants.itemNames);
             toolBarStackPanel.Visibility = Visibility.Visible;
             isPlay = true;
-            building1Image.Source = cashe._unit[("wall", "stand", "down")][0];
-            building2Image.Source = cashe._unit[("halalcart", "stand", "down")][0];
+            SetInterfaceSprite();
             SpawnPlayer();
             await GameTimer();
+        }
+
+        void SetInterfaceSprite()
+        {
+            SetBuildingSprites();
+
+        }
+
+        void SetBuildingSprites()
+        {
+            building1Image.Source = cashe._unit[("wall", "stand", "down")][0];
+            building2Image.Source = cashe._unit[("halalcart", "stand", "down")][0];
+            buildingInterfaceImage.Source = cashe._item["building"];
+        }
+
+        void SetShawarmaSprites()
+        {
+            building1Image.Source = cashe._item["shawarmaHP"];
+            building2Image.Source = cashe._item["shawarmaMP"];
+            buildingInterfaceImage.Source = cashe._item["saucer"];
         }
 
         private async Task GameTimer()
@@ -67,6 +91,12 @@ namespace MaksLifeInChat
                 {
                     count_frame = 0;
                     time = time.Add(TimeSpan.FromSeconds(1));
+                    if (time.Minute != _lastMinute)
+                    {
+                        dayCountTB.Text = $"{count_day++} д.";
+                        _lastMinute = time.Minute;
+                        // сюда добавить условие
+                    }
                 }
                 if (count_sprite_frame == Constants.SpriteUpdateFrameCount)
                 {
@@ -74,7 +104,7 @@ namespace MaksLifeInChat
                     SpriteUpdate();
                 }
                 frameCountTB.Text = $"Frame: {count_frame}";
-                timeCountTB.Text = $"Time: {time}";
+                timeCountTB.Text = $"Time: {time}:{time.Second}";
                 spriteCountTB.Text = $"Sprite: {count_sprite_frame}";
                 coordinatesTB.Text = $"Coordinates: {player.Coordinates}";
                 GameUpdate();
@@ -169,7 +199,39 @@ namespace MaksLifeInChat
                         player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
 
                     playerSprite.Margin = player.Coordinates;
+                    HalalCartCollision();
                     break;
+            }
+        }
+
+        void HalalCartCollision() // блин, а ведь обычную коллизию стен тоже довольно легко сделать, но не хочу тратить время на переусложнение ии
+        {
+            if (buildings.Count!=0)
+            {
+                bool isExist = false;
+                List<Building> halals = buildings.FindAll(x => x.Name == "halalcart");
+                for (int i = 0; i < halals.Count; i++)
+                {
+                    if ((Math.Abs(player.Coordinates.Left - halals[i].Coordinates.Left) <= player.Size + halals[i].Size) && (Math.Abs(player.Coordinates.Top - halals[i].Coordinates.Top) <= player.Size + halals[i].Size)){
+                        isExist = true;
+                    }
+                }
+                if (isExist)
+                {
+                    if (!halalcartZone)
+                    {
+                        halalcartZone = true;
+                        SetShawarmaSprites();
+                    }
+                }
+                else
+                {
+                    if (halalcartZone)
+                    {
+                        halalcartZone = false;
+                        SetBuildingSprites();
+                    }
+                }
             }
         }
 
@@ -203,11 +265,6 @@ namespace MaksLifeInChat
                 UpdateDirections();
                 if (Keyboard.IsKeyDown(Key.LeftShift) && !player.IsRun)
                     player.IsRun = true;
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && !player.IsKara)
-                {
-                    player.IsKara = true;
-                    player.Name = "kara";
-                }
             }
             if (Keyboard.IsKeyDown(Key.F11))
             {
@@ -232,10 +289,18 @@ namespace MaksLifeInChat
                 UpdateDirections();
                 if (!Keyboard.IsKeyDown(Key.LeftShift) && player.IsRun)
                     player.IsRun = false;
-                if (!Keyboard.IsKeyDown(Key.LeftCtrl) && player.IsKara)
+                if (e.Key == Key.LeftCtrl)  // отказательство от удержания в пользу нажатия
                 {
-                    player.IsKara = false;
-                    player.Name = "kay";
+                    if (player.IsKara)
+                    {
+                        player.IsKara = false;
+                        player.Name = "kay";
+                    }
+                    else
+                    {
+                        player.IsKara = true;
+                        player.Name = "kara";
+                    }
                 }
             }
         }

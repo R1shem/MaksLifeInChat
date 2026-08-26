@@ -24,7 +24,7 @@
                     <Grid x:Name="gamePlayerMapGrid"/>
                 </Grid>
             </Border>
-            <StackPanel x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
+            <StackPanel Visibility="Collapsed" x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
                 <Image Source="/Resource/hand.png" Height="100" Width="100"></Image>
                 <Border x:Name="hand1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="hand2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
@@ -33,7 +33,7 @@
                 <Border x:Name="inventory2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="inventory3Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="inventory4Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Image Margin="60,0,0,0" Source="/Resource/building.png" Height="100" Width="100"></Image>
+                <Image x:Name="buildingInterfaceImage" Margin="60,0,0,0" Height="100" Width="100"></Image>
                 <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
                     <Button Background="Transparent" Click="Button_Building1">
                         <Image x:Name="building1Image"></Image>
@@ -50,8 +50,10 @@
                 <Image Source="/Resource/stamina.png" Height="100" Width="100"></Image>
                 <Rectangle Name="staminaRectangle" Height="120" Width="12" Fill="#1b8b3d" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                    <TextBlock x:Name="dayCountTB" FontSize="24" FontWeight="Bold">ХХ д.</TextBlock>
-                    <TextBlock x:Name="levelCountTB" FontSize="24" FontWeight="Bold">ХХ ур.</TextBlock>
+                    <TextBlock x:Name="dayCountTB" FontSize="24" FontWeight="Bold">0 д.</TextBlock>
+                    <TextBlock x:Name="levelCountTB" FontSize="24" FontWeight="Bold">0 ур.</TextBlock>
+                    <TextBlock x:Name="cableCountTB" FontSize="24" FontWeight="Bold">0 🍕</TextBlock>
+                    <TextBlock x:Name="meatCountTB" FontSize="24" FontWeight="Bold">0 🔌</TextBlock>
                 </StackPanel>
             </StackPanel>
         </Grid>
