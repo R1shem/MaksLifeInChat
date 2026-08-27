@@ -42,7 +42,7 @@ namespace MaksLifeInChat
         List<Image> chatterSprites = [];
         string? selectBuilding;
         bool halalcartZone = false;
-        string stateBeforeRoll;
+        string stateBefore;
 
         public MainWindow()
         {
@@ -77,6 +77,8 @@ namespace MaksLifeInChat
             building1Image.Source = cashe._unit[("wall", "stand", "down")][0];
             building2Image.Source = cashe._unit[("halalcart", "stand", "down")][0];
             buildingInterfaceImage.Source = cashe._item["building"];
+            buildingButton1.ToolTip = Constants.WallDescription;
+            buildingButton2.ToolTip = Constants.HalalcartDescription;
         }
 
         void SetShawarmaSprites()
@@ -84,6 +86,8 @@ namespace MaksLifeInChat
             building1Image.Source = cashe._item["shawarmaHP"];
             building2Image.Source = cashe._item["shawarmaMP"];
             buildingInterfaceImage.Source = cashe._item["saucer"];
+            buildingButton1.ToolTip = Constants.ShawarmaHPDescription;
+            buildingButton2.ToolTip = Constants.ShawarmaMPDescription;
         }
 
         private async Task GameTimer()
@@ -260,6 +264,26 @@ namespace MaksLifeInChat
             }
         }
 
+        async void WelcomeNewbie()
+        {
+            if (player.State == "roll" || player.State == "welcome")
+                return;
+            for (int i = 0; i < newbies.Count; i++)
+            {
+                if ((Math.Abs(player.Coordinates.Left - newbies[i].Coordinates.Left) <= player.Size + newbies[i].Size) && (Math.Abs(player.Coordinates.Top - newbies[i].Coordinates.Top) <= player.Size + newbies[i].Size) && !newbies[i].IsWelcoming)
+                {
+                    newbies[i].OpacityProgress = 0;
+                    newbieSprites[i].Opacity = 1;
+                    newbies[i].IsWelcoming = true;
+                }
+            }
+            stateBefore = player.State;
+            player.State = "welcome";
+            await Task.Delay(Constants.PlayerWelcomeFrameCount);
+            player.State = stateBefore;
+            UpdateDirections();
+        }
+
         void ChattersGameUpdate() 
         {
 
@@ -283,6 +307,7 @@ namespace MaksLifeInChat
                             newbieSprites.RemoveAt(i);
                             newbies.RemoveAt(i);
                             i--;
+                            continue;
                         }
                     }
                 }
@@ -291,6 +316,7 @@ namespace MaksLifeInChat
                     newbies[i].ChattersingFrameCountProgress++;
                     if (newbies[i].ChattersingFrameCountProgress >= Constants.NewbieChattersingFrameCount)
                     {
+                        newbies[i].ChattersingFrameCountProgress = 0;
                         newbies[i].ChattersingProgress++;
                         if (newbies[i].ChattersingProgress >= 100)
                         {
@@ -299,11 +325,65 @@ namespace MaksLifeInChat
                             newbieSprites.RemoveAt(i);
                             newbies.RemoveAt(i);
                             i--;
+                            continue;
                         }
                     }
                 }
+                NewbieMovement(i);
+            }
+        }
 
-                // логика движения (можно сделать примитивное лево-право-верх-низ без второго направления)
+        void NewbieMovement(int index) // логика движения (лево-право-верх-низ без второго направления)
+        {
+            if (newbies[index].State == "walk")
+            {
+                switch (newbies[index].Rotation)
+                {
+                    case "left":
+                        newbies[index].Coordinates = new(newbies[index].Coordinates.Left - newbies[index].Speed, newbies[index].Coordinates.Top, 0, 0);
+                        break;
+                    case "right":
+                        newbies[index].Coordinates = new(newbies[index].Coordinates.Left + newbies[index].Speed, newbies[index].Coordinates.Top, 0, 0);
+                        break;
+                    case "up":
+                        newbies[index].Coordinates = new(newbies[index].Coordinates.Left, newbies[index].Coordinates.Top - newbies[index].Speed, 0, 0);
+                        break;
+                    case "down":
+                        newbies[index].Coordinates = new(newbies[index].Coordinates.Left, newbies[index].Coordinates.Top + newbies[index].Speed, 0, 0);
+                        break;
+                }
+                bool changeRotation = false;
+                List<string> openRotation = ["left", "right", "up", "down"];
+                if (newbies[index].Coordinates.Left <= -1850)
+                {
+                    newbies[index].Coordinates = new(-1845, newbies[index].Coordinates.Top, 0, 0);
+                    openRotation.Remove("left");
+                    changeRotation = true;
+                }
+                else if (newbies[index].Coordinates.Left >= 1850)
+                {
+                    newbies[index].Coordinates = new(1845, newbies[index].Coordinates.Top, 0, 0);
+                    openRotation.Remove("right");
+                    changeRotation = true;
+                }
+                if (newbies[index].Coordinates.Top <= -910)
+                {
+                    newbies[index].Coordinates = new(newbies[index].Coordinates.Left, -905, 0, 0);
+                    openRotation.Remove("up");
+                    changeRotation = true;
+                }
+                else if (newbies[index].Coordinates.Top >= 910)
+                {
+                    newbies[index].Coordinates = new(newbies[index].Coordinates.Left, 905, 0, 0);
+                    openRotation.Remove("down");
+                    changeRotation = true;
+                }
+                if (changeRotation)
+                {
+                    Random rnd = new();
+                    newbies[index].Rotation = openRotation[rnd.Next(0, openRotation.Count)];
+                }
+                newbieSprites[index].Margin = newbies[index].Coordinates;
             }
         }
 
@@ -321,7 +401,7 @@ namespace MaksLifeInChat
             for (int i = 0; i < newbieSprites.Count; i++)
             {
                 if (newbies[i].ProgressSprite >= cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)].Count) 
-                    newbies[i].ProgressSprite = 0; 
+                    newbies[i].ProgressSprite = 0;
                 newbieSprites[i].Source = cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)][newbies[i].ProgressSprite];
                 newbies[i].ProgressSprite++;
             }
@@ -372,9 +452,8 @@ namespace MaksLifeInChat
                     }
                 }
                 if (e.Key == Key.Space)  // перекат
-                    if (player.State != "roll")
+                    if (player.State != "roll" && player.State != "atack" && player.State != "welcome")
                         PlayerRoll();
-                }
             }
         }
 
@@ -383,16 +462,16 @@ namespace MaksLifeInChat
             if (player.Stamina < player.StaminaConsuptionRoll) 
                 return;
             player.Stamina -= player.StaminaConsuptionRoll;
-            stateBeforeRoll = player.State;
+            stateBefore = player.State;
             player.State = "roll";
             await Task.Delay(Constants.PlayerRollFrameCount);
-            player.State = stateBeforeRoll;
+            player.State = stateBefore;
             UpdateDirections();
         }
 
         private void UpdateDirections()
         {
-            if (player.State == "roll")
+            if (player.State == "roll" || player.State == "welcome" || player.State == "atack")
                 return;
             var pressed = new List<string>();
             if (Keyboard.IsKeyDown(Key.W)) pressed.Add("up");
@@ -430,7 +509,8 @@ namespace MaksLifeInChat
 
         void SpawnNewbie()
         {
-            Random rnd = new Random();
+            List<string> openRotation = ["left", "right", "up", "down"];
+            Random rnd = new();
             int positionX = rnd.Next(-1700,1700);
             int positionY = rnd.Next(-850, 850);
             int variationSprite = rnd.Next(0,2);
@@ -441,8 +521,10 @@ namespace MaksLifeInChat
                 Speed = Constants.NewbieSpeed,
                 MaxHP = Constants.NewbieHP,
                 HP = Constants.NewbieHP,
+                State = "walk",
                 VariationSprite = variationSprite,
-                Coordinates = new Thickness(positionX, positionY,0,0)
+                Coordinates = new Thickness(positionX, positionY,0,0),
+                Rotation = openRotation[rnd.Next(0, openRotation.Count)]
             };
             Image newbieSprite = new()
             {
@@ -450,7 +532,7 @@ namespace MaksLifeInChat
                 Height = newbie.Size,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Source = cashe._unit[($"{newbie.Name}{variationSprite}", "stand", "down")][0],
+                Source = cashe._unit[($"{newbie.Name}{variationSprite}", newbie.State, newbie.Rotation)][0],
                 Margin = newbie.Coordinates
             };
             newbies.Add(newbie);
@@ -458,18 +540,9 @@ namespace MaksLifeInChat
             gameUnitMapGrid.Children.Add(newbieSprite);
         }
 
-        private void Button_Building1(object sender, RoutedEventArgs e)
-        {
-            BuildClick("wall");
-        }
-
-        private void Button_Building2(object sender, RoutedEventArgs e)
-        {
-            BuildClick("halalcart");
-        }
-
         void BuildClick(string name)
         {
+            gameBuildingMapGrid.Focus();
             if (!halalcartZone)
             {
                 if (selectBuilding == name)
@@ -520,6 +593,7 @@ namespace MaksLifeInChat
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            gameBuildingMapGrid.Focus();
             if (selectBuilding != null)
             {
                 if (e.ChangedButton == MouseButton.Left)
@@ -533,6 +607,17 @@ namespace MaksLifeInChat
                 {
                     selectBuilding = null;
                     mouseDynamicImage.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    //PlayerAtack();
+                }
+                else if (e.ChangedButton == MouseButton.Right)
+                {
+                    WelcomeNewbie();
                 }
             }
         }
@@ -580,6 +665,98 @@ namespace MaksLifeInChat
             };
             buildingSprites.Add(buildingImage);
             gameBuildingMapGrid.Children.Add(buildingImage);
+        }
+
+        void InventoryRightMouseDown(MouseButtonEventArgs e, int num)
+        {
+            e.Handled = true;
+        }
+
+        void InventoryClick(int num)
+        {
+            gameBuildingMapGrid.Focus();
+
+        }
+
+        void HandRightMouseDown(MouseButtonEventArgs e, int num)
+        {
+            e.Handled = true;
+        }
+
+        void HandClick(int num)
+        {
+            gameBuildingMapGrid.Focus();
+
+        }
+
+        private void Button_Building1(object sender, RoutedEventArgs e)
+        {
+            BuildClick("wall");
+        }
+
+        private void Button_Building2(object sender, RoutedEventArgs e)
+        {
+            BuildClick("halalcart");
+        }
+
+        private void hand1Button_Click(object sender, RoutedEventArgs e)
+        {
+            HandClick(0);
+        }
+
+        private void hand1Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            HandRightMouseDown(e, 0);
+        }
+
+        private void hand2Button_Click(object sender, RoutedEventArgs e)
+        {
+            HandClick(0);
+        }
+
+        private void hand2Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            HandRightMouseDown(e, 1);
+        }
+
+        private void inventory1Button_Click(object sender, RoutedEventArgs e)
+        {
+            InventoryClick(0);
+        }
+
+        private void inventory2Button_Click(object sender, RoutedEventArgs e)
+        {
+            InventoryClick(1);
+        }
+
+        private void inventory3Button_Click(object sender, RoutedEventArgs e)
+        {
+            InventoryClick(2);
+        }
+
+        private void inventory4Button_Click(object sender, RoutedEventArgs e)
+        {
+            InventoryClick(3);
+        }
+
+        private void inventory1Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            InventoryRightMouseDown(e, 0);
+        }
+
+        private void inventory2Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            InventoryRightMouseDown(e, 1);
+        }
+
+        private void inventory3Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            InventoryRightMouseDown(e, 2);
+        }
+
+        private void inventory4Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            InventoryRightMouseDown(e, 3);
         }
     }
 }

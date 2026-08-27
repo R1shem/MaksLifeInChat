@@ -22,10 +22,13 @@ namespace MaksLifeInChat.Model
         public bool IsKara { get; set; } = false;
         public int EXP { get; set; } = 0;
         public int Level { get; set; } = 0;
+        public int EXPForLevelUP { get; set; } = 10;
+        public double EXPForLevelUPModificator { get; set; } = 1.3; // при новом уровне EXPForLevelUP на свой модификатор и хр обнуляется
+        public int ChattersEXPDrop { get; set; } = 2; // не в константах, потому что предмет может повысить это значение
+        public int NewbieEXPDrop { get; set; } = 1; // не в константах, потому что предмет может повысить это значение
         public List<Item> equipItems { get; set; } = [];
         public List<Item> inventoryItems { get; set; } = [];
         public int RollSpeed { get; set; } = 15;
         public double StaminaConsuptionRoll { get; set; } = 25;
-
     }
 }

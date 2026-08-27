@@ -19,20 +19,40 @@
             </StackPanel>
             <Border Margin="5,5,5,155" BorderBrush="Black" BorderThickness="10">
                 <Grid>
-                    <Grid x:Name="gameBuildingMapGrid"/>
+                    <Grid x:Name="gameBuildingMapGrid" Focusable="True"/>
                     <Grid x:Name="gameUnitMapGrid"/>
                     <Grid x:Name="gamePlayerMapGrid"/>
                 </Grid>
             </Border>
             <StackPanel Visibility="Collapsed" x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
                 <Image x:Name="handInterfaceImage" Height="100" Width="100"></Image>
-                <Border x:Name="hand1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Border x:Name="hand2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border  Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="hand1Button_Click" MouseRightButtonDown="hand1Button_MouseRightButtonDown"  x:Name="hand1Button">
+                        <Image x:Name="hand1Image"></Image>
+                    </Button></Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="hand2Button_Click" MouseRightButtonDown="hand2Button_MouseRightButtonDown"  x:Name="hand2Button">
+                        <Image x:Name="hand2Image"></Image>
+                    </Button>
+                </Border>
                 <Image x:Name="inventoryInterfaceImage" Margin="60,0,0,0" Height="100" Width="100"></Image>
-                <Border x:Name="inventory1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Border x:Name="inventory2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Border x:Name="inventory3Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Border x:Name="inventory4Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="inventory1Button_Click" MouseRightButtonDown="inventory1Button_MouseRightButtonDown"  x:Name="inventory1Button">
+                        <Image x:Name="inventory1Image"></Image>
+                    </Button></Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="inventory2Button_Click" MouseRightButtonDown="inventory2Button_MouseRightButtonDown"  x:Name="inventory2Button">
+                        <Image x:Name="inventory2Image"></Image>
+                    </Button></Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="inventory3Button_Click" MouseRightButtonDown="inventory3Button_MouseRightButtonDown"  x:Name="inventory3Button">
+                        <Image x:Name="inventory3Image"></Image>
+                    </Button>
+                </Border>
+                <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
+                    <Button Background="Transparent" Click="inventory4Button_Click" MouseRightButtonDown="inventory4Button_MouseRightButtonDown"  x:Name="inventory4Button">
+                        <Image x:Name="inventory4Image"></Image>
+                    </Button></Border>
                 <Image x:Name="buildingInterfaceImage" Margin="60,0,0,0" Height="100" Width="100"></Image>
                 <Border Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100">
                     <Button Background="Transparent" Click="Button_Building1" x:Name="buildingButton1">
@@ -52,8 +72,8 @@
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock x:Name="dayCountTB" FontSize="24" FontWeight="Bold">0 д.</TextBlock>
                     <TextBlock x:Name="levelCountTB" FontSize="24" FontWeight="Bold">0 ур.</TextBlock>
-                    <TextBlock x:Name="cableCountTB" FontSize="24" FontWeight="Bold">0 🍕</TextBlock>
-                    <TextBlock x:Name="meatCountTB" FontSize="24" FontWeight="Bold">0 🔌</TextBlock>
+                    <TextBlock x:Name="meatCountTB" FontSize="24" FontWeight="Bold">0 🍕</TextBlock>
+                    <TextBlock x:Name="cableCountTB" FontSize="24" FontWeight="Bold">0 🔌</TextBlock>
                 </StackPanel>
             </StackPanel>
         </Grid>

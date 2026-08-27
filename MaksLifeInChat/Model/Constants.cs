@@ -15,7 +15,7 @@ namespace MaksLifeInChat.Model
         public static readonly string[] interfaceNames = { "building" , "saucer" , "inventory", "hand" };
         public static readonly string[] itemNames = { "shawarmaMP", "shawarmaHP", "nintendoHP" };
         public static readonly string[] unitNames = { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" };
-        public static readonly string[] states = { "stand", "attack", "walk" , "roll" };
+        public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" };
         public static readonly string[] rotations = { "down", "left", "up", "right" };
         public static int SizeHalalcart = 150;
         public static int SizeWall = 50;
@@ -27,5 +27,20 @@ namespace MaksLifeInChat.Model
         public static int NewbieOpacityFrameCount = 30;
         public static int NewbieChattersingFrameCount = 50;
         public static int PlayerRollFrameCount = SpriteUpdateFrameCount*7;
+        public static int PlayerWelcomeFrameCount = SpriteUpdateFrameCount*5;
+
+        public static int HalalcartCostCable = 13;
+        public static int HalalcartCostMeat = 0;
+        public static  string HalalcartDescription = $"Шаурмичная ({HalalcartCostMeat}🍕 {HalalcartCostCable}🔌)\n\nСамая настоящая халяльная шаурмичная.";
+        public static int WallCostCable = 2;
+        public static int WallCostMeat = 0;
+        public static string WallDescription = $"Забор ({WallCostMeat}🍕 {WallCostCable}🔌)\n\nНастолько низкий, что через него не составляет труда перешагнуть, \nно чаттерсы из уважения таким промышлять не будут (¬‿¬).";
+        public static int ShawarmaHPCostCable = 0;
+        public static int ShawarmaHPCostMeat = 5;
+        public static string ShawarmaHPDescription = $"Фирменная шаурма ({ShawarmaHPCostMeat}🍕 {ShawarmaHPCostCable}🔌)\n\n Самая обычная шаурма с бодро виляющим хвостиком. \nВосстанавливает человечность.";
+        public static int ShawarmaMPCostCable = 2;
+        public static int ShawarmaMPCostMeat = 1;
+        public static string ShawarmaMPDescription = $"Веганская шаурма ({ShawarmaMPCostMeat}🍕 {ShawarmaMPCostCable}🔌)\n\n Веганская шаурма, состоящая из натуральных \nингредиентов, полностью экологична. \nВосстанавливает жестокость.";
+
     }
 }
