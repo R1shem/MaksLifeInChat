@@ -75,6 +75,7 @@
     <None Remove="Resource\kaywelcomeleft0.png" />
     <None Remove="Resource\kaywelcomeright0.png" />
     <None Remove="Resource\kaywelcomeup0.png" />
+    <None Remove="Resource\levelup.png" />
     <None Remove="Resource\mp.png" />
     <None Remove="Resource\newbie0standdown0.png" />
     <None Remove="Resource\newbie0standdown1.png" />
@@ -318,6 +319,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kaywelcomeup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\levelup.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\mp.png">

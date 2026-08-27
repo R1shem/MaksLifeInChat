@@ -13,7 +13,7 @@ namespace MaksLifeInChat.Model
         public static double ProcentShawarmaRegenMP = 0.30;
         public static int SpriteUpdateFrameCount = 50;
         public static readonly string[] interfaceNames = { "building" , "saucer" , "inventory", "hand" };
-        public static readonly string[] itemNames = { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , "attack_left" , "attack_right" };
+        public static readonly string[] itemNames = { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , "attack_left" , "attack_right" , "levelup" };
         public static readonly string[] unitNames = { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" };
         public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" };
         public static readonly string[] rotations = { "down", "left", "up", "right" };
@@ -22,6 +22,8 @@ namespace MaksLifeInChat.Model
         public static int SpawnNewbieDelaySec = 5;
 
         public static double NewbieHP  = 10;
+        public static int NewbieDropMeat = 1;
+        public static int NewbieDropEXP = 2;
         public static int NewbieSize = 80; // px
         public static double NewbieSpeed = 2;
         public static int NewbieOpacityFrameCount = 30;
@@ -29,6 +31,7 @@ namespace MaksLifeInChat.Model
         public static int PlayerRollFrameCount = SpriteUpdateFrameCount*7;
         public static int PlayerWelcomeFrameCount = SpriteUpdateFrameCount*5;
         public static int PlayerAttackFrameCount = SpriteUpdateFrameCount*10;
+        public static int LevelUpFrameCount = SpriteUpdateFrameCount*5;
         public static double PlayerAttackPiasProcent = 1;
 
         public static int HalalcartCostCable = 13;
@@ -44,5 +47,8 @@ namespace MaksLifeInChat.Model
         public static int ShawarmaMPCostMeat = 1;
         public static string ShawarmaMPDescription = $"Веганская шаурма ({ShawarmaMPCostMeat}🍕 {ShawarmaMPCostCable}🔌)\n\nВеганская шаурма, состоящая из натуральных \nингредиентов, полностью экологична. \nВосстанавливает жестокость.";
 
+        public static double LevelGiveHP = 5;
+        public static double LevelGiveMP = 2;
+        public static double LevelGiveStamina = 3;
     }
 }

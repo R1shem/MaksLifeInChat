@@ -624,6 +624,59 @@ namespace MaksLifeInChat
             }
         }
 
+        void PlayerAddEXP(int point)
+        {
+            player.EXP += point;
+            if (player.EXP >= player.EXPForLevelUP)
+            {
+                player.Level++;
+                player.EXP = 0;
+                player.EXPForLevelUP = Convert.ToInt32(player.EXPForLevelUP * player.EXPForLevelUPModificator);
+                player.MaxHP += Constants.LevelGiveHP;
+                player.MaxMP += Constants.LevelGiveMP;
+                player.MaxStamina += Constants.LevelGiveStamina;
+                SpawnSpeceffectOnUnit(player, cashe._item["levelup"], player.Size, player.Size, Constants.LevelUpFrameCount);
+            }
+        }
+
+        async void SpawnSpeceffectOnDot(Thickness position, BitmapImage source, double sizeWeigth, double sizeHeight, int delay)
+        {
+            Image speceffect = new()
+            {
+                Margin = position,
+                Width = sizeWeigth,
+                Height = sizeHeight,
+                Source = source
+            };
+            gameUnitMapGrid.Children.Add(speceffect);
+            await Task.Delay(delay);
+            gameUnitMapGrid.Children.Remove(speceffect);
+        }
+
+        async void SpawnSpeceffectOnUnit(Unit unit, BitmapImage source, double sizeWeigth, double sizeHeight, int delay)
+        {
+            Image speceffect = new()
+            {
+                Margin = unit.Coordinates,
+                Width = sizeWeigth,
+                Height = sizeHeight,
+                Source = source
+            };
+            gameUnitMapGrid.Children.Add(speceffect);
+            int count = 0;
+            while (isPlay)
+            {
+                await Task.Delay(Constants.FPS);
+                count++;
+                if (count >= delay)
+                {
+                    gameUnitMapGrid.Children.Remove(speceffect);
+                    return;
+                }
+                speceffect.Margin = unit.Coordinates;
+            }
+        }
+
         async void PlayerAttack()
         {
             if (player.State == "roll" || player.State == "welcome" || player.State == "attack")
@@ -661,7 +714,8 @@ namespace MaksLifeInChat
                     newbies[i].HP -= player.Attack;
                     if (newbies[i].HP <= 0)
                     {
-                        count_meat++;
+                        count_meat+=Constants.NewbieDropMeat;
+                        PlayerAddEXP(Constants.NewbieDropEXP);
                         meatCountTB.Text = $"{count_meat} 🍕";
                         KillNewbie(i);
                     }
@@ -669,16 +723,7 @@ namespace MaksLifeInChat
             }
             player.State = stateBefore;
             UpdateDirections();
-            Image attackSprite = new()
-            {
-                Margin = attackCoordinates,
-                Width = attackWeight,
-                Height = attackHeight,
-                Source = cashe._item[$"attack_{player.Rotation}"]
-            };
-            gameUnitMapGrid.Children.Add(attackSprite);
-            await Task.Delay(player.AttackSpriteDelay);
-            gameUnitMapGrid.Children.Remove(attackSprite);
+            SpawnSpeceffectOnDot(attackCoordinates, cashe._item[$"attack_{player.Rotation}"], attackWeight, attackHeight, player.AttackSpriteDelay);
         }
 
         void SpawnBuilding(Point p, string name)
