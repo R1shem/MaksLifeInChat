@@ -14,7 +14,7 @@ namespace MaksLifeInChat.Model
         public static int SpriteUpdateFrameCount = 50;
         public static readonly string[] interfaceNames = { "building" , "saucer" , "inventory", "hand" };
         public static readonly string[] itemNames = { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , "attack_left" , "attack_right" , "levelup" };
-        public static readonly string[] unitNames = { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" };
+        public static readonly string[] unitNames = { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0" };
         public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" };
         public static readonly string[] rotations = { "down", "left", "up", "right" };
         public static int SizeHalalcart = 150;
@@ -50,5 +50,14 @@ namespace MaksLifeInChat.Model
         public static double LevelGiveHP = 5;
         public static double LevelGiveMP = 2;
         public static double LevelGiveStamina = 3;
+        public static double LevelGiveAttack = 1;
+
+
+        public static double ChattersHP = 20;
+        public static int ChattersDropMeat = 2;
+        public static int ChattersDropEXP = 3;
+        public static int ChattersSize = 100; // px
+        public static double ChattersSpeed = 4;
+
     }
 }

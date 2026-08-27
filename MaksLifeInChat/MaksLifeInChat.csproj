@@ -14,6 +14,28 @@
     <None Remove="Resource\attack_right.png" />
     <None Remove="Resource\attack_up.png" />
     <None Remove="Resource\building.png" />
+    <None Remove="Resource\chatters0attackdown0.png" />
+    <None Remove="Resource\chatters0attackdown1.png" />
+    <None Remove="Resource\chatters0attackleft0.png" />
+    <None Remove="Resource\chatters0attackleft1.png" />
+    <None Remove="Resource\chatters0attackright0.png" />
+    <None Remove="Resource\chatters0attackright1.png" />
+    <None Remove="Resource\chatters0attackup0.png" />
+    <None Remove="Resource\chatters0attackup1.png" />
+    <None Remove="Resource\chatters0standdown0.png" />
+    <None Remove="Resource\chatters0standdown1.png" />
+    <None Remove="Resource\chatters0standleft0.png" />
+    <None Remove="Resource\chatters0standright0.png" />
+    <None Remove="Resource\chatters0standup0.png" />
+    <None Remove="Resource\chatters0standup1.png" />
+    <None Remove="Resource\chatters0walkdown0.png" />
+    <None Remove="Resource\chatters0walkdown1.png" />
+    <None Remove="Resource\chatters0walkleft0.png" />
+    <None Remove="Resource\chatters0walkleft1.png" />
+    <None Remove="Resource\chatters0walkright0.png" />
+    <None Remove="Resource\chatters0walkright1.png" />
+    <None Remove="Resource\chatters0walkup0.png" />
+    <None Remove="Resource\chatters0wallkup1.png" />
     <None Remove="Resource\halalcartstanddown0.png" />
     <None Remove="Resource\hand.png" />
     <None Remove="Resource\hp.png" />
@@ -127,6 +149,72 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\building.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0standdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0standup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters0wallkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\halalcartstanddown0.png">

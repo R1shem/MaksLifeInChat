@@ -134,6 +134,7 @@ namespace MaksLifeInChat
         {
             PlayerGameUpdate();
             NewbieGameUpdate();
+            ChattersGameUpdate();
 
         }
 
@@ -175,6 +176,10 @@ namespace MaksLifeInChat
             mpRectangle.Height = player.MP / player.MaxMP * 120;
             hpRectangle.Height = player.HP / player.MaxHP * 120;
             staminaRectangle.Height = player.Stamina / player.MaxStamina * 120;
+
+            hpTB.Text = player.HP.ToString();
+            mpTB.Text = player.MP.ToString();
+            staminaTB.Text = player.Stamina.ToString();
 
             switch (player.State)
             {
@@ -285,9 +290,12 @@ namespace MaksLifeInChat
             UpdateDirections();
         }
 
-        void ChattersGameUpdate() 
+        void ChattersGameUpdate()
         {
+            for (int i = 0; i < newbies.Count; i++)
+            {
 
+            }
         }
 
         void NewbieGameUpdate()
@@ -319,7 +327,7 @@ namespace MaksLifeInChat
                         newbies[i].ChattersingProgress++;
                         if (newbies[i].ChattersingProgress >= 100)
                         {
-                            // спавн чаттерса на его позицию с его ротейшн
+                            SpawnChatters(newbies[i]);
                             gameUnitMapGrid.Children.Remove(newbieSprites[i]);
                             newbieSprites.RemoveAt(i);
                             newbies.RemoveAt(i);
@@ -403,6 +411,13 @@ namespace MaksLifeInChat
                     newbies[i].ProgressSprite = 0;
                 newbieSprites[i].Source = cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)][newbies[i].ProgressSprite];
                 newbies[i].ProgressSprite++;
+            }
+            for (int i = 0; i < chatterSprites.Count; i++)
+            {
+                if (chatters[i].ProgressSprite >= cashe._unit[(chatters[i].Name + chatters[i].VariationSprite, chatters[i].State, chatters[i].Rotation)].Count)
+                    chatters[i].ProgressSprite = 0;
+                chatterSprites[i].Source = cashe._unit[(chatters[i].Name + chatters[i].VariationSprite, chatters[i].State, chatters[i].Rotation)][chatters[i].ProgressSprite];
+                chatters[i].ProgressSprite++;
             }
         }
 
@@ -513,7 +528,6 @@ namespace MaksLifeInChat
             Random rnd = new();
             int positionX = rnd.Next(-1700,1700);
             int positionY = rnd.Next(-850, 850);
-            int variationSprite = rnd.Next(0,2);
             Newbie newbie = new()
             {
                 Name = "newbie",
@@ -522,22 +536,52 @@ namespace MaksLifeInChat
                 MaxHP = Constants.NewbieHP,
                 HP = Constants.NewbieHP,
                 State = "walk",
-                VariationSprite = variationSprite,
                 Coordinates = new Thickness(positionX, positionY,0,0),
                 Rotation = openRotation[rnd.Next(0, openRotation.Count)]
             };
+            newbie.VariationSprite = rnd.Next(0, newbie.VariationSprite + 1);
             Image newbieSprite = new()
             {
                 Width = newbie.Size,
                 Height = newbie.Size,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Source = cashe._unit[($"{newbie.Name}{variationSprite}", newbie.State, newbie.Rotation)][0],
+                Source = cashe._unit[($"{newbie.Name}{newbie.VariationSprite}", newbie.State, newbie.Rotation)][0],
                 Margin = newbie.Coordinates
             };
             newbies.Add(newbie);
             newbieSprites.Add(newbieSprite);
             gameUnitMapGrid.Children.Add(newbieSprite);
+        }
+
+        void SpawnChatters(Unit newbie)
+        {
+            Random rnd = new();
+            Chatters chatter = new()
+            {
+                Name = "chatters",
+                Size = Constants.ChattersSize,
+                Speed = Constants.ChattersSpeed,
+                MaxHP = Constants.ChattersHP,
+                HP = Constants.ChattersHP,
+                State = newbie.State,
+                Coordinates = newbie.Coordinates,
+                Rotation = newbie.Rotation
+            };
+            chatter.VariationSprite = rnd.Next(0, chatter.VariationSprite + 1);
+
+            Image chatterSprite = new()
+            {
+                Width = chatter.Size,
+                Height = chatter.Size,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Source = cashe._unit[($"{chatter.Name}{chatter.VariationSprite}", chatter.State, chatter.Rotation)][0],
+                Margin = chatter.Coordinates
+            };
+            chatters.Add(chatter);
+            chatterSprites.Add(chatterSprite);
+            gameUnitMapGrid.Children.Add(chatterSprite);
         }
 
         void BuildClick(string name)
@@ -627,6 +671,7 @@ namespace MaksLifeInChat
         void PlayerAddEXP(int point)
         {
             player.EXP += point;
+            expTB.Text = player.EXP.ToString();
             if (player.EXP >= player.EXPForLevelUP)
             {
                 player.Level++;
@@ -635,6 +680,7 @@ namespace MaksLifeInChat
                 player.MaxHP += Constants.LevelGiveHP;
                 player.MaxMP += Constants.LevelGiveMP;
                 player.MaxStamina += Constants.LevelGiveStamina;
+                player.Attack += Constants.LevelGiveAttack;
                 SpawnSpeceffectOnUnit(player, cashe._item["levelup"], player.Size, player.Size, Constants.LevelUpFrameCount);
             }
         }
@@ -721,6 +767,20 @@ namespace MaksLifeInChat
                     }
                 }
             }
+            for (int i = 0; i < chatters.Count; i++) // пока атака пока действует только на новичков. для остальных отдельные циклы
+            {
+                if ((Math.Abs(attackCoordinates.Left - chatters[i].Coordinates.Left) <= attackWeight + chatters[i].Size) && (Math.Abs(attackCoordinates.Top - chatters[i].Coordinates.Top) <= attackHeight + chatters[i].Size))
+                {
+                    chatters[i].HP -= player.Attack;
+                    if (chatters[i].HP <= 0)
+                    {
+                        count_meat += Constants.ChattersDropMeat;
+                        PlayerAddEXP(Constants.ChattersDropEXP);
+                        meatCountTB.Text = $"{count_meat} 🍕";
+                        KillChatters(i);
+                    }
+                }
+            }
             player.State = stateBefore;
             UpdateDirections();
             SpawnSpeceffectOnDot(attackCoordinates, cashe._item[$"attack_{player.Rotation}"], attackWeight, attackHeight, player.AttackSpriteDelay);
@@ -776,6 +836,13 @@ namespace MaksLifeInChat
             gameUnitMapGrid.Children.Remove(newbieSprites[index]);
             newbieSprites.RemoveAt(index);
             newbies.RemoveAt(index);
+        }
+
+        void KillChatters(int index)
+        {
+            gameUnitMapGrid.Children.Remove(chatterSprites[index]);
+            chatterSprites.RemoveAt(index);
+            chatters.RemoveAt(index);
         }
 
         void InventoryRightMouseDown(MouseButtonEventArgs e, int num)

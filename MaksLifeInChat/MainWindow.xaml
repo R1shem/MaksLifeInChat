@@ -16,6 +16,10 @@
                 <TextBlock FontSize="16" x:Name="timeCountTB"></TextBlock>
                 <TextBlock FontSize="16" x:Name="spriteCountTB"></TextBlock>
                 <TextBlock FontSize="16" x:Name="coordinatesTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="expTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="hpTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="mpTB"></TextBlock>
+                <TextBlock FontSize="16" x:Name="staminaTB"></TextBlock>
             </StackPanel>
             <Border Margin="5,5,5,155" BorderBrush="Black" BorderThickness="10">
                 <Grid>
