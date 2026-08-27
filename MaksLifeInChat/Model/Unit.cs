@@ -17,7 +17,11 @@ namespace MaksLifeInChat.Model
         public string Name { get; set; } = "kay";
         public double HP { get; set; } = 50;
         public double MaxHP { get; set; } = 50;
-        public double Atack { get; set; } = 5;
+        public double Attack { get; set; } = 5;
+        public double AttackWeight { get; set; } = 220;
+        public double AttackHeight { get; set; } = 110;
+        public double AttackPiasProcent { get; set; } = 0.4;
+        public int AttackSpriteDelay { get; set; } = 50;
         public Thickness Coordinates { get; set; } = new Thickness(0,0,0,0);
     }
 }

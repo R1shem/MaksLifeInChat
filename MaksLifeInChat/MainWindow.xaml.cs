@@ -266,7 +266,7 @@ namespace MaksLifeInChat
 
         async void WelcomeNewbie()
         {
-            if (player.State == "roll" || player.State == "welcome")
+            if (player.State == "roll" || player.State == "welcome" || player.State == "attack")
                 return;
             for (int i = 0; i < newbies.Count; i++)
             {
@@ -278,6 +278,7 @@ namespace MaksLifeInChat
                 }
             }
             stateBefore = player.State;
+            player.ProgressSprite = 0;
             player.State = "welcome";
             await Task.Delay(Constants.PlayerWelcomeFrameCount);
             player.State = stateBefore;
@@ -303,9 +304,7 @@ namespace MaksLifeInChat
                         newbieSprites[i].Opacity-=0.01;
                         if (newbies[i].OpacityProgress >= 100)
                         {
-                            gameUnitMapGrid.Children.Remove(newbieSprites[i]);
-                            newbieSprites.RemoveAt(i);
-                            newbies.RemoveAt(i);
+                            KillNewbie(i);
                             i--;
                             continue;
                         }
@@ -452,7 +451,7 @@ namespace MaksLifeInChat
                     }
                 }
                 if (e.Key == Key.Space)  // перекат
-                    if (player.State != "roll" && player.State != "atack" && player.State != "welcome")
+                    if (player.State != "roll" && player.State != "attack" && player.State != "welcome")
                         PlayerRoll();
             }
         }
@@ -471,7 +470,7 @@ namespace MaksLifeInChat
 
         private void UpdateDirections()
         {
-            if (player.State == "roll" || player.State == "welcome" || player.State == "atack")
+            if (player.State == "roll" || player.State == "welcome" || player.State == "attack")
                 return;
             var pressed = new List<string>();
             if (Keyboard.IsKeyDown(Key.W)) pressed.Add("up");
@@ -496,6 +495,7 @@ namespace MaksLifeInChat
         void SpawnPlayer()
         {
             player = new();
+            player.AttackPiasProcent = Constants.PlayerAttackPiasProcent;
             playerSprite = new()
             {
                 Width = player.Size,
@@ -593,6 +593,8 @@ namespace MaksLifeInChat
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!isPlay)
+                return;
             gameBuildingMapGrid.Focus();
             if (selectBuilding != null)
             {
@@ -613,13 +615,70 @@ namespace MaksLifeInChat
             {
                 if (e.ChangedButton == MouseButton.Left)
                 {
-                    //PlayerAtack();
+                    PlayerAttack();
                 }
                 else if (e.ChangedButton == MouseButton.Right)
                 {
                     WelcomeNewbie();
                 }
             }
+        }
+
+        async void PlayerAttack()
+        {
+            if (player.State == "roll" || player.State == "welcome" || player.State == "attack")
+                return;
+            stateBefore = player.State;
+            player.ProgressSprite = 0;
+            player.State = "attack";
+            Thickness attackCoordinates = player.Coordinates;
+            double attackWeight = player.AttackWeight;
+            double attackHeight = player.AttackHeight;
+            switch (player.Rotation)
+            {
+                case "left":
+                    attackWeight = player.AttackHeight;
+                    attackHeight = player.AttackWeight;
+                    attackCoordinates = new(player.Coordinates.Left - player.Size * player.AttackPiasProcent, player.Coordinates.Top, 0, 0);
+                    break;
+                case "right":
+                    attackWeight = player.AttackHeight;
+                    attackHeight = player.AttackWeight;
+                    attackCoordinates = new(player.Coordinates.Left + player.Size * player.AttackPiasProcent, player.Coordinates.Top, 0, 0);
+                    break;
+                case "down":
+                    attackCoordinates = new(player.Coordinates.Left, player.Coordinates.Top + player.Size * player.AttackPiasProcent, 0, 0);
+                    break;
+                case "up":
+                    attackCoordinates = new(player.Coordinates.Left, player.Coordinates.Top - player.Size * player.AttackPiasProcent, 0, 0);
+                    break;
+            }
+            await Task.Delay(Constants.PlayerAttackFrameCount);
+            for (int i = 0; i < newbies.Count; i++) // пока атака пока действует только на новичков. для остальных отдельные циклы
+            {
+                if ((Math.Abs(attackCoordinates.Left - newbies[i].Coordinates.Left) <= attackWeight + newbies[i].Size) && (Math.Abs(attackCoordinates.Top - newbies[i].Coordinates.Top) <= attackHeight + newbies[i].Size) && !newbies[i].IsWelcoming)
+                {
+                    newbies[i].HP -= player.Attack;
+                    if (newbies[i].HP <= 0)
+                    {
+                        count_meat++;
+                        meatCountTB.Text = $"{count_meat} 🍕";
+                        KillNewbie(i);
+                    }
+                }
+            }
+            player.State = stateBefore;
+            UpdateDirections();
+            Image attackSprite = new()
+            {
+                Margin = attackCoordinates,
+                Width = attackWeight,
+                Height = attackHeight,
+                Source = cashe._item[$"attack_{player.Rotation}"]
+            };
+            gameUnitMapGrid.Children.Add(attackSprite);
+            await Task.Delay(player.AttackSpriteDelay);
+            gameUnitMapGrid.Children.Remove(attackSprite);
         }
 
         void SpawnBuilding(Point p, string name)
@@ -665,6 +724,13 @@ namespace MaksLifeInChat
             };
             buildingSprites.Add(buildingImage);
             gameBuildingMapGrid.Children.Add(buildingImage);
+        }
+
+        void KillNewbie(int index)
+        {
+            gameUnitMapGrid.Children.Remove(newbieSprites[index]);
+            newbieSprites.RemoveAt(index);
+            newbies.RemoveAt(index);
         }
 
         void InventoryRightMouseDown(MouseButtonEventArgs e, int num)

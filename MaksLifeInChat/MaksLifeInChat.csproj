@@ -9,19 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resource\attack_down.png" />
+    <None Remove="Resource\attack_left.png" />
+    <None Remove="Resource\attack_right.png" />
+    <None Remove="Resource\attack_up.png" />
     <None Remove="Resource\building.png" />
     <None Remove="Resource\halalcartstanddown0.png" />
     <None Remove="Resource\hand.png" />
     <None Remove="Resource\hp.png" />
     <None Remove="Resource\inventory.png" />
-    <None Remove="Resource\karaatackdown0.png" />
-    <None Remove="Resource\karaatackdown1.png" />
-    <None Remove="Resource\karaatackleft0.png" />
-    <None Remove="Resource\karaatackleft1.png" />
-    <None Remove="Resource\karaatackright0.png" />
-    <None Remove="Resource\karaatackright1.png" />
-    <None Remove="Resource\karaatackup0.png" />
-    <None Remove="Resource\karaatackup1.png" />
+    <None Remove="Resource\karaattackdown0.png" />
+    <None Remove="Resource\karaattackdown1.png" />
+    <None Remove="Resource\karaattackleft0.png" />
+    <None Remove="Resource\karaattackleft1.png" />
+    <None Remove="Resource\karaattackright0.png" />
+    <None Remove="Resource\karaattackright1.png" />
+    <None Remove="Resource\karaattackup0.png" />
+    <None Remove="Resource\karaattackup1.png" />
     <None Remove="Resource\kararolldown0.png" />
     <None Remove="Resource\kararollleft0.png" />
     <None Remove="Resource\kararollright0.png" />
@@ -43,10 +47,7 @@
     <None Remove="Resource\karawelcomeleft0.png" />
     <None Remove="Resource\karawelcomeright0.png" />
     <None Remove="Resource\karawelcomeup0.png" />
-    <None Remove="Resource\kayatackdown1.png" />
-    <None Remove="Resource\kayatackleft1.png" />
     <None Remove="Resource\kayattackdown0.png" />
-    <None Remove="Resource\kayattackleft0.png.png" />
     <None Remove="Resource\kayattackright0.png" />
     <None Remove="Resource\kayattackright1.png" />
     <None Remove="Resource\kayattackup0.png" />
@@ -112,6 +113,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resource\attack_down.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\attack_left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\attack_right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\attack_up.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\building.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -127,28 +140,28 @@
     <Content Include="Resource\inventory.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackdown0.png">
+    <Content Include="Resource\karaattackdown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackdown1.png">
+    <Content Include="Resource\karaattackdown1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackleft0.png">
+    <Content Include="Resource\karaattackleft0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackleft1.png">
+    <Content Include="Resource\karaattackleft1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackright0.png">
+    <Content Include="Resource\karaattackright0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackright1.png">
+    <Content Include="Resource\karaattackright1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackup0.png">
+    <Content Include="Resource\karaattackup0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\karaatackup1.png">
+    <Content Include="Resource\karaattackup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kararolldown0.png">
@@ -217,16 +230,16 @@
     <Content Include="Resource\karawelcomeup0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\kayatackdown1.png">
+    <Content Include="Resource\kayattackdown1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\kayatackleft1.png">
+    <Content Include="Resource\kayattackleft1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kayattackdown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\kayattackleft0.png.png">
+    <Content Include="Resource\kayattackleft0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kayattackright0.png">
