@@ -19,16 +19,16 @@
             </StackPanel>
             <Border Margin="5,5,5,155" BorderBrush="Black" BorderThickness="10">
                 <Grid>
-                    <Grid x:Name="gameUnitMapGrid"/>
                     <Grid x:Name="gameBuildingMapGrid"/>
+                    <Grid x:Name="gameUnitMapGrid"/>
                     <Grid x:Name="gamePlayerMapGrid"/>
                 </Grid>
             </Border>
             <StackPanel Visibility="Collapsed" x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
-                <Image Source="/Resource/hand.png" Height="100" Width="100"></Image>
+                <Image x:Name="handInterfaceImage" Height="100" Width="100"></Image>
                 <Border x:Name="hand1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="hand2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
-                <Image Margin="60,0,0,0" Source="/Resource/inventory.png" Height="100" Width="100"></Image>
+                <Image x:Name="inventoryInterfaceImage" Margin="60,0,0,0" Height="100" Width="100"></Image>
                 <Border x:Name="inventory1Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="inventory2Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>
                 <Border x:Name="inventory3Border" Margin="30,0,0,0" BorderBrush="Black" BorderThickness="8" Height="100" Width="100"></Border>

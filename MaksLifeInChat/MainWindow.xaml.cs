@@ -42,6 +42,7 @@ namespace MaksLifeInChat
         List<Image> chatterSprites = [];
         string? selectBuilding;
         bool halalcartZone = false;
+        string stateBeforeRoll;
 
         public MainWindow()
         {
@@ -56,6 +57,7 @@ namespace MaksLifeInChat
             cashe = new SpriteCache();
             cashe.GetUnitSpritesList(Constants.unitNames, Constants.states, Constants.rotations);
             cashe.GetItemSpritesList(Constants.itemNames);
+            cashe.GetItemSpritesList(Constants.interfaceNames);
             toolBarStackPanel.Visibility = Visibility.Visible;
             isPlay = true;
             SetInterfaceSprite();
@@ -66,7 +68,8 @@ namespace MaksLifeInChat
         void SetInterfaceSprite()
         {
             SetBuildingSprites();
-
+            inventoryInterfaceImage.Source = cashe._item["inventory"];
+            handInterfaceImage.Source = cashe._item["hand"];
         }
 
         void SetBuildingSprites()
@@ -133,14 +136,14 @@ namespace MaksLifeInChat
         void PlayerGameUpdate() // все методы GameUpdate закинуть в класс GameUpdate и испольлзовать статичные методы оттуда
         {
             double factSpeed = player.Speed;
-            if (player.IsRun)
+            if (player.IsRun && player.State == "walk")
             {
                 if (player.Stamina <= 1) // немного больше единицы, чтобы высота показателя не была отрицательной
                     player.IsRun = false;
                 else
                 {
                     factSpeed *= player.RunModificator;
-                    player.Stamina -= player.StaminaConsuption;
+                    player.Stamina -= player.StaminaConsuptionWalk;
                 }
             }
             else
@@ -169,52 +172,61 @@ namespace MaksLifeInChat
             hpRectangle.Height = player.HP / player.MaxHP * 120;
             staminaRectangle.Height = player.Stamina / player.MaxStamina * 120;
 
-            switch (player.State) // для разных классов сделать отдельные методы
+            switch (player.State)
             {
                 case "walk":
-                    switch (player.Rotation)
-                    {
-                        case "left":
-                            player.Coordinates = new (player.Coordinates.Left - factSpeed, player.Coordinates.Top, 0,0);
-                            break;
-                        case "right":
-                            player.Coordinates = new(player.Coordinates.Left + factSpeed, player.Coordinates.Top, 0, 0);
-                            break;
-                        case "up":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
-                            break;
-                        case "down":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + factSpeed, 0, 0);
-                            break;
-                    }
-                    switch (player.SecondRotation)
-                    {
-                        case "left":
-                            player.Coordinates = new(player.Coordinates.Left - factSpeed, player.Coordinates.Top, 0, 0);
-                            break;
-                        case "right":
-                            player.Coordinates = new(player.Coordinates.Left + factSpeed, player.Coordinates.Top, 0, 0);
-                            break;
-                        case "up":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
-                            break;
-                        case "down":
-                            player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + factSpeed, 0, 0);
-                            break;
-                    }
-                    if (player.Coordinates.Left <= -1850)
-                        player.Coordinates = new(player.Coordinates.Left + factSpeed, player.Coordinates.Top, 0, 0);
-                    else if (player.Coordinates.Left >= 1850)
-                        player.Coordinates = new(player.Coordinates.Left - factSpeed, player.Coordinates.Top, 0, 0);
-                    if (player.Coordinates.Top <= -910)
-                        player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + factSpeed, 0, 0);
-                    else if (player.Coordinates.Top >= 910)
-                        player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - factSpeed, 0, 0);
-
+                    PlayerMovement(factSpeed);
+                    playerSprite.Margin = player.Coordinates;
+                    HalalCartCollision();
+                    break;
+                case "roll":
+                    PlayerMovement(player.RollSpeed);
                     playerSprite.Margin = player.Coordinates;
                     HalalCartCollision();
                     break;
             }
+        }
+
+        void PlayerMovement(double distance)
+        {
+            switch (player.Rotation)
+            {
+                case "left":
+                    player.Coordinates = new(player.Coordinates.Left - distance, player.Coordinates.Top, 0, 0);
+                    break;
+                case "right":
+                    player.Coordinates = new(player.Coordinates.Left + distance, player.Coordinates.Top, 0, 0);
+                    break;
+                case "up":
+                    player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - distance, 0, 0);
+                    break;
+                case "down":
+                    player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + distance, 0, 0);
+                    break;
+            }
+            switch (player.SecondRotation)
+            {
+                case "left":
+                    player.Coordinates = new(player.Coordinates.Left - distance, player.Coordinates.Top, 0, 0);
+                    break;
+                case "right":
+                    player.Coordinates = new(player.Coordinates.Left + distance, player.Coordinates.Top, 0, 0);
+                    break;
+                case "up":
+                    player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top - distance, 0, 0);
+                    break;
+                case "down":
+                    player.Coordinates = new(player.Coordinates.Left, player.Coordinates.Top + distance, 0, 0);
+                    break;
+            }
+            if (player.Coordinates.Left <= -1850)
+                player.Coordinates = new(-1850, player.Coordinates.Top, 0, 0);
+            else if (player.Coordinates.Left >= 1850)
+                player.Coordinates = new(1850, player.Coordinates.Top, 0, 0);
+            if (player.Coordinates.Top <= -910)
+                player.Coordinates = new(player.Coordinates.Left, -910, 0, 0);
+            else if (player.Coordinates.Top >= 910)
+                player.Coordinates = new(player.Coordinates.Left, 910, 0, 0);
         }
 
         void HalalCartCollision() // блин, а ведь обычную коллизию стен тоже довольно легко сделать, но не хочу тратить время на переусложнение ии
@@ -359,11 +371,29 @@ namespace MaksLifeInChat
                         player.Name = "kara";
                     }
                 }
+                if (e.Key == Key.Space)  // перекат
+                    if (player.State != "roll")
+                        PlayerRoll();
+                }
             }
+        }
+
+        async void PlayerRoll()
+        {
+            if (player.Stamina < player.StaminaConsuptionRoll) 
+                return;
+            player.Stamina -= player.StaminaConsuptionRoll;
+            stateBeforeRoll = player.State;
+            player.State = "roll";
+            await Task.Delay(Constants.PlayerRollFrameCount);
+            player.State = stateBeforeRoll;
+            UpdateDirections();
         }
 
         private void UpdateDirections()
         {
+            if (player.State == "roll")
+                return;
             var pressed = new List<string>();
             if (Keyboard.IsKeyDown(Key.W)) pressed.Add("up");
             if (Keyboard.IsKeyDown(Key.A)) pressed.Add("left");

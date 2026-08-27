@@ -14,6 +14,18 @@
     <None Remove="Resource\hand.png" />
     <None Remove="Resource\hp.png" />
     <None Remove="Resource\inventory.png" />
+    <None Remove="Resource\karaatackdown0.png" />
+    <None Remove="Resource\karaatackdown1.png" />
+    <None Remove="Resource\karaatackleft0.png" />
+    <None Remove="Resource\karaatackleft1.png" />
+    <None Remove="Resource\karaatackright0.png" />
+    <None Remove="Resource\karaatackright1.png" />
+    <None Remove="Resource\karaatackup0.png" />
+    <None Remove="Resource\karaatackup1.png" />
+    <None Remove="Resource\kararolldown0.png" />
+    <None Remove="Resource\kararollleft0.png" />
+    <None Remove="Resource\kararollright0.png" />
+    <None Remove="Resource\kararollup0.png" />
     <None Remove="Resource\karastanddown0.png" />
     <None Remove="Resource\karastanddown1.png" />
     <None Remove="Resource\karastandleft0.png" />
@@ -27,6 +39,22 @@
     <None Remove="Resource\karawalkright0.png" />
     <None Remove="Resource\karawalkright1.png" />
     <None Remove="Resource\karawalkup0.png" />
+    <None Remove="Resource\karawelcomedown0.png" />
+    <None Remove="Resource\karawelcomeleft0.png" />
+    <None Remove="Resource\karawelcomeright0.png" />
+    <None Remove="Resource\karawelcomeup0.png" />
+    <None Remove="Resource\kayatackdown1.png" />
+    <None Remove="Resource\kayatackleft1.png" />
+    <None Remove="Resource\kayattackdown0.png" />
+    <None Remove="Resource\kayattackleft0.png.png" />
+    <None Remove="Resource\kayattackright0.png" />
+    <None Remove="Resource\kayattackright1.png" />
+    <None Remove="Resource\kayattackup0.png" />
+    <None Remove="Resource\kayattackup1.png" />
+    <None Remove="Resource\kayrolldown0.png" />
+    <None Remove="Resource\kayrollleft0.png" />
+    <None Remove="Resource\kayrollright0.png" />
+    <None Remove="Resource\kayrollup0.png" />
     <None Remove="Resource\kaystanddown0.png" />
     <None Remove="Resource\kaystanddown1.png" />
     <None Remove="Resource\kaystandleft0.png" />
@@ -42,6 +70,10 @@
     <None Remove="Resource\kaywalkup0.png" />
     <None Remove="Resource\kaywalkup1.png" />
     <None Remove="Resource\kaywallkup1.png" />
+    <None Remove="Resource\kaywelcomedown0.png" />
+    <None Remove="Resource\kaywelcomeleft0.png" />
+    <None Remove="Resource\kaywelcomeright0.png" />
+    <None Remove="Resource\kaywelcomeup0.png" />
     <None Remove="Resource\mp.png" />
     <None Remove="Resource\newbie0standdown0.png" />
     <None Remove="Resource\newbie0standdown1.png" />
@@ -95,6 +127,42 @@
     <Content Include="Resource\inventory.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\karaatackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karaatackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kararolldown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kararollleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kararollright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kararollup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\karastanddown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -137,6 +205,54 @@
     <Content Include="Resource\karawalkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\karawelcomedown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawelcomeleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawelcomeright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\karawelcomeup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayatackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayatackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayattackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayattackleft0.png.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayattackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayattackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayattackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayattackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayrolldown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayrollleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayrollright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kayrollup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\kaystanddown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -177,6 +293,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kaywalkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kaywelcomedown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kaywelcomeleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kaywelcomeright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\kaywelcomeup0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\mp.png">
