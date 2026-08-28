@@ -105,6 +105,8 @@
     <None Remove="Resource\kaywelcomeup0.png" />
     <None Remove="Resource\levelup.png" />
     <None Remove="Resource\mp.png" />
+    <None Remove="Resource\music0.mp3" />
+    <None Remove="Resource\music1.mp3" />
     <None Remove="Resource\newbie0standdown0.png" />
     <None Remove="Resource\newbie0standdown1.png" />
     <None Remove="Resource\newbie0standleft0.png" />
@@ -437,6 +439,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\mp.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\music0.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\music1.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\newbie0standdown0.png">

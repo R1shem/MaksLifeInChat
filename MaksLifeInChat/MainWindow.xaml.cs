@@ -1,4 +1,5 @@
 ﻿using MaksLifeInChat.Model;
+using System.IO;
 using System.Numerics;
 using System.Security.Policy;
 using System.Text;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace MaksLifeInChat
 {
@@ -45,6 +47,9 @@ namespace MaksLifeInChat
         string? selectBuilding;
         bool halalcartZone = false;
         string stateBefore;
+        MediaPlayer _mediaPlayer = new MediaPlayer();
+        List<string> playList = [];
+        int current_track = 0;
 
         public MainWindow()
         {
@@ -52,14 +57,36 @@ namespace MaksLifeInChat
             InitializeComponent();
             MenuFrame menuFrame = new();
             gamePlayerMapGrid.Children.Add(menuFrame);
-        }
-
-        public async void StartGame()
-        {
+            LoadSettings();
             cashe = new SpriteCache();
             cashe.GetUnitSpritesList(Constants.unitNames, Constants.states, Constants.rotations);
             cashe.GetItemSpritesList(Constants.itemNames);
             cashe.GetItemSpritesList(Constants.interfaceNames);
+        }
+
+        void LoadSettings()
+        {
+
+        }
+
+        async void PlayMusic()
+        {
+            _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+            int count = 0;
+            while (true)
+            {
+                string fileName = $"{Constants.ResourceFolder}music{count}.mp3";
+                if (!File.Exists(fileName)) break;
+                playList.Add(fileName);
+                count++;
+            }
+            _mediaPlayer.Open(new Uri(playList[current_track], UriKind.Relative));
+            _mediaPlayer.Play();
+        }
+
+        public async void StartGame()
+        {
+            PlayMusic();
             toolBarStackPanel.Visibility = Visibility.Visible;
             isPlay = true;
             SetInterfaceSprite();
@@ -1165,6 +1192,16 @@ namespace MaksLifeInChat
         private void inventory4Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             InventoryRightMouseDown(e, 3);
+        }
+
+        private void MediaPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            current_track++;
+            if (current_track == playList.Count)
+                current_track = 0;
+
+            _mediaPlayer.Open(new Uri(playList[current_track], UriKind.Relative));
+            _mediaPlayer.Play();
         }
     }
 }
