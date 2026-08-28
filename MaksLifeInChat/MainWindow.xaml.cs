@@ -21,6 +21,8 @@ namespace MaksLifeInChat
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<int> chattersFindCounter = new List<int>();
+        int id_unit_count = 0;
         bool isPlay = false;
         bool isBoss = false;
         int count_frame = 0; // frame count (не отражает время)
@@ -154,13 +156,10 @@ namespace MaksLifeInChat
             else
                 if (player.Stamina < player.MaxStamina)
                     player.Stamina += player.RegenStamina;
-            if (player.IsKara)
+            if (player.Name == "kara")
             {
                 if (player.MP <= 1)
-                {
-                    player.IsKara = false;
                     player.Name = "kay";
-                }
                 else
                 {
                     factSpeed *= player.KaraSpeedModificator;
@@ -170,16 +169,24 @@ namespace MaksLifeInChat
             else
                 if (player.MP < player.MaxMP)
                     player.MP += player.RegenMP;
+
+            if (player.HP <= 1)
+                player.Name = "kay";
             if (player.HP < player.MaxHP)
                 player.HP += player.RegenHP;
+            if (player.HP <= 0)
+            {
+                GameOver();
+                return;
+            }
 
             mpRectangle.Height = player.MP / player.MaxMP * 120;
             hpRectangle.Height = player.HP / player.MaxHP * 120;
             staminaRectangle.Height = player.Stamina / player.MaxStamina * 120;
 
-            hpTB.Text = player.HP.ToString();
-            mpTB.Text = player.MP.ToString();
-            staminaTB.Text = player.Stamina.ToString();
+            hpTB.Text = $"{player.HP} человечность";
+            mpTB.Text = $"{player.MP} жестокость";
+            staminaTB.Text = $"{player.Stamina} выносливость";
 
             switch (player.State)
             {
@@ -292,10 +299,192 @@ namespace MaksLifeInChat
 
         void ChattersGameUpdate()
         {
-            for (int i = 0; i < newbies.Count; i++)
+            for (int i = 0; i < chatters.Count; i++)
             {
+                if (chatters[i].AttackPause)
+                    continue;
+                chattersFindCounter[i]++;
+                if (chattersFindCounter[i] >= Constants.FindEnemyFrameCount)
+                {
+                    chattersFindCounter[i] = 0;
+                    Unit? target = FindNearestTarget(chatters[i]);
+                    if (target != null)
+                    {
+                        SetDirectionToTarget(chatters[i], target);
+                        if (IsInAttackRange(chatters[i], target))
+                            ChattersAttack(chatters[i], target);
+                        else
+                            chatters[i].State = "walk";
+                    }
+                    else
+                    {
+                        chatters[i].State = "stand";
+                    }
+                }
 
+                ChattersMovement(i);
             }
+        }
+
+        private void SetDirectionToTarget(Unit self, Unit target)
+        {
+            double dx = target.Coordinates.Left - self.Coordinates.Left;
+            double dy = target.Coordinates.Top - self.Coordinates.Top;
+
+            if (Math.Abs(dx) >= Math.Abs(dy))
+            {
+                self.Rotation = dx >= 0 ? "right" : "left";
+                self.SecondRotation = Math.Abs(dy) > self.Size*2 ? (dy > 0 ? "down" : "up") : null;
+            }
+            else
+            {
+                self.Rotation = dy >= 0 ? "down" : "up";
+                self.SecondRotation = Math.Abs(dy) > self.Size*2 ? (dx > 0 ? "right" : "left") : null;
+            }
+        }
+        private bool IsInAttackRange(Unit self, Unit target)
+        {
+            double range = self.Size + self.Size  * self.AttackPiasProcent + self.AttackHeight;
+            double dx = Math.Abs(self.Coordinates.Left - target.Coordinates.Left);
+            double dy = Math.Abs(self.Coordinates.Top - target.Coordinates.Top);
+            return dx < range && dy < range;
+        }
+
+        private async void ChattersAttack(Unit self, Unit target)
+        {
+            if (self.State == "attack" || self.AttackPause) return;
+
+            string stateBefore = self.State;
+            self.ProgressSprite = 0;
+            self.State = "attack";
+
+            Thickness attackCoordinates = self.Coordinates;
+            double attackWeight = self.AttackWeight;
+            double attackHeight = self.AttackHeight;
+            switch (self.Rotation)
+            {
+                case "left":
+                    attackWeight = self.AttackHeight;
+                    attackHeight = self.AttackWeight;
+                    attackCoordinates = new(self.Coordinates.Left - self.Size * self.AttackPiasProcent, self.Coordinates.Top, 0, 0);
+                    break;
+                case "right":
+                    attackWeight = self.AttackHeight;
+                    attackHeight = self.AttackWeight;
+                    attackCoordinates = new(self.Coordinates.Left + self.Size * self.AttackPiasProcent, self.Coordinates.Top, 0, 0);
+                    break;
+                case "down":
+                    attackCoordinates = new(self.Coordinates.Left, self.Coordinates.Top + self.Size * self.AttackPiasProcent, 0, 0);
+                    break;
+                case "up":
+                    attackCoordinates = new(self.Coordinates.Left, self.Coordinates.Top - self.Size * self.AttackPiasProcent, 0, 0);
+                    break;
+            }
+
+            await Task.Delay(Constants.ChattersAttackFrameCount);
+
+            if ((Math.Abs(attackCoordinates.Left - target.Coordinates.Left) <= attackWeight + target.Size) &&
+                (Math.Abs(attackCoordinates.Top - target.Coordinates.Top) <= attackHeight + target.Size)) // здесь перебирать всех в области и им уменьшать, и таргет[i] пусть будет
+            {
+                target.HP -= self.Attack;
+                if (target is Player)
+                {
+                    PlayerDamage(self.Attack);  // используем существующий метод
+                }
+                else if (target is Building)
+                {
+                    if (target.HP <= 0)
+                        KillBuilding(buildings.IndexOf((Building)target));
+                }
+            }
+            SpawnSpeceffectOnDot(attackCoordinates, cashe._item[$"chatters_attack_{self.Rotation}"], attackWeight, attackHeight, self.AttackSpriteDelay);
+            self.State = "stand";
+            self.AttackPause = true;
+            await Task.Delay(Constants.ChattersAttackPauseDelay);
+            self.AttackPause = false;
+        }
+
+        private async void KillBuilding(int index)
+        {
+            if (index == -1)
+                return; // я хз как оно появляется
+            SpawnSpeceffectOnDot(buildings[index].Coordinates, cashe._item["death"], buildings[index].Size, buildings[index].Size, Constants.DeathFrameCount);
+            gameBuildingMapGrid.Children.Remove(buildingSprites[index]);
+            buildingSprites.RemoveAt(index);
+            buildings.RemoveAt(index);
+            if (buildings.Count == 0)
+            {
+                halalcartZone = false;
+                SetBuildingSprites();
+            }
+            HalalCartCollision();
+        }
+
+        void ChattersMovement(int index)
+        {
+            var chatter = chatters[index];
+            if (chatter.State != "walk") return;
+
+            double distance = chatter.Speed;
+
+            switch (chatter.Rotation)
+            {
+                case "left": chatter.Coordinates = new(chatter.Coordinates.Left - distance, chatter.Coordinates.Top, 0, 0); break;
+                case "right": chatter.Coordinates = new(chatter.Coordinates.Left + distance, chatter.Coordinates.Top, 0, 0); break;
+                case "up": chatter.Coordinates = new(chatter.Coordinates.Left, chatter.Coordinates.Top - distance, 0, 0); break;
+                case "down": chatter.Coordinates = new(chatter.Coordinates.Left, chatter.Coordinates.Top + distance, 0, 0); break;
+            }
+
+            if (chatter.SecondRotation != null)
+            {
+                switch (chatter.SecondRotation)
+                {
+                    case "left": chatter.Coordinates = new(chatter.Coordinates.Left - distance, chatter.Coordinates.Top, 0, 0); break;
+                    case "right": chatter.Coordinates = new(chatter.Coordinates.Left + distance, chatter.Coordinates.Top, 0, 0); break;
+                    case "up": chatter.Coordinates = new(chatter.Coordinates.Left, chatter.Coordinates.Top - distance, 0, 0); break;
+                    case "down": chatter.Coordinates = new(chatter.Coordinates.Left, chatter.Coordinates.Top + distance, 0, 0); break;
+                }
+            }
+
+            chatterSprites[index].Margin = chatter.Coordinates;
+        }
+
+        private Unit? FindNearestTarget(Unit self)
+        {
+            if (player.Name == "kara")
+                return player;
+            var targets = new List<Unit>();
+
+            targets.Add(player);
+
+            foreach (var b in buildings)
+                targets.Add(b);
+
+            return GetClosestTarget(self, targets);
+        }
+
+        private Unit? GetClosestTarget(Unit self, List<Unit> candidates)
+        {
+            if (candidates.Count == 0) return null;
+            Unit closest = candidates[0];
+            double minDist = GetDistance(self, closest);
+            for (int i = 1; i < candidates.Count; i++)
+            {
+                double dist = GetDistance(self, candidates[i]);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closest = candidates[i];
+                }
+            }
+            return closest;
+        }
+
+        private double GetDistance(Unit a, Unit b)
+        {
+            double dx = a.Coordinates.Left - b.Coordinates.Left;
+            double dy = a.Coordinates.Top - b.Coordinates.Top;
+            return Math.Sqrt(dx * dx + dy * dy);
         }
 
         void NewbieGameUpdate()
@@ -454,19 +643,13 @@ namespace MaksLifeInChat
                     player.IsRun = false;
                 if (e.Key == Key.LeftCtrl)  // отказательство от удержания в пользу нажатия
                 {
-                    if (player.IsKara)
-                    {
-                        player.IsKara = false;
+                    if (player.Name == "kara")
                         player.Name = "kay";
-                    }
                     else
-                    {
-                        player.IsKara = true;
                         player.Name = "kara";
-                    }
                 }
                 if (e.Key == Key.Space)  // перекат
-                    if (player.State != "roll" && player.State != "attack" && player.State != "welcome")
+                    if (player.State == "stand" || player.State == "walk")
                         PlayerRoll();
             }
         }
@@ -511,6 +694,7 @@ namespace MaksLifeInChat
         {
             player = new();
             player.AttackPiasProcent = Constants.PlayerAttackPiasProcent;
+            player.ID = id_unit_count++;
             playerSprite = new()
             {
                 Width = player.Size,
@@ -530,6 +714,7 @@ namespace MaksLifeInChat
             int positionY = rnd.Next(-850, 850);
             Newbie newbie = new()
             {
+                ID = id_unit_count++,
                 Name = "newbie",
                 Size = Constants.NewbieSize,
                 Speed = Constants.NewbieSpeed,
@@ -559,11 +744,13 @@ namespace MaksLifeInChat
             Random rnd = new();
             Chatters chatter = new()
             {
+                ID = id_unit_count++,
                 Name = "chatters",
                 Size = Constants.ChattersSize,
                 Speed = Constants.ChattersSpeed,
-                MaxHP = Constants.ChattersHP,
-                HP = Constants.ChattersHP,
+                MaxHP = Constants.ChattersHP + Constants.ChattersHP * Constants.ChatterGainDayModificator * count_day,
+                HP = Constants.ChattersHP + Constants.ChattersHP * Constants.ChatterGainDayModificator * count_day,
+                Attack = Constants.ChattersAttack + Constants.ChattersAttack * Constants.ChatterGainDayModificator * count_day,
                 State = newbie.State,
                 Coordinates = newbie.Coordinates,
                 Rotation = newbie.Rotation
@@ -582,6 +769,30 @@ namespace MaksLifeInChat
             chatters.Add(chatter);
             chatterSprites.Add(chatterSprite);
             gameUnitMapGrid.Children.Add(chatterSprite);
+            chattersFindCounter.Add(0);
+        }
+
+        void PlayerDamage(double damage)
+        {
+            if (player.State == "roll")
+                return;
+            player.HP -= damage;
+            if (player.HP < 0)
+            {
+                SpawnSpeceffectOnDot(player.Coordinates, cashe._item["bossdeath"], Constants.SizeSpriteDeathPlayer, Constants.SizeSpriteDeathPlayer, Constants.BossDeathFrameCount);
+                GameOver();
+                return;
+            }
+            hpRectangle.Height = player.HP / player.MaxHP * 120;
+        }
+
+        void GameOver()
+        {
+            isPlay = false;
+            gameBuildingMapGrid.Children.Clear();
+            gamePlayerMapGrid.Children.Clear();
+            gamePlayerMapGrid.Children.Clear();
+            // и всё остальное обнулить
         }
 
         void BuildClick(string name)
@@ -671,18 +882,23 @@ namespace MaksLifeInChat
         void PlayerAddEXP(int point)
         {
             player.EXP += point;
-            expTB.Text = player.EXP.ToString();
             if (player.EXP >= player.EXPForLevelUP)
             {
                 player.Level++;
                 player.EXP = 0;
                 player.EXPForLevelUP = Convert.ToInt32(player.EXPForLevelUP * player.EXPForLevelUPModificator);
                 player.MaxHP += Constants.LevelGiveHP;
+                player.HP += Constants.LevelGiveHP;
                 player.MaxMP += Constants.LevelGiveMP;
+                player.MP += Constants.LevelGiveMP;
                 player.MaxStamina += Constants.LevelGiveStamina;
+                player.Stamina += Constants.LevelGiveStamina;
                 player.Attack += Constants.LevelGiveAttack;
                 SpawnSpeceffectOnUnit(player, cashe._item["levelup"], player.Size, player.Size, Constants.LevelUpFrameCount);
             }
+            expTB.Text = $"{player.EXP} очки пыток";
+            attackTB.Text = $"{player.Attack} радость";
+            levelCountTB.Text = $"{player.Level} ур.";
         }
 
         async void SpawnSpeceffectOnDot(Thickness position, BitmapImage source, double sizeWeigth, double sizeHeight, int delay)
@@ -725,8 +941,9 @@ namespace MaksLifeInChat
 
         async void PlayerAttack()
         {
-            if (player.State == "roll" || player.State == "welcome" || player.State == "attack")
+            if (player.State == "roll" || player.State == "welcome" || player.State == "attack" || player.Stamina < player.StaminaConsuptionAttack)
                 return;
+            player.Stamina -= player.StaminaConsuptionAttack;
             stateBefore = player.State;
             player.ProgressSprite = 0;
             player.State = "attack";
@@ -757,7 +974,7 @@ namespace MaksLifeInChat
             {
                 if ((Math.Abs(attackCoordinates.Left - newbies[i].Coordinates.Left) <= attackWeight + newbies[i].Size) && (Math.Abs(attackCoordinates.Top - newbies[i].Coordinates.Top) <= attackHeight + newbies[i].Size) && !newbies[i].IsWelcoming)
                 {
-                    newbies[i].HP -= player.Attack;
+                    newbies[i].HP -= GivePlayerAttack();
                     if (newbies[i].HP <= 0)
                     {
                         count_meat+=Constants.NewbieDropMeat;
@@ -767,11 +984,11 @@ namespace MaksLifeInChat
                     }
                 }
             }
-            for (int i = 0; i < chatters.Count; i++) // пока атака пока действует только на новичков. для остальных отдельные циклы
+            for (int i = 0; i < chatters.Count; i++) 
             {
                 if ((Math.Abs(attackCoordinates.Left - chatters[i].Coordinates.Left) <= attackWeight + chatters[i].Size) && (Math.Abs(attackCoordinates.Top - chatters[i].Coordinates.Top) <= attackHeight + chatters[i].Size))
                 {
-                    chatters[i].HP -= player.Attack;
+                    chatters[i].HP -= GivePlayerAttack();
                     if (chatters[i].HP <= 0)
                     {
                         count_meat += Constants.ChattersDropMeat;
@@ -796,6 +1013,7 @@ namespace MaksLifeInChat
             {
                 case "halalcart":
                     building.Size = Constants.SizeHalalcart;
+                    building.HP = Constants.HalalcartHP;
                     if (coordinates.Left <= -1850)
                         coordinates = new(-1700, coordinates.Top, 0, 0);
                     else if (coordinates.Left >= 1850)
@@ -807,6 +1025,7 @@ namespace MaksLifeInChat
                     break;
                 case "wall":
                     building.Size = Constants.SizeWall;
+                    building.HP = Constants.WallHP;
                     if (coordinates.Left <= -1850)
                         coordinates = new(-1850, coordinates.Top, 0, 0);
                     else if (coordinates.Left >= 1850)
@@ -831,8 +1050,17 @@ namespace MaksLifeInChat
             gameBuildingMapGrid.Children.Add(buildingImage);
         }
 
+        double GivePlayerAttack()
+        {
+            double finalAttack = player.Attack;
+            if (player.Name == "kara")
+                finalAttack *= player.KaraAtackModificator;
+            return finalAttack;
+        }
+
         void KillNewbie(int index)
         {
+            SpawnSpeceffectOnDot(newbies[index].Coordinates, cashe._item["death"], newbies[index].Size, newbies[index].Size, Constants.DeathFrameCount);
             gameUnitMapGrid.Children.Remove(newbieSprites[index]);
             newbieSprites.RemoveAt(index);
             newbies.RemoveAt(index);
@@ -840,9 +1068,11 @@ namespace MaksLifeInChat
 
         void KillChatters(int index)
         {
+            SpawnSpeceffectOnDot(chatters[index].Coordinates, cashe._item["death"], chatters[index].Size, chatters[index].Size, Constants.DeathFrameCount);
             gameUnitMapGrid.Children.Remove(chatterSprites[index]);
             chatterSprites.RemoveAt(index);
             chatters.RemoveAt(index);
+            chattersFindCounter.RemoveAt(index);
         }
 
         void InventoryRightMouseDown(MouseButtonEventArgs e, int num)

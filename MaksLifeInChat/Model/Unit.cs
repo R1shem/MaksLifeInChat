@@ -18,6 +18,7 @@ namespace MaksLifeInChat.Model
         public double HP { get; set; } = 50;
         public double MaxHP { get; set; } = 50;
         public double Attack { get; set; } = 5;
+        public bool AttackPause { get; set; } = false;
         public double AttackWeight { get; set; } = 220;
         public double AttackHeight { get; set; } = 110;
         public double AttackPiasProcent { get; set; } = 0.4;

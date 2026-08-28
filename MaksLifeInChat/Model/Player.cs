@@ -19,7 +19,6 @@ namespace MaksLifeInChat.Model
         public double KaraAtackModificator { get; set; } = 1.6;
         public double RunModificator { get; set; } = 2;
         public bool IsRun { get; set; } = false;
-        public bool IsKara { get; set; } = false;
         public int EXP { get; set; } = 0;
         public int Level { get; set; } = 0;
         public int EXPForLevelUP { get; set; } = 10;
@@ -28,5 +27,6 @@ namespace MaksLifeInChat.Model
         public List<Item> InventoryItems { get; set; } = [];
         public int RollSpeed { get; set; } = 13;
         public double StaminaConsuptionRoll { get; set; } = 25;
+        public double StaminaConsuptionAttack { get; set; } = 10;
     }
 }
