@@ -46,6 +46,25 @@
     <None Remove="Resource\hand.png" />
     <None Remove="Resource\hp.png" />
     <None Remove="Resource\inventory.png" />
+    <None Remove="Resource\item1.png" />
+    <None Remove="Resource\item10.png" />
+    <None Remove="Resource\item11.png" />
+    <None Remove="Resource\item12.png" />
+    <None Remove="Resource\item13.png" />
+    <None Remove="Resource\item14.png" />
+    <None Remove="Resource\item15.png" />
+    <None Remove="Resource\item16.png" />
+    <None Remove="Resource\item17.png" />
+    <None Remove="Resource\item18.png" />
+    <None Remove="Resource\item19.png" />
+    <None Remove="Resource\item2.png" />
+    <None Remove="Resource\item3.png" />
+    <None Remove="Resource\item4.png" />
+    <None Remove="Resource\item5.png" />
+    <None Remove="Resource\item6.png" />
+    <None Remove="Resource\item7.png" />
+    <None Remove="Resource\item8.png" />
+    <None Remove="Resource\item9.png" />
     <None Remove="Resource\karaattackdown0.png" />
     <None Remove="Resource\karaattackdown1.png" />
     <None Remove="Resource\karaattackleft0.png" />
@@ -135,12 +154,12 @@
     <None Remove="Resource\newbie1walkright1.png" />
     <None Remove="Resource\newbie1walkup0.png" />
     <None Remove="Resource\newbie1walkup1.png" />
-    <None Remove="Resource\nintendo.png" />
     <None Remove="Resource\saucer.png" />
     <None Remove="Resource\shawarmaHP.png" />
     <None Remove="Resource\shawarmaMP.png" />
     <None Remove="Resource\stamina.png" />
     <None Remove="Resource\wallstanddown0.png" />
+    <None Remove="settings" />
   </ItemGroup>
 
   <ItemGroup>
@@ -253,6 +272,63 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\inventory.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item10.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item11.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item12.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item13.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item14.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item15.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item17.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item18.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item19.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item7.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\item9.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\karaattackdown0.png">
@@ -531,7 +607,7 @@
     <Content Include="Resource\newbie1walkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\nintendo.png">
+    <Content Include="Resource\item0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\shawarmaHP.png">
@@ -550,6 +626,9 @@
 
   <ItemGroup>
     <Content Include="Resource\saucer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="settings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

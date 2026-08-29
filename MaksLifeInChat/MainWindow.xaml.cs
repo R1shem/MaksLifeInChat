@@ -47,9 +47,11 @@ namespace MaksLifeInChat
         string? selectBuilding;
         bool halalcartZone = false;
         string stateBefore;
-        MediaPlayer _mediaPlayer = new MediaPlayer();
+        public MediaPlayer _mediaPlayer = new MediaPlayer();
         List<string> playList = [];
         int current_track = 0;
+        List<string> inventoryItems = [];
+        List<string> handsItems = [];
 
         public MainWindow()
         {
@@ -57,20 +59,19 @@ namespace MaksLifeInChat
             InitializeComponent();
             MenuFrame menuFrame = new();
             gamePlayerMapGrid.Children.Add(menuFrame);
-            LoadSettings();
             cashe = new SpriteCache();
             cashe.GetUnitSpritesList(Constants.unitNames, Constants.states, Constants.rotations);
             cashe.GetItemSpritesList(Constants.itemNames);
             cashe.GetItemSpritesList(Constants.interfaceNames);
-        }
-
-        void LoadSettings()
-        {
-
+            string[] items = new string[Constants.ItemCount];
+            for (int i = 0; i < Constants.ItemCount; i++)
+                items[i] = $"item{i}";
+            cashe.GetItemSpritesList(items);
         }
 
         async void PlayMusic()
         {
+            _mediaPlayer.Volume = App.volumeSettings;
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             int count = 0;
             while (true)
@@ -86,6 +87,9 @@ namespace MaksLifeInChat
 
         public async void StartGame()
         {
+            gamePlayerMapGrid.Children.Clear();
+            gameBuildingMapGrid.Children.Clear();
+            gameUnitMapGrid.Children.Clear();
             PlayMusic();
             toolBarStackPanel.Visibility = Visibility.Visible;
             isPlay = true;
@@ -125,7 +129,7 @@ namespace MaksLifeInChat
             {
                 await Task.Delay(Constants.FPS);
                 count_sprite_frame++;
-                count_frame+= Constants.FPS;
+                count_frame += Constants.FPS;
                 if (count_frame >= Constants.Second)
                 {
                     count_frame = 0;
@@ -274,13 +278,13 @@ namespace MaksLifeInChat
 
         void HalalCartCollision() // блин, а ведь обычную коллизию стен тоже довольно легко сделать, но не хочу тратить время на переусложнение ии
         {
-            if (buildings.Count!=0)
+            if (buildings.Count != 0)
             {
                 bool isExist = false;
                 List<Building> halals = buildings.FindAll(x => x.Name == "halalcart");
                 for (int i = 0; i < halals.Count; i++)
                 {
-                    if ((Math.Abs(player.Coordinates.Left - halals[i].Coordinates.Left) <= player.Size + halals[i].Size) && (Math.Abs(player.Coordinates.Top - halals[i].Coordinates.Top) <= player.Size + halals[i].Size)){
+                    if ((Math.Abs(player.Coordinates.Left - halals[i].Coordinates.Left) <= player.Size + halals[i].Size) && (Math.Abs(player.Coordinates.Top - halals[i].Coordinates.Top) <= player.Size + halals[i].Size)) {
                         isExist = true;
                     }
                 }
@@ -361,17 +365,17 @@ namespace MaksLifeInChat
             if (Math.Abs(dx) >= Math.Abs(dy))
             {
                 self.Rotation = dx >= 0 ? "right" : "left";
-                self.SecondRotation = Math.Abs(dy) > self.Size*2 ? (dy > 0 ? "down" : "up") : null;
+                self.SecondRotation = Math.Abs(dy) > self.Size * 2 ? (dy > 0 ? "down" : "up") : null;
             }
             else
             {
                 self.Rotation = dy >= 0 ? "down" : "up";
-                self.SecondRotation = Math.Abs(dy) > self.Size*2 ? (dx > 0 ? "right" : "left") : null;
+                self.SecondRotation = Math.Abs(dy) > self.Size * 2 ? (dx > 0 ? "right" : "left") : null;
             }
         }
         private bool IsInAttackRange(Unit self, Unit target)
         {
-            double range = self.Size + self.Size  * self.AttackPiasProcent + self.AttackHeight;
+            double range = self.Size + self.Size * self.AttackPiasProcent + self.AttackHeight;
             double dx = Math.Abs(self.Coordinates.Left - target.Coordinates.Left);
             double dy = Math.Abs(self.Coordinates.Top - target.Coordinates.Top);
             return dx < range && dy < range;
@@ -525,7 +529,7 @@ namespace MaksLifeInChat
                     {
                         newbies[i].OpacityFrameCountProgress = 0;
                         newbies[i].OpacityProgress++;
-                        newbieSprites[i].Opacity-=0.01;
+                        newbieSprites[i].Opacity -= 0.01;
                         if (newbies[i].OpacityProgress >= 100)
                         {
                             KillNewbie(i);
@@ -610,7 +614,7 @@ namespace MaksLifeInChat
             }
         }
 
-        void ModeratorGameUpdate() 
+        void ModeratorGameUpdate()
         {
 
         }
@@ -623,7 +627,7 @@ namespace MaksLifeInChat
             player.ProgressSprite++;
             for (int i = 0; i < newbieSprites.Count; i++)
             {
-                if (newbies[i].ProgressSprite >= cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)].Count) 
+                if (newbies[i].ProgressSprite >= cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)].Count)
                     newbies[i].ProgressSprite = 0;
                 newbieSprites[i].Source = cashe._unit[(newbies[i].Name + newbies[i].VariationSprite, newbies[i].State, newbies[i].Rotation)][newbies[i].ProgressSprite];
                 newbies[i].ProgressSprite++;
@@ -683,7 +687,7 @@ namespace MaksLifeInChat
 
         async void PlayerRoll()
         {
-            if (player.Stamina < player.StaminaConsuptionRoll) 
+            if (player.Stamina < player.StaminaConsuptionRoll)
                 return;
             player.Stamina -= player.StaminaConsuptionRoll;
             stateBefore = player.State;
@@ -737,7 +741,7 @@ namespace MaksLifeInChat
         {
             List<string> openRotation = ["left", "right", "up", "down"];
             Random rnd = new();
-            int positionX = rnd.Next(-1700,1700);
+            int positionX = rnd.Next(-1700, 1700);
             int positionY = rnd.Next(-850, 850);
             Newbie newbie = new()
             {
@@ -748,7 +752,7 @@ namespace MaksLifeInChat
                 MaxHP = Constants.NewbieHP,
                 HP = Constants.NewbieHP,
                 State = "walk",
-                Coordinates = new Thickness(positionX, positionY,0,0),
+                Coordinates = new Thickness(positionX, positionY, 0, 0),
                 Rotation = openRotation[rnd.Next(0, openRotation.Count)]
             };
             newbie.VariationSprite = rnd.Next(0, newbie.VariationSprite + 1);
@@ -1004,14 +1008,14 @@ namespace MaksLifeInChat
                     newbies[i].HP -= GivePlayerAttack();
                     if (newbies[i].HP <= 0)
                     {
-                        count_meat+=Constants.NewbieDropMeat;
+                        count_meat += Constants.NewbieDropMeat;
                         PlayerAddEXP(Constants.NewbieDropEXP);
                         meatCountTB.Text = $"{count_meat} 🍕";
                         KillNewbie(i);
                     }
                 }
             }
-            for (int i = 0; i < chatters.Count; i++) 
+            for (int i = 0; i < chatters.Count; i++)
             {
                 if ((Math.Abs(attackCoordinates.Left - chatters[i].Coordinates.Left) <= attackWeight + chatters[i].Size) && (Math.Abs(attackCoordinates.Top - chatters[i].Coordinates.Top) <= attackHeight + chatters[i].Size))
                 {
@@ -1095,6 +1099,7 @@ namespace MaksLifeInChat
 
         void KillChatters(int index)
         {
+            GetPlayerItem();
             SpawnSpeceffectOnDot(chatters[index].Coordinates, cashe._item["death"], chatters[index].Size, chatters[index].Size, Constants.DeathFrameCount);
             gameUnitMapGrid.Children.Remove(chatterSprites[index]);
             chatterSprites.RemoveAt(index);
@@ -1102,25 +1107,116 @@ namespace MaksLifeInChat
             chattersFindCounter.RemoveAt(index);
         }
 
-        void InventoryRightMouseDown(MouseButtonEventArgs e, int num)
+        void GetPlayerItem()
         {
-            e.Handled = true;
+            Random rnd = new Random();
+            if (rnd.Next(0, 101) > Constants.ChanseGetItem)
+                return;
+            int num = rnd.Next(Constants.ItemCount);
+            string name = $"item{num}";
+            if (inventoryItems.Count < 4)
+            {
+                inventoryItems.Add(name);
+            }
+            else if (handsItems.Count < 2)
+            {
+                handsItems.Add(name);
+                AddStat(name);
+            }
+            else return;
+            SortInventory();
         }
 
-        void InventoryClick(int num)
+        void InventoryRightMouseDown(MouseButtonEventArgs e, int num) // расщепление предмета
+        {
+            e.Handled = true;
+            count_cable += Constants.ItemDropCable;
+            cableCountTB.Text = $"{count_cable} 🔌";
+            inventoryItems.RemoveAt(num);
+            SortInventory();
+        }
+
+        void InventoryClick(int num) // перемещение из инвентаря
         {
             gameBuildingMapGrid.Focus();
+            if (inventoryItems.Count <= num)
+                return;
+            if (handsItems.Count < 2)
+            {
+                handsItems.Add(inventoryItems[num]);
+                AddStat(inventoryItems[num]);
+                inventoryItems.RemoveAt(num);
+                SortInventory();
+            }
+        }
+
+        void SortInventory() 
+        {
+            var images = new[] { inventory1Image, inventory2Image, inventory3Image, inventory4Image };
+            var buttons = new[] { inventory1Button, inventory2Button, inventory3Button, inventory4Button };
+            var count = inventoryItems.Count;
+
+            for (int i = 0; i < images.Length; i++)
+            {
+                if (i < count)
+                {
+                    var item = inventoryItems[i];
+                    images[i].Source = cashe._item[item];          
+                    buttons[i].ToolTip = Constants.ItemDescription[item];
+                }
+                else
+                {
+                    images[i].Source = null;
+                    buttons[i].ToolTip = null;
+                }
+            }
+
+            images = new[] { hand1Image, hand2Image };
+            buttons = new[] { hand1Button, hand2Button };
+            count = handsItems.Count;
+
+            for (int i = 0; i < images.Length; i++)
+            {
+                if (i < count)
+                {
+                    var item = handsItems[i];
+                    images[i].Source = cashe._item[item];          
+                    buttons[i].ToolTip = Constants.ItemDescription[item];
+                }
+                else
+                {
+                    images[i].Source = null;
+                    buttons[i].ToolTip = null;
+                }
+            }
 
         }
 
         void HandRightMouseDown(MouseButtonEventArgs e, int num)
         {
             e.Handled = true;
+            count_cable += Constants.ItemDropCable;
+            cableCountTB.Text = $"{count_cable} 🔌";
+            AddStat(handsItems[num],-1);
+            handsItems.RemoveAt(num);
+            SortInventory();
         }
 
         void HandClick(int num)
         {
             gameBuildingMapGrid.Focus();
+            if (handsItems.Count <= num)
+                return;
+            if (inventoryItems.Count < 4)
+            {
+                inventoryItems.Add(handsItems[num]);
+                handsItems.RemoveAt(num);
+                SortInventory();
+            }
+        }
+
+        void AddStat(string item, int factor = 1) // factor для того, чтобы при снятии эффекты уменьшались
+        {
 
         }
 

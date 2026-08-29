@@ -23,8 +23,6 @@ namespace MaksLifeInChat.Model
         public int Level { get; set; } = 0;
         public int EXPForLevelUP { get; set; } = 10;
         public double EXPForLevelUPModificator { get; set; } = 1.3; // при новом уровне EXPForLevelUP на свой модификатор и хр обнуляется
-        public List<Item> EquipItems { get; set; } = [];
-        public List<Item> InventoryItems { get; set; } = [];
         public int RollSpeed { get; set; } = 13;
         public double StaminaConsuptionRoll { get; set; } = 25;
         public double StaminaConsuptionAttack { get; set; } = 10;

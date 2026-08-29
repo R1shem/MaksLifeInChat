@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace MaksLifeInChat.Model
 {

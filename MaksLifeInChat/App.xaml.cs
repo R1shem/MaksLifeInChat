@@ -2,6 +2,7 @@
 using System.Data;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 namespace MaksLifeInChat
 {
@@ -11,6 +12,7 @@ namespace MaksLifeInChat
     public partial class App : Application
     {
         public static MainWindow mainWindow; 
+        public static double volumeSettings; 
         [DllImport("winmm.dll", EntryPoint = "timeBeginPeriod")]
         private static extern uint TimeBeginPeriod(uint uPeriod);
 

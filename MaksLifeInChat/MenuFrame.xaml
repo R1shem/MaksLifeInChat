@@ -7,8 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1900">
     <Viewbox>
-        <StackPanel  Width="150" Margin="100">
-            <Button Click="Button_Start">Начать игру</Button>
+        <StackPanel  Width="200" Margin="100">
+            <Button x:Name="playButton" Click="playButton_Click">Начать игру</Button>
+            <Button x:Name="settingsButton" Click="settingsButton_Click" Margin="0,10,0,0">Настройки</Button>
+            <Button x:Name="exitButton" Margin="0,10,0,0" Click="exitButton_Click">Выйти</Button>
+            <Label x:Name="settingsLabel" Visibility="Collapsed" FontWeight="DemiBold" FontSize="18" HorizontalAlignment="Center">Настройки</Label>
+            <Label x:Name="fonLabel" Visibility="Collapsed" Margin="0,10,0,0">Настройки цвета фона (RGB)</Label>
+            <Slider ValueChanged="ColorSlider_ValueChanged" Margin="0,10,0,0" Visibility="Collapsed" Minimum="0" Maximum="255" Value="255" Interval="1" x:Name="redSlider"></Slider>
+            <Slider ValueChanged="ColorSlider_ValueChanged" Margin="0,10,0,0" Visibility="Collapsed" Minimum="0" Maximum="255" Value="255" Interval="1" x:Name="greenSlider"></Slider>
+            <Slider ValueChanged="ColorSlider_ValueChanged" Margin="0,10,0,0" Visibility="Collapsed" Minimum="0" Maximum="255" Value="255" Interval="1" x:Name="blueSlider"></Slider>
+            <Label x:Name="volumeLabel" Visibility="Collapsed" Margin="0,10,0,0">Настройки громкости звука</Label>
+            <Slider ValueChanged="volumeSlider_ValueChanged" Margin="0,10,0,0" Visibility="Collapsed" Minimum="0" Maximum="1" Value="0.5" x:Name="volumeSlider"></Slider>
+            <Button x:Name="saveButton" Margin="0,20,0,0" Click="saveButton_Click" Visibility="Collapsed">Сохранить</Button>
+            <Button x:Name="backButton" Margin="0,10,0,0" Click="backButton_Click" Visibility="Collapsed">Назад</Button>
         </StackPanel>
     </Viewbox>
 </UserControl>

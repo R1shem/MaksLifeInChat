@@ -12,11 +12,62 @@ namespace MaksLifeInChat.Model
         public static double ProcentShawarmaRegenHP = 0.25;
         public static double ProcentShawarmaRegenMP = 0.30;
         public static int SpriteUpdateFrameCount = 50;
-        public static readonly string[] interfaceNames = { "building" , "saucer" , "inventory", "hand" };
-        public static readonly string[] itemNames = { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , "attack_left" , "attack_right" , "levelup" , "bossdeath" , "death", "chatters_attack_down", "chatters_attack_up", "chatters_attack_left", "chatters_attack_right" };
-        public static readonly string[] unitNames = { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0" };
+        public static int ItemCount = 20;
+        public static int ItemDropCable = 5;
+        public static int ChanseGetItem = 30;
+        public static readonly string[] interfaceNames = 
+            { "building" , "saucer" , "inventory", "hand" };
+        public static readonly string[] itemNames = 
+            { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , 
+            "attack_left" , "attack_right" , "levelup" , "bossdeath" , "death", "chatters_attack_down", 
+            "chatters_attack_up", "chatters_attack_left", "chatters_attack_right" };
+        public static readonly string[] unitNames = 
+            { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0" };
         public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" };
         public static readonly string[] rotations = { "down", "left", "up", "right" };
+        public static readonly Dictionary<string,string> ItemDescription = new Dictionary<string, string> {
+            { "item0", "Нинтендо\n\n" +
+                "Увеличение запаса человечности, жестокости и выносливости на количество пицц."},
+            { "item1", "Штроборез\n\n" +
+                "Увеличение восстановления человечности, жестокости\n" +
+                "и выносливости на колличество кабелей."},
+            { "item2", "Очки гитариста\n\n" +
+                "Увеличение скорости ценой запаса человечности."},
+            { "item3", "Немой листик\n\n" +
+                "Увеличение регенерации человечности."},
+            { "item4", "Перо волка\n\n" +
+                "Увеличение запаса человечности."},
+            { "item5", "Склизкая лопата\n\n" +
+                "Увеличение области атаки ценой наносимого урона."},
+            { "item6", "Мини трость\n\n" +
+                "Жертва всей жестокости ради выносливости."},
+            { "item7", "Пыльный архив\n\n" +
+                "Увеличение запаса жестокости."},
+            { "item8", "Разделённые ножницы\n\n" +
+                "Увеличение выпадаемого опыта ценой выпадаемой пиццы."},
+            { "item9", "Грозная маска\n\n" +
+                "Жертва всей жестокости ради человечности."},
+            { "item10", "Футболка мотылька\n\n" +
+                "Увеличение запаса выносливости."},
+            { "item11", "Банан?\n\n" +
+                "Увеличение выпадаемой пиццы ценой выпадаемого опыта."},
+            { "item12", "Нож для карликов\n\n" +
+                "Увеличение наносимого урона ценой области атаки."},
+            { "item13", "Статуя ленина\n\n" +
+                ""},
+            { "item14", "Обожжённая доска\n\n" +
+                "Усиление скорости в состоянии кары\nценой урона Кары."},
+            { "item15", "Тату арии\n\n" +
+                "Увеличение регенерации жестокости."},
+            { "item16", "Карманный монстр\n\n" +
+                "Усиление урона в состоянии кары\nценой скорости Кары."},
+            { "item17", "Рог виверны\n\n" +
+                "Уменьшение расхода выносливости."},
+            { "item18", "Кровяная колбаса\n\n" +
+                "Увеличение регенерации выносливости."},
+            { "item19", "dQw4w9WgXcQ\n\n" +
+                "Уменьшение расхода состояния кары."},
+        };
         public static int SizeHalalcart = 150;
         public static int SizeWall = 50;
         public static int SpawnNewbieDelaySec = 5;
