@@ -9,7 +9,7 @@
     <Viewbox>
         <Grid Height="1200" Width="1920">
             <Canvas x:Name="mouseDynamicImageCanvas" Margin="5,5,5,155">
-                <Image x:Name="mouseDynamicImage"></Image>
+                <Image x:Name="mouseDynamicImage" Opacity="0.5"></Image>
             </Canvas>
             <StackPanel x:Name="developInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25">
                 <TextBlock FontSize="16" x:Name="frameCountTB"></TextBlock>

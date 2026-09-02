@@ -16,7 +16,7 @@ namespace MaksLifeInChat.Model
         public double KaraConsuption { get; set; } = 0.05;
         public double StaminaConsuptionWalk { get; set; } = 0.2;
         public double KaraSpeedModificator { get; set; } = 1.3;
-        public double KaraAtackModificator { get; set; } = 1.6;
+        public double KaraAttackModificator { get; set; } = 1.6;
         public double RunModificator { get; set; } = 2;
         public bool IsRun { get; set; } = false;
         public int EXP { get; set; } = 0;

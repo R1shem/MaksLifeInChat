@@ -52,7 +52,14 @@ namespace MaksLifeInChat
         int current_track = 0;
         List<string> inventoryItems = [];
         List<string> handsItems = [];
-
+        double beforeItem6MaxMP = 0;
+        double beforeItem6RegenMP = 0;
+        double beforeItemMaxStamina = 0;
+        double beforeItemRegenStamina = 0;
+        double beforeItem9MaxHP = 0;
+        double beforeItem9RegenHP = 0;
+        double beforeItem9MaxMP = 0;
+        double beforeItem9RegenMP = 0;
         public MainWindow()
         {
             App.mainWindow = this;
@@ -201,8 +208,10 @@ namespace MaksLifeInChat
                 if (player.MP < player.MaxMP)
                     player.MP += player.RegenMP;
 
-            if (player.HP <= 1)
-                player.Name = "kay";
+            if (player.MP <= 0)// чтобы не вызывало ошибку с высотой прямоугольников с отрицательным или нулевым значением
+                player.MP = 1;
+            if (player.Stamina <= 0)
+                player.Stamina = 1;
             if (player.HP < player.MaxHP)
                 player.HP += player.RegenHP;
             if (player.HP <= 0)
@@ -682,6 +691,8 @@ namespace MaksLifeInChat
                 if (e.Key == Key.Space)  // перекат
                     if (player.State == "stand" || player.State == "walk")
                         PlayerRoll();
+                if (e.Key == Key.RightCtrl) 
+                    GetPlayerItem();
             }
         }
 
@@ -838,13 +849,21 @@ namespace MaksLifeInChat
                 }
                 else
                 {
-                    mouseDynamicImage.Visibility = Visibility.Visible;
-                    selectBuilding = name;
                     int size;
-                    if (selectBuilding == "halalcart")
+                    if (name == "halalcart")
+                    {
+                        if (count_meat < Constants.HalalcartCostMeat || count_cable < Constants.HalalcartCostCable)
+                            return;
                         size = Constants.SizeHalalcart;
+                    }
                     else
+                    {
+                        if (count_meat < Constants.WallCostMeat || count_cable < Constants.WallCostCable)
+                            return;
                         size = Constants.SizeWall;
+                    }
+                    selectBuilding = name;
+                    mouseDynamicImage.Visibility = Visibility.Visible;
                     mouseDynamicImage.Width = size;
                     mouseDynamicImage.Height = size;
                     mouseDynamicImage.Source = cashe._unit[(name, "stand", "down")][0];
@@ -854,17 +873,35 @@ namespace MaksLifeInChat
             {
                 if (name == "halalcart")
                 {
+                    if (count_meat < Constants.ShawarmaMPCostMeat || count_cable < Constants.ShawarmaMPCostCable)
+                        return;
                     player.MP += player.MaxMP * Constants.ProcentShawarmaRegenMP;
                     if (player.MP > player.MaxMP)
                         player.MP = player.MaxMP;
+                    AddMeatCable(meat:-Constants.ShawarmaMPCostMeat, cable: -Constants.ShawarmaMPCostCable);
+                    SpawnSpeceffectOnUnit(player, cashe._item["mana_recovery"], player.Size, player.Size, Constants.LevelUpFrameCount);
                 }
                 else
                 {
+                    if (count_meat < Constants.ShawarmaHPCostMeat || count_cable < Constants.ShawarmaHPCostCable)
+                        return;
                     player.HP += player.MaxHP * Constants.ProcentShawarmaRegenHP;
                     if (player.HP > player.MaxHP)
                         player.HP = player.MaxHP;
+                    AddMeatCable(meat: -Constants.ShawarmaHPCostMeat, cable: -Constants.ShawarmaHPCostCable);
+                    SpawnSpeceffectOnUnit(player, cashe._item["heal_recovery"], player.Size, player.Size, Constants.LevelUpFrameCount);
                 }
             }
+        }
+
+        void AddMeatCable(int meat = 0, int cable = 0)
+        {
+            count_meat += meat;
+            meatCountTB.Text = $"{count_meat} 🍕";
+            count_cable += cable;
+            cableCountTB.Text = $"{count_cable} 🔌";
+            PizzaPower(meat); 
+            CablePower(cable);
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -920,9 +957,12 @@ namespace MaksLifeInChat
                 player.EXPForLevelUP = Convert.ToInt32(player.EXPForLevelUP * player.EXPForLevelUPModificator);
                 player.MaxHP += Constants.LevelGiveHP;
                 player.HP += Constants.LevelGiveHP;
+                player.RegenHP += Constants.LevelGiveRegenHP;
                 player.MaxMP += Constants.LevelGiveMP;
+                player.RegenMP += Constants.LevelGiveRegenMP;
                 player.MP += Constants.LevelGiveMP;
                 player.MaxStamina += Constants.LevelGiveStamina;
+                player.RegenStamina += Constants.LevelGiveRegenStamina;
                 player.Stamina += Constants.LevelGiveStamina;
                 player.Attack += Constants.LevelGiveAttack;
                 SpawnSpeceffectOnUnit(player, cashe._item["levelup"], player.Size, player.Size, Constants.LevelUpFrameCount);
@@ -1008,9 +1048,8 @@ namespace MaksLifeInChat
                     newbies[i].HP -= GivePlayerAttack();
                     if (newbies[i].HP <= 0)
                     {
-                        count_meat += Constants.NewbieDropMeat;
+                        AddMeatCable(meat:Constants.NewbieDropMeat);
                         PlayerAddEXP(Constants.NewbieDropEXP);
-                        meatCountTB.Text = $"{count_meat} 🍕";
                         KillNewbie(i);
                     }
                 }
@@ -1022,9 +1061,8 @@ namespace MaksLifeInChat
                     chatters[i].HP -= GivePlayerAttack();
                     if (chatters[i].HP <= 0)
                     {
-                        count_meat += Constants.ChattersDropMeat;
+                        AddMeatCable(meat: Constants.ChattersDropMeat);
                         PlayerAddEXP(Constants.ChattersDropEXP);
-                        meatCountTB.Text = $"{count_meat} 🍕";
                         KillChatters(i);
                     }
                 }
@@ -1043,6 +1081,7 @@ namespace MaksLifeInChat
             switch (selectBuilding)
             {
                 case "halalcart":
+                    AddMeatCable(meat: -Constants.HalalcartCostMeat, cable: -Constants.HalalcartCostCable);
                     building.Size = Constants.SizeHalalcart;
                     building.HP = Constants.HalalcartHP;
                     if (coordinates.Left <= -1850)
@@ -1055,6 +1094,7 @@ namespace MaksLifeInChat
                         coordinates = new(coordinates.Left, 850, 0, 0);
                     break;
                 case "wall":
+                    AddMeatCable(meat: -Constants.WallCostMeat, cable: -Constants.WallCostCable);
                     building.Size = Constants.SizeWall;
                     building.HP = Constants.WallHP;
                     if (coordinates.Left <= -1850)
@@ -1085,7 +1125,7 @@ namespace MaksLifeInChat
         {
             double finalAttack = player.Attack;
             if (player.Name == "kara")
-                finalAttack *= player.KaraAtackModificator;
+                finalAttack *= player.KaraAttackModificator;
             return finalAttack;
         }
 
@@ -1130,18 +1170,18 @@ namespace MaksLifeInChat
         void InventoryRightMouseDown(MouseButtonEventArgs e, int num) // расщепление предмета
         {
             e.Handled = true;
-            count_cable += Constants.ItemDropCable;
-            cableCountTB.Text = $"{count_cable} 🔌";
-            inventoryItems.RemoveAt(num);
-            SortInventory();
+            if (inventoryItems.Count > num)
+            {
+                AddMeatCable(cable: Constants.ItemDropCable);
+                inventoryItems.RemoveAt(num);
+                SortInventory();
+            }
         }
 
         void InventoryClick(int num) // перемещение из инвентаря
         {
             gameBuildingMapGrid.Focus();
-            if (inventoryItems.Count <= num)
-                return;
-            if (handsItems.Count < 2)
+            if (inventoryItems.Count > num && handsItems.Count < 2)
             {
                 handsItems.Add(inventoryItems[num]);
                 AddStat(inventoryItems[num]);
@@ -1195,20 +1235,21 @@ namespace MaksLifeInChat
         void HandRightMouseDown(MouseButtonEventArgs e, int num)
         {
             e.Handled = true;
-            count_cable += Constants.ItemDropCable;
-            cableCountTB.Text = $"{count_cable} 🔌";
-            AddStat(handsItems[num],-1);
-            handsItems.RemoveAt(num);
-            SortInventory();
+            if (handsItems.Count > num)
+            {
+                AddMeatCable(cable: Constants.ItemDropCable);
+                AddStat(handsItems[num], -1);
+                handsItems.RemoveAt(num);
+                SortInventory();
+            }
         }
 
         void HandClick(int num)
         {
             gameBuildingMapGrid.Focus();
-            if (handsItems.Count <= num)
-                return;
-            if (inventoryItems.Count < 4)
+            if (handsItems.Count > num && inventoryItems.Count < 4)
             {
+                AddStat(handsItems[num], -1);
                 inventoryItems.Add(handsItems[num]);
                 handsItems.RemoveAt(num);
                 SortInventory();
@@ -1217,7 +1258,259 @@ namespace MaksLifeInChat
 
         void AddStat(string item, int factor = 1) // factor для того, чтобы при снятии эффекты уменьшались
         {
+            double newProcent;
+            switch (item)
+            {
+                case "item0":
+                    player.MaxHP += count_meat * factor;
+                    player.MaxMP += count_meat * factor;
+                    player.MaxStamina += count_meat * factor;
+                    break;
+                case "item1":
+                    player.RegenHP += Constants.ItemStroborezRegenModificator * count_cable * factor;
+                    player.RegenMP += Constants.ItemStroborezRegenModificator * count_cable * factor;
+                    player.RegenStamina += Constants.ItemStroborezRegenModificator * count_cable * factor;
+                    break;
+                case "item2":
+                    newProcent = player.HP / player.MaxHP;
+                    if (factor > 0)
+                    {
+                        player.Speed += player.Speed * Constants.ItemModificator / 2 * factor;
+                        player.MaxHP += player.MaxHP / Constants.ItemModificator * -factor;
+                    }
+                    else
+                    {
+                        player.Speed += player.Speed * Constants.ItemModificator/ 2 * factor / 2;
+                        player.MaxHP += player.MaxHP / Constants.ItemModificator * -factor * 2;
+                    }
+                    player.HP = newProcent * player.MaxHP;
+                    break;
+                case "item3":
+                    if (factor > 0)
+                        player.RegenHP += 0.01 * Constants.ItemModificator * factor / 2;
+                    else
+                        player.RegenHP += 0.01 * Constants.ItemModificator * factor / 2;
+                    break;
+                case "item4":
+                    newProcent = player.HP / player.MaxHP;
+                    if (factor > 0)
+                        player.MaxHP += player.MaxHP / Constants.ItemModificator * factor * 2;
+                    else
+                        player.MaxHP += player.MaxHP / Constants.ItemModificator * factor;
+                    player.HP = newProcent * player.MaxHP;
+                    break;
+                case "item5":
+                    if (factor > 0)
+                    {
+                        player.AttackWeight += player.AttackWeight * Constants.ItemModificator / 2 * factor;
+                        player.AttackHeight += player.AttackHeight * Constants.ItemModificator / 2 * factor;
+                        player.Attack += player.Attack / Constants.ItemModificator * -factor;
+                    }
+                    else
+                    {
+                        player.AttackWeight += player.AttackWeight * Constants.ItemModificator / 2 * factor / 2;
+                        player.AttackHeight += player.AttackHeight * Constants.ItemModificator / 2 * factor / 2;
+                        player.Attack += player.Attack / Constants.ItemModificator * -factor * 2;
+                    }
+                    break;
+                case "item6":
+                    if (factor > 0) 
+                    {
+                        beforeItem6MaxMP = -(player.MaxMP - 1); 
+                        beforeItem6RegenMP = -player.RegenMP; 
+                        beforeItemMaxStamina = player.MaxMP - 1;   
+                        beforeItemRegenStamina = player.RegenMP; 
+                    }
+                    else
+                    {
+                        beforeItem6MaxMP = -beforeItem6MaxMP;
+                        beforeItem6RegenMP = -beforeItem6RegenMP;
+                        beforeItemMaxStamina = -beforeItemMaxStamina;
+                        beforeItemRegenStamina = -beforeItemRegenStamina;
+                    }
+                    player.MaxMP += beforeItem6MaxMP;
+                    player.RegenMP += beforeItem6RegenMP;
+                    player.MaxStamina += beforeItemMaxStamina;
+                    player.RegenStamina += beforeItemRegenStamina;
+                    player.MP = 0;
+                    break;
+                case "item7":
+                    newProcent = player.MP / player.MaxMP;
+                    if (factor > 0)
+                        player.MaxMP += player.MaxMP / Constants.ItemModificator * factor * 2;
+                    else
+                        player.MaxMP += player.MaxMP / Constants.ItemModificator * factor;
+                    player.MP = newProcent * player.MaxMP;
+                    break;
+                case "item8":
+                    if (factor > 0){
+                        Constants.NewbieDropEXP += Constants.NewbieDropEXP * factor;
+                        Constants.ChattersDropEXP += Constants.ChattersDropEXP * factor;
+                        Constants.NewbieDropMeat = 0;
+                        Constants.ChattersDropMeat = 0;
+                    }
+                    else{
+                        Constants.NewbieDropEXP += Constants.NewbieDropEXP * factor / 2;
+                        Constants.ChattersDropEXP += Constants.ChattersDropEXP * factor / 2;
+                        Constants.NewbieDropMeat = 1;
+                        Constants.ChattersDropMeat = 2;
+                    }
+                    break;
+                case "item9":
+                    if (factor > 0) 
+                    {
+                        beforeItem9MaxMP = -(player.MaxMP - 1);
+                        beforeItem9RegenMP = -player.RegenMP;  
+                        beforeItem9MaxHP = player.MaxMP - 1; 
+                        beforeItem9RegenHP = player.RegenMP;   
+                    }
+                    else 
+                    {
+                        beforeItem9MaxMP = -beforeItem9MaxMP;
+                        beforeItem9RegenMP = -beforeItem9RegenMP;
+                        beforeItem9MaxHP = -beforeItem9MaxHP;
+                        beforeItem9RegenHP = -beforeItem9RegenHP;
+                    }
 
+                    player.MaxMP += beforeItem9MaxMP;
+                    player.RegenMP += beforeItem9RegenMP;
+                    player.MaxHP += beforeItem9MaxHP;
+                    player.RegenHP += beforeItem9RegenHP;
+                    break;
+                case "item10":
+                    newProcent = player.Stamina / player.MaxStamina;
+                    if (factor > 0)
+                        player.MaxStamina += player.MaxStamina / Constants.ItemModificator * factor * 2;
+                    else
+                        player.MaxStamina += player.MaxStamina / Constants.ItemModificator * factor;
+                    player.Stamina = newProcent * player.MaxStamina;
+                    break;
+                case "item11":
+                    if (factor > 0)
+                    {
+                        Constants.NewbieDropMeat += Constants.NewbieDropMeat * factor;
+                        Constants.ChattersDropMeat += Constants.ChattersDropMeat * factor;
+                        Constants.NewbieDropEXP = 0;
+                        Constants.ChattersDropEXP = 0;
+                    }
+                    else
+                    {
+                        Constants.NewbieDropMeat += Constants.NewbieDropEXP * factor / 2;
+                        Constants.ChattersDropMeat += Constants.ChattersDropMeat * factor / 2;
+                        Constants.NewbieDropEXP = 2;
+                        Constants.ChattersDropEXP = 3;
+                    }
+                    break;
+                case "item12":
+                    if (factor < 0)
+                    {
+                        player.AttackWeight += player.AttackWeight * Constants.ItemModificator / 2 * -factor;
+                        player.AttackHeight += player.AttackHeight * Constants.ItemModificator / 2 * -factor;
+                        player.Attack += player.Attack / Constants.ItemModificator * factor;
+                    }
+                    else
+                    {
+                        player.AttackWeight += player.AttackWeight * Constants.ItemModificator / 2 * -factor / 2;
+                        player.AttackHeight += player.AttackHeight * Constants.ItemModificator / 2 * -factor / 2;
+                        player.Attack += player.Attack / Constants.ItemModificator * factor * 2;
+                    }
+                    break;
+                case "item13":
+                    if (factor > 0)
+                        player.Speed *= -factor;
+                    else
+                        player.Speed *= factor;
+                    break;
+                case "item14":
+                    if (factor > 0)
+                    {
+                        player.KaraSpeedModificator += player.KaraSpeedModificator * Constants.ItemModificator / 2 * factor;
+                        player.KaraAttackModificator += player.KaraAttackModificator * Constants.ItemModificator / 2 * -factor / 2;
+                    }
+                    else
+                    {
+                        player.KaraSpeedModificator += player.KaraSpeedModificator * Constants.ItemModificator / 2 * factor / 2;
+                        player.KaraAttackModificator += player.KaraAttackModificator * Constants.ItemModificator / 2 * -factor;
+                    }
+                    break;
+                case "item15":
+                    if (factor > 0)
+                        player.RegenMP += player.RegenMP * Constants.ItemModificator * factor / 2;
+                    else
+                        player.RegenMP += player.RegenMP * Constants.ItemModificator * factor / 4;
+                    break;
+                case "item16":
+                    if (factor > 0)
+                    {
+                        player.KaraAttackModificator += player.KaraAttackModificator * Constants.ItemModificator / 2 * factor;
+                        player.KaraSpeedModificator += player.KaraSpeedModificator * Constants.ItemModificator / 2 * -factor / 2;
+                    }
+                    else
+                    {
+                        player.KaraAttackModificator += player.KaraAttackModificator * Constants.ItemModificator / 2 * factor / 2;
+                        player.KaraSpeedModificator += player.KaraSpeedModificator * Constants.ItemModificator / 2 * -factor;
+                    }
+                    break;
+                case "item17":
+                    if (factor > 0)
+                    {
+                        player.StaminaConsuptionAttack += player.StaminaConsuptionAttack * Constants.ItemModificator / 2 * -factor / 2;
+                        player.StaminaConsuptionRoll += player.StaminaConsuptionRoll * Constants.ItemModificator / 2 * -factor / 2;
+                        player.StaminaConsuptionWalk += player.StaminaConsuptionWalk * Constants.ItemModificator / 2 * -factor / 2;
+                    }
+                    else
+                    {
+                        player.StaminaConsuptionAttack += player.StaminaConsuptionAttack * Constants.ItemModificator / 2 * -factor;
+                        player.StaminaConsuptionRoll += player.StaminaConsuptionRoll * Constants.ItemModificator / 2 * -factor;
+                        player.StaminaConsuptionWalk += player.StaminaConsuptionWalk * Constants.ItemModificator / 2 * -factor;
+                    }
+                    break;
+                case "item18":
+                    if (factor > 0)
+                        player.RegenStamina += player.RegenStamina * Constants.ItemModificator * factor / 2;
+                    else
+                        player.RegenStamina += player.RegenStamina * Constants.ItemModificator * factor / 4;
+                    break;
+                case "item19":
+                    if (factor > 0)
+                        player.KaraConsuption += player.KaraConsuption * Constants.ItemModificator / 2 * -factor / 2;
+                    else
+                        player.KaraConsuption += player.KaraConsuption * Constants.ItemModificator / 2 * -factor;
+                    break;
+            }
+            if (player.HP > player.MaxHP)
+                player.HP = player.MaxHP;
+            if (player.MP > player.MaxMP)
+                player.MP = player.MaxMP;
+            if (player.Stamina > player.MaxStamina)
+                player.Stamina = player.MaxStamina;
+            if (player.MaxHP <= 0)
+                player.MaxHP = 1;
+            if (player.MaxMP <= 0)
+                player.MaxMP = 1;
+        }
+
+        void PizzaPower(int quantityDropPizza)
+        {
+            if (handsItems.Exists(x => x == "item0"))
+            {
+                player.MaxHP += quantityDropPizza;
+                player.HP += quantityDropPizza;
+                player.MaxMP += quantityDropPizza;
+                player.MP += quantityDropPizza;
+                player.MaxStamina += quantityDropPizza;
+                player.Stamina += quantityDropPizza;
+            }
+        }
+
+        void CablePower(int quantityDropCable)
+        {
+            if (handsItems.Exists(x => x == "item1"))
+            {
+                player.RegenHP += Constants.ItemStroborezRegenModificator * quantityDropCable;
+                player.RegenMP += Constants.ItemStroborezRegenModificator * quantityDropCable;
+                player.RegenStamina += Constants.ItemStroborezRegenModificator * quantityDropCable;
+            }
         }
 
         private void Button_Building1(object sender, RoutedEventArgs e)
@@ -1242,7 +1535,7 @@ namespace MaksLifeInChat
 
         private void hand2Button_Click(object sender, RoutedEventArgs e)
         {
-            HandClick(0);
+            HandClick(1);
         }
 
         private void hand2Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

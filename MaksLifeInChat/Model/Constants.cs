@@ -14,13 +14,15 @@ namespace MaksLifeInChat.Model
         public static int SpriteUpdateFrameCount = 50;
         public static int ItemCount = 20;
         public static int ItemDropCable = 5;
-        public static int ChanseGetItem = 30;
+        public static double ItemModificator = 2;
+        public static double ItemStroborezRegenModificator = 0.001;
+        public static int ChanseGetItem = 20;
         public static readonly string[] interfaceNames = 
             { "building" , "saucer" , "inventory", "hand" };
         public static readonly string[] itemNames = 
             { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , 
             "attack_left" , "attack_right" , "levelup" , "bossdeath" , "death", "chatters_attack_down", 
-            "chatters_attack_up", "chatters_attack_left", "chatters_attack_right" };
+            "chatters_attack_up", "chatters_attack_left", "chatters_attack_right", "heal_recovery", "mana_recovery", "stamina_recovery" };
         public static readonly string[] unitNames = 
             { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0" };
         public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" };
@@ -54,7 +56,7 @@ namespace MaksLifeInChat.Model
             { "item12", "Нож для карликов\n\n" +
                 "Увеличение наносимого урона ценой области атаки."},
             { "item13", "Статуя ленина\n\n" +
-                ""},
+                "Дарует лунную походку"},
             { "item14", "Обожжённая доска\n\n" +
                 "Усиление скорости в состоянии кары\nценой урона Кары."},
             { "item15", "Тату арии\n\n" +
@@ -105,6 +107,9 @@ namespace MaksLifeInChat.Model
         public static double LevelGiveHP = 2;
         public static double LevelGiveMP = 2;
         public static double LevelGiveStamina = 3;
+        public static double LevelGiveRegenHP = 0;
+        public static double LevelGiveRegenMP = 0.0004;
+        public static double LevelGiveRegenStamina = 0.0006;
         public static double LevelGiveAttack = 1;
 
 

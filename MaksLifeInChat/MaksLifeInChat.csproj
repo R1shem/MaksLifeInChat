@@ -44,6 +44,7 @@
     <None Remove="Resource\death.png" />
     <None Remove="Resource\halalcartstanddown0.png" />
     <None Remove="Resource\hand.png" />
+    <None Remove="Resource\heal_recovery.png" />
     <None Remove="Resource\hp.png" />
     <None Remove="Resource\inventory.png" />
     <None Remove="Resource\item1.png" />
@@ -123,6 +124,7 @@
     <None Remove="Resource\kaywelcomeright0.png" />
     <None Remove="Resource\kaywelcomeup0.png" />
     <None Remove="Resource\levelup.png" />
+    <None Remove="Resource\mana_recovery.png" />
     <None Remove="Resource\mp.png" />
     <None Remove="Resource\music0.mp3" />
     <None Remove="Resource\music1.mp3" />
@@ -158,6 +160,7 @@
     <None Remove="Resource\shawarmaHP.png" />
     <None Remove="Resource\shawarmaMP.png" />
     <None Remove="Resource\stamina.png" />
+    <None Remove="Resource\stamina_recovery.png" />
     <None Remove="Resource\wallstanddown0.png" />
     <None Remove="settings" />
   </ItemGroup>
@@ -266,6 +269,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\hand.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\heal_recovery.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\hp.png">
@@ -514,6 +520,9 @@
     <Content Include="Resource\levelup.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\mana_recovery.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\mp.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -617,6 +626,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\stamina.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\stamina_recovery.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\wallstanddown0.png">
