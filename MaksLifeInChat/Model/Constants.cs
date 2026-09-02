@@ -19,13 +19,14 @@ namespace MaksLifeInChat.Model
         public static int ChanseGetItem = 20;
         public static readonly string[] interfaceNames = 
             { "building" , "saucer" , "inventory", "hand" };
-        public static readonly string[] itemNames = 
-            { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" , 
-            "attack_left" , "attack_right" , "levelup" , "bossdeath" , "death", "chatters_attack_down", 
-            "chatters_attack_up", "chatters_attack_left", "chatters_attack_right", "heal_recovery", "mana_recovery", "stamina_recovery" };
+        public static readonly string[] itemNames =
+            { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" ,
+            "attack_left" , "attack_right" , "levelup" , "bossdeath" , "death", "chatters_attack_down",
+            "chatters_attack_up", "chatters_attack_left", "chatters_attack_right", "heal_recovery",
+            "mana_recovery", "stamina_recovery", "damage", "lancevshadow0" , "lancevshadow1" };
         public static readonly string[] unitNames = 
-            { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0" };
-        public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" };
+            { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0", "lancev0", "lancev1" };
+        public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" , "splash" , "shoot" };
         public static readonly string[] rotations = { "down", "left", "up", "right" };
         public static readonly Dictionary<string,string> ItemDescription = new Dictionary<string, string> {
             { "item0", "Нинтендо\n\n" +
@@ -85,6 +86,7 @@ namespace MaksLifeInChat.Model
         public static int PlayerWelcomeFrameCount = SpriteUpdateFrameCount*5;
         public static int PlayerAttackFrameCount = SpriteUpdateFrameCount*10;
         public static int LevelUpFrameCount = SpriteUpdateFrameCount*5;
+        public static int DamageFrameCount = SpriteUpdateFrameCount;
         public static int DeathFrameCount = SpriteUpdateFrameCount*5;
         public static int BossDeathFrameCount = SpriteUpdateFrameCount*15;
         public static int FindEnemyFrameCount = SpriteUpdateFrameCount;

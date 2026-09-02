@@ -41,6 +41,7 @@
     <None Remove="Resource\chatters_attack_left.png" />
     <None Remove="Resource\chatters_attack_right.png" />
     <None Remove="Resource\chatters_attack_up.png" />
+    <None Remove="Resource\damage.png" />
     <None Remove="Resource\death.png" />
     <None Remove="Resource\halalcartstanddown0.png" />
     <None Remove="Resource\hand.png" />
@@ -123,6 +124,64 @@
     <None Remove="Resource\kaywelcomeleft0.png" />
     <None Remove="Resource\kaywelcomeright0.png" />
     <None Remove="Resource\kaywelcomeup0.png" />
+    <None Remove="Resource\lancev0attackdown0.png" />
+    <None Remove="Resource\lancev0attackdown1.png" />
+    <None Remove="Resource\lancev0attackleft0.png" />
+    <None Remove="Resource\lancev0attackleft1.png" />
+    <None Remove="Resource\lancev0attackright0.png" />
+    <None Remove="Resource\lancev0attackright1.png" />
+    <None Remove="Resource\lancev0attackup0.png" />
+    <None Remove="Resource\lancev0attackup1.png" />
+    <None Remove="Resource\lancev0rolldown0.png" />
+    <None Remove="Resource\lancev0rollleft0.png" />
+    <None Remove="Resource\lancev0rollright0.png" />
+    <None Remove="Resource\lancev0rollup0.png" />
+    <None Remove="Resource\lancev0shootdown0.png" />
+    <None Remove="Resource\lancev0shootleft0.png" />
+    <None Remove="Resource\lancev0shootright0.png" />
+    <None Remove="Resource\lancev0shootup0.png" />
+    <None Remove="Resource\lancev0splashdown0.png" />
+    <None Remove="Resource\lancev0splashdown1.png" />
+    <None Remove="Resource\lancev0standdown0.png" />
+    <None Remove="Resource\lancev0standleft0.png" />
+    <None Remove="Resource\lancev0standright0.png" />
+    <None Remove="Resource\lancev0standup0.png" />
+    <None Remove="Resource\lancev0walkdown0.png" />
+    <None Remove="Resource\lancev0walkdown1.png" />
+    <None Remove="Resource\lancev0walkleft0.png" />
+    <None Remove="Resource\lancev0walkleft1.png" />
+    <None Remove="Resource\lancev0walkright0.png" />
+    <None Remove="Resource\lancev0walkright1.png" />
+    <None Remove="Resource\lancev0walkup0.png" />
+    <None Remove="Resource\lancev0walkup1.png" />
+    <None Remove="Resource\lancev1attackdown0.png" />
+    <None Remove="Resource\lancev1attackdown1.png" />
+    <None Remove="Resource\lancev1attackleft0.png" />
+    <None Remove="Resource\lancev1attackleft1.png" />
+    <None Remove="Resource\lancev1attackright0.png" />
+    <None Remove="Resource\lancev1attackright1.png" />
+    <None Remove="Resource\lancev1attackup0.png" />
+    <None Remove="Resource\lancev1attackup1.png" />
+    <None Remove="Resource\lancev1rolldown0.png" />
+    <None Remove="Resource\lancev1rollleft0.png" />
+    <None Remove="Resource\lancev1rollright0.png" />
+    <None Remove="Resource\lancev1rollup0.png" />
+    <None Remove="Resource\lancev1splashdown0.png" />
+    <None Remove="Resource\lancev1splashdown1.png" />
+    <None Remove="Resource\lancev1standdown0.png" />
+    <None Remove="Resource\lancev1standleft0.png" />
+    <None Remove="Resource\lancev1standright0.png" />
+    <None Remove="Resource\lancev1standup0.png" />
+    <None Remove="Resource\lancev1walkdown0.png" />
+    <None Remove="Resource\lancev1walkdown1.png" />
+    <None Remove="Resource\lancev1walkleft0.png" />
+    <None Remove="Resource\lancev1walkleft1.png" />
+    <None Remove="Resource\lancev1walkright0.png" />
+    <None Remove="Resource\lancev1walkright1.png" />
+    <None Remove="Resource\lancev1walkup0.png" />
+    <None Remove="Resource\lancev1walkup1.png" />
+    <None Remove="Resource\lancevshadow0.png" />
+    <None Remove="Resource\lancevshadow1.png" />
     <None Remove="Resource\levelup.png" />
     <None Remove="Resource\mana_recovery.png" />
     <None Remove="Resource\mp.png" />
@@ -260,6 +319,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\chatters_attack_up.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\damage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\death.png">
@@ -515,6 +577,180 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\kaywelcomeup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0rolldown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0rollleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0rollright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0rollup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0shootdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0shootleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0shootright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0shootup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0splashdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0splashdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev0walkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1rolldown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1rollleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1rollright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1rollup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1splashdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1splashdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev1walkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancevshadow0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancevshadow1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\levelup.png">

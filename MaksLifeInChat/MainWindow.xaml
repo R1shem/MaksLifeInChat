@@ -27,6 +27,7 @@
                     <Grid x:Name="gameBuildingMapGrid" Focusable="True"/>
                     <Grid x:Name="gameUnitMapGrid"/>
                     <Grid x:Name="gamePlayerMapGrid"/>
+                    <Grid x:Name="menuGrid"/>
                 </Grid>
             </Border>
             <StackPanel Visibility="Collapsed" x:Name="toolBarStackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" Height="155" HorizontalAlignment="Center">
@@ -81,6 +82,7 @@
                     <TextBlock x:Name="cableCountTB" FontSize="24" FontWeight="Bold">0 🔌</TextBlock>
                 </StackPanel>
             </StackPanel>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="pauseTB" Margin="0,50,0,0" FontSize="54" FontWeight="Bold" Visibility="Collapsed" TextAlignment="Center"></TextBlock>
         </Grid>
     </Viewbox>
 </Window>

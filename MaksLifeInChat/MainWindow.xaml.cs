@@ -64,8 +64,9 @@ namespace MaksLifeInChat
         {
             App.mainWindow = this;
             InitializeComponent();
+            pauseTB.Text = "ПАУЗА\n(ПЕРЕРЫВ НА КОШКУ)\n(ПЕРЕРЫВ НА КОШКУ)";
             MenuFrame menuFrame = new();
-            gamePlayerMapGrid.Children.Add(menuFrame);
+            menuGrid.Children.Add(menuFrame);
             cashe = new SpriteCache();
             cashe.GetUnitSpritesList(Constants.unitNames, Constants.states, Constants.rotations);
             cashe.GetItemSpritesList(Constants.itemNames);
@@ -94,6 +95,7 @@ namespace MaksLifeInChat
 
         public async void StartGame()
         {
+            menuGrid.Children.Clear();
             gamePlayerMapGrid.Children.Clear();
             gameBuildingMapGrid.Children.Clear();
             gameUnitMapGrid.Children.Clear();
@@ -691,8 +693,90 @@ namespace MaksLifeInChat
                 if (e.Key == Key.Space)  // перекат
                     if (player.State == "stand" || player.State == "walk")
                         PlayerRoll();
-                if (e.Key == Key.RightCtrl) 
-                    GetPlayerItem();
+                if (e.Key == Key.Escape)
+                    PauseGame();
+            }
+            else if (e.Key == Key.Escape)
+                PlayGame();
+        }
+
+        void PauseGame()
+        {
+            isPlay = false;
+            pauseTB.Visibility = Visibility.Visible;
+        }
+
+        async void PlayGame()
+        {
+            if (player != null)
+            {
+                isPlay = true;
+                pauseTB.Visibility = Visibility.Collapsed; 
+                await GameTimer();
+            }
+        }
+
+        void ClearGame()
+        {
+            gameBuildingMapGrid.Children.Clear();
+            gameUnitMapGrid.Children.Clear();
+            gamePlayerMapGrid.Children.Clear();
+            chattersFindCounter = new List<int>();
+            id_unit_count = 0;
+            isPlay = false;
+            isBoss = false;
+            count_frame = 0;
+            count_sprite_frame = 0;
+            count_spawn_newbie_delay = 0;
+            time = new TimeOnly(0, 0);
+            _lastMinute = -1;
+            count_day = 0;
+            count_cable = 0;
+            count_meat = 0;
+            player = null;
+            playerSprite = null;
+            buildings = [];
+            buildingSprites = [];
+            newbies = [];
+            newbieSprites = [];
+            chatters = [];
+            chatterSprites = [];
+            selectBuilding = null;
+            halalcartZone = false;
+            stateBefore = null;
+            playList = [];
+            current_track = 0;
+            inventoryItems = [];
+            handsItems = [];
+            beforeItem6MaxMP = 0;
+            beforeItem6RegenMP = 0;
+            beforeItemMaxStamina = 0;
+            beforeItemRegenStamina = 0;
+            beforeItem9MaxHP = 0;
+            beforeItem9RegenHP = 0;
+            beforeItem9MaxMP = 0;
+            beforeItem9RegenMP = 0;
+            Constants.NewbieDropEXP=2;
+            Constants.ChattersDropEXP = 3;
+            Constants.NewbieDropMeat = 1;
+            Constants.ChattersDropMeat = 2;
+        }
+
+        void GameOver()
+        {
+            isPlay = false;
+            SpawnMenu();
+        }
+
+        async void SpawnMenu()
+        {
+            await Task.Delay(Constants.BossDeathFrameCount);
+            if (menuGrid.Children.Count == 0)
+            {
+                toolBarStackPanel.Visibility = Visibility.Collapsed;
+                MenuFrame menuFrame = new MenuFrame();
+                menuGrid.Children.Add(menuFrame);
+                ClearGame();
             }
         }
 
@@ -818,6 +902,7 @@ namespace MaksLifeInChat
         {
             if (player.State == "roll")
                 return;
+            SpawnSpeceffectOnUnit(player, cashe._item["damage"], player.Size, player.Size, Constants.DamageFrameCount);
             player.HP -= damage;
             if (player.HP < 0)
             {
@@ -826,15 +911,6 @@ namespace MaksLifeInChat
                 return;
             }
             hpRectangle.Height = player.HP / player.MaxHP * 120;
-        }
-
-        void GameOver()
-        {
-            isPlay = false;
-            gameBuildingMapGrid.Children.Clear();
-            gamePlayerMapGrid.Children.Clear();
-            gamePlayerMapGrid.Children.Clear();
-            // и всё остальное обнулить
         }
 
         void BuildClick(string name)
@@ -997,7 +1073,7 @@ namespace MaksLifeInChat
             };
             gameUnitMapGrid.Children.Add(speceffect);
             int count = 0;
-            while (isPlay)
+            while (true)
             {
                 await Task.Delay(Constants.FPS);
                 count++;
@@ -1045,6 +1121,7 @@ namespace MaksLifeInChat
             {
                 if ((Math.Abs(attackCoordinates.Left - newbies[i].Coordinates.Left) <= attackWeight + newbies[i].Size) && (Math.Abs(attackCoordinates.Top - newbies[i].Coordinates.Top) <= attackHeight + newbies[i].Size) && !newbies[i].IsWelcoming)
                 {
+                    SpawnSpeceffectOnUnit(newbies[i], cashe._item["damage"], newbies[i].Size, newbies[i].Size, Constants.DamageFrameCount);
                     newbies[i].HP -= GivePlayerAttack();
                     if (newbies[i].HP <= 0)
                     {
@@ -1058,6 +1135,7 @@ namespace MaksLifeInChat
             {
                 if ((Math.Abs(attackCoordinates.Left - chatters[i].Coordinates.Left) <= attackWeight + chatters[i].Size) && (Math.Abs(attackCoordinates.Top - chatters[i].Coordinates.Top) <= attackHeight + chatters[i].Size))
                 {
+                    SpawnSpeceffectOnUnit(chatters[i], cashe._item["damage"], chatters[i].Size, chatters[i].Size, Constants.DamageFrameCount);
                     chatters[i].HP -= GivePlayerAttack();
                     if (chatters[i].HP <= 0)
                     {
