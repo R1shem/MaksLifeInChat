@@ -43,6 +43,7 @@
     <None Remove="Resource\chatters_attack_up.png" />
     <None Remove="Resource\damage.png" />
     <None Remove="Resource\death.png" />
+    <None Remove="Resource\find.png" />
     <None Remove="Resource\halalcartstanddown0.png" />
     <None Remove="Resource\hand.png" />
     <None Remove="Resource\heal_recovery.png" />
@@ -182,11 +183,16 @@
     <None Remove="Resource\lancev1walkup1.png" />
     <None Remove="Resource\lancevshadow0.png" />
     <None Remove="Resource\lancevshadow1.png" />
+    <None Remove="Resource\lancev_attack_down.png" />
+    <None Remove="Resource\lancev_attack_left.png" />
+    <None Remove="Resource\lancev_attack_right.png" />
+    <None Remove="Resource\lancev_attack_up.png" />
     <None Remove="Resource\levelup.png" />
     <None Remove="Resource\mana_recovery.png" />
     <None Remove="Resource\mp.png" />
     <None Remove="Resource\music0.mp3" />
     <None Remove="Resource\music1.mp3" />
+    <None Remove="Resource\music2.mp3" />
     <None Remove="Resource\newbie0standdown0.png" />
     <None Remove="Resource\newbie0standdown1.png" />
     <None Remove="Resource\newbie0standleft0.png" />
@@ -221,6 +227,7 @@
     <None Remove="Resource\stamina.png" />
     <None Remove="Resource\stamina_recovery.png" />
     <None Remove="Resource\wallstanddown0.png" />
+    <None Remove="Resource\zastavka.png" />
     <None Remove="settings" />
   </ItemGroup>
 
@@ -325,6 +332,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\death.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\find.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\halalcartstanddown0.png">
@@ -753,6 +763,18 @@
     <Content Include="Resource\lancevshadow1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\lancev_attack_down.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev_attack_left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev_attack_right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\lancev_attack_up.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\levelup.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -766,6 +788,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\music1.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\music2.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\newbie0standdown0.png">
@@ -876,6 +901,9 @@
     <Content Include="Resource\saucer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resource\zastavka.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Content Include="settings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

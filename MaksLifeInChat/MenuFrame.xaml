@@ -10,6 +10,7 @@
         <StackPanel  Width="200" Margin="100">
             <Button x:Name="playButton" Click="playButton_Click">Начать игру</Button>
             <Button x:Name="settingsButton" Click="settingsButton_Click" Margin="0,10,0,0">Настройки</Button>
+            <Button x:Name="infoButton" Click="infoButton_Click" Margin="0,10,0,0">Справка</Button>
             <Button x:Name="exitButton" Margin="0,10,0,0" Click="exitButton_Click">Выйти</Button>
             <Label x:Name="settingsLabel" Visibility="Collapsed" FontWeight="DemiBold" FontSize="18" HorizontalAlignment="Center">Настройки</Label>
             <Label x:Name="fonLabel" Visibility="Collapsed" Margin="0,10,0,0">Настройки цвета фона (RGB)</Label>

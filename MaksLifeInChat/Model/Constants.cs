@@ -23,7 +23,8 @@ namespace MaksLifeInChat.Model
             { "shawarmaMP", "shawarmaHP", "nintendoHP" , "attack_down", "attack_up" ,
             "attack_left" , "attack_right" , "levelup" , "bossdeath" , "death", "chatters_attack_down",
             "chatters_attack_up", "chatters_attack_left", "chatters_attack_right", "heal_recovery",
-            "mana_recovery", "stamina_recovery", "damage", "lancevshadow0" , "lancevshadow1" };
+            "mana_recovery", "stamina_recovery", "damage", "lancevshadow0" , "lancevshadow1", "find" ,
+            "lancev_attack_down", "lancev_attack_up" , "lancev_attack_left" , "lancev_attack_right" };
         public static readonly string[] unitNames = 
             { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0", "lancev0", "lancev1" };
         public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" , "splash" , "shoot" };
@@ -74,7 +75,7 @@ namespace MaksLifeInChat.Model
         public static int SizeHalalcart = 150;
         public static int SizeWall = 50;
         public static int SpawnNewbieDelaySec = 5;
-
+        public static int SpawnBossDelaySec = 1;//300
         public static double NewbieHP  = 10;
         public static int NewbieDropMeat = 1;
         public static int NewbieDropEXP = 2;
@@ -127,5 +128,6 @@ namespace MaksLifeInChat.Model
 
         public static double HalalcartHP = 45;
         public static double WallHP = 25;
+        public static double DuelDistant = 1500;
     }
 }

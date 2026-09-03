@@ -30,6 +30,7 @@ namespace MaksLifeInChat
         int count_frame = 0; // frame count (не отражает время)
         int count_sprite_frame = 0;
         int count_spawn_newbie_delay = 0;
+        int count_spawn_boss_delay = 0;
         TimeOnly time = new TimeOnly(0, 0);
         int _lastMinute = -1;
         int count_day = 0;
@@ -60,10 +61,14 @@ namespace MaksLifeInChat
         double beforeItem9RegenHP = 0;
         double beforeItem9MaxMP = 0;
         double beforeItem9RegenMP = 0;
+        int kill_bosses_count = 0;
+        Moderator currentModer;
+        Image moderSprite;
         public MainWindow()
         {
             App.mainWindow = this;
             InitializeComponent();
+            Zastavka();
             pauseTB.Text = "ПАУЗА\n(ПЕРЕРЫВ НА КОШКУ)\n(ПЕРЕРЫВ НА КОШКУ)";
             MenuFrame menuFrame = new();
             menuGrid.Children.Add(menuFrame);
@@ -75,6 +80,17 @@ namespace MaksLifeInChat
             for (int i = 0; i < Constants.ItemCount; i++)
                 items[i] = $"item{i}";
             cashe.GetItemSpritesList(items);
+        }
+
+        async void Zastavka()
+        {
+            await Task.Delay(Constants.Second * Constants.FPS / 2);
+            while (zastavkaImage.Opacity >= 0)
+            {
+                await Task.Delay(Constants.FPS);
+                zastavkaImage.Opacity -= 0.01;
+            }
+            zastavkaImage.Visibility = Visibility.Collapsed;
         }
 
         async void PlayMusic()
@@ -146,17 +162,22 @@ namespace MaksLifeInChat
                     if (!isBoss)
                     {
                         count_spawn_newbie_delay++;
+                        count_spawn_boss_delay++;
                         if (count_spawn_newbie_delay >= Constants.SpawnNewbieDelaySec)
                         {
                             count_spawn_newbie_delay = 0;
                             SpawnNewbie();
                         }
-                        if (time.Minute != _lastMinute)
+                        if (count_spawn_boss_delay >= Constants.SpawnBossDelaySec)
                         {
-                            dayCountTB.Text = $"{count_day++} д.";
-                            _lastMinute = time.Minute;
-                            // сюда добавить условие
+                            count_spawn_boss_delay = 0;
+                            SpawnModer();
                         }
+                    }
+                    if (time.Minute != _lastMinute)
+                    {
+                        dayCountTB.Text = $"{count_day++} д.";
+                        _lastMinute = time.Minute;
                     }
                 }
                 if (count_sprite_frame == Constants.SpriteUpdateFrameCount)
@@ -176,7 +197,8 @@ namespace MaksLifeInChat
         {
             PlayerGameUpdate();
             NewbieGameUpdate();
-            ChattersGameUpdate();
+            ChattersGameUpdate(); 
+            ModerGameUpdate();
 
         }
 
@@ -218,6 +240,8 @@ namespace MaksLifeInChat
                 player.HP += player.RegenHP;
             if (player.HP <= 0)
             {
+                SpawnSpeceffectOnDot(player.Coordinates, cashe._item["bossdeath"], Constants.SizeSpriteDeathPlayer, Constants.SizeSpriteDeathPlayer, Constants.BossDeathFrameCount*2);
+                playerSprite.Source = null;
                 GameOver();
                 return;
             }
@@ -341,6 +365,7 @@ namespace MaksLifeInChat
 
         void ChattersGameUpdate()
         {
+            if (isBoss) return;
             for (int i = 0; i < chatters.Count; i++)
             {
                 if (chatters[i].AttackPause)
@@ -424,7 +449,8 @@ namespace MaksLifeInChat
             }
 
             await Task.Delay(Constants.ChattersAttackFrameCount);
-
+            if (!chatters.Exists(x => x == self))
+                return;
             if ((Math.Abs(attackCoordinates.Left - target.Coordinates.Left) <= attackWeight + target.Size) &&
                 (Math.Abs(attackCoordinates.Top - target.Coordinates.Top) <= attackHeight + target.Size)) // здесь перебирать всех в области и им уменьшать, и таргет[i] пусть будет
             {
@@ -531,6 +557,7 @@ namespace MaksLifeInChat
 
         void NewbieGameUpdate()
         {
+            if (isBoss) return;
             for (int i = 0; i < newbies.Count; i++)
             {
                 if (!newbies[i].IsWelcoming)
@@ -625,9 +652,174 @@ namespace MaksLifeInChat
             }
         }
 
-        void ModeratorGameUpdate()
+        async void ModerGameUpdate()
         {
+            if (currentModer != null)
+            {
+                ModerMovement();
+                switch (currentModer.Name)
+                {
+                    case "lancev0":
+                        currentModer.MP += currentModer.RegenMP;
+                        if (currentModer.MP < 10)
+                            currentModer.IsBanish = true;
+                        else if (currentModer.MP >= 80)
+                            currentModer.IsBanish = false;
+                        if (currentModer.State == "roll")
+                            return;
+                        SetDirectionToTarget(currentModer, player);
+                        if (currentModer.AttackPause || currentModer.State == "attack")
+                            return;
+                        if (!currentModer.IsBanish)
+                        {
+                            double range = currentModer.Size + currentModer.Size * currentModer.AttackPiasProcent + currentModer.AttackHeight / 4;
+                            double dx = Math.Abs(currentModer.Coordinates.Left - player.Coordinates.Left);
+                            double dy = Math.Abs(currentModer.Coordinates.Top - player.Coordinates.Top);
+                            bool isInAttackRange = dx < range && dy < range;
+                            if (isInAttackRange && currentModer.MP >= currentModer.MPConsuptionAttackBase)
+                            {
+                                currentModer.MP -= currentModer.MPConsuptionAttackBase;
+                                string stateBefore = currentModer.State;
+                                currentModer.ProgressSprite = 0;
+                                currentModer.State = "attack";
+                                Thickness attackCoordinates = currentModer.Coordinates;
+                                double attackWeight = currentModer.AttackWeight;
+                                double attackHeight = currentModer.AttackHeight;
+                                switch (currentModer.Rotation)
+                                {
+                                    case "left":
+                                        attackWeight = currentModer.AttackHeight;
+                                        attackHeight = currentModer.AttackWeight;
+                                        attackCoordinates = new(currentModer.Coordinates.Left - currentModer.Size * currentModer.AttackPiasProcent, currentModer.Coordinates.Top, 0, 0);
+                                        break;
+                                    case "right":
+                                        attackWeight = currentModer.AttackHeight;
+                                        attackHeight = currentModer.AttackWeight;
+                                        attackCoordinates = new(currentModer.Coordinates.Left + currentModer.Size * currentModer.AttackPiasProcent, currentModer.Coordinates.Top, 0, 0);
+                                        break;
+                                    case "down":
+                                        attackCoordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top + currentModer.Size * currentModer.AttackPiasProcent, 0, 0);
+                                        break;
+                                    case "up":
+                                        attackCoordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top - currentModer.Size * currentModer.AttackPiasProcent, 0, 0);
+                                        break;
+                                }
+                                await Task.Delay(Constants.ChattersAttackFrameCount);
+                                if ((Math.Abs(attackCoordinates.Left - player.Coordinates.Left) <= attackWeight + player.Size) &&
+                                    (Math.Abs(attackCoordinates.Top - player.Coordinates.Top) <= attackHeight + player.Size))
+                                {
+                                    PlayerDamage(currentModer.Attack);
+                                }
+                                SpawnSpeceffectOnDot(attackCoordinates, cashe._item[$"lancev_attack_{currentModer.Rotation}"], attackWeight, attackHeight, currentModer.AttackSpriteDelay);
+                                currentModer.State = "walk";
+                                currentModer.AttackPause = true;
+                                await Task.Delay(Constants.ChattersAttackPauseDelay * 3);
+                                currentModer.AttackPause = false;
+                            }
+                            else
+                                currentModer.State = "walk";
+                        }
+                        else
+                        {
+                            double dist = GetDistance(currentModer, player);
 
+                            if (dist > Constants.DuelDistant + currentModer.Speed)
+                            {
+                                currentModer.State = "walk";
+                                currentModer.ProgressSprite = 0;
+                                SetDirectionToTarget(currentModer, player);
+                            }
+                            else if (dist < Constants.DuelDistant - currentModer.Speed)
+                            {
+                                currentModer.State = "walk";
+                                currentModer.ProgressSprite = 0;
+
+                                double dx = currentModer.Coordinates.Left - player.Coordinates.Left;
+                                double dy = currentModer.Coordinates.Top - player.Coordinates.Top;
+
+                                if (Math.Abs(dx) >= Math.Abs(dy))
+                                {
+                                    currentModer.Rotation = dx >= 0 ? "right" : "left";
+                                    currentModer.SecondRotation = Math.Abs(dy) > currentModer.Size * 2
+                                        ? (dy > 0 ? "down" : "up")
+                                        : null;
+                                }
+                                else
+                                {
+                                    currentModer.Rotation = dy >= 0 ? "down" : "up";
+                                    currentModer.SecondRotation = Math.Abs(dx) > currentModer.Size * 2
+                                        ? (dx > 0 ? "right" : "left")
+                                        : null;
+                                }
+                            }
+                            else
+                            {
+                                currentModer.State = "stand";
+                                currentModer.SecondRotation = null;
+                            }
+                        }
+                        break;
+                    case "lancev1": 
+
+                        break;
+                }
+            }
+        }
+
+        async void LancevRoll()
+        {
+            if (currentModer.Coordinates.Left < 0)
+                currentModer.Rotation = "right";
+            else
+                currentModer.Rotation = "left";
+            if (currentModer.Coordinates.Top < 0)
+                currentModer.SecondRotation = "down";
+            else
+                currentModer.SecondRotation = "up";
+
+            currentModer.MP -= currentModer.MPConsuptionRoll;
+            currentModer.State = "roll";
+            await Task.Delay(Constants.PlayerRollFrameCount);
+            currentModer.State = "stand";
+        }
+
+        void ModerMovement() // мне очень больно за этот метод, я бы чаттерский обновил, но у меня время капец поджимает, каждая минута на счету (хотя я мог потратить её на оптимизацию, а не на этот текст хд)
+        {
+            if (currentModer.State != "walk" && currentModer.State != "roll") return;
+
+            double distance = currentModer.Speed;
+            if (currentModer.State == "roll")
+                distance *= 2;
+
+            switch (currentModer.Rotation)
+            {
+                case "left": currentModer.Coordinates = new(currentModer.Coordinates.Left - distance, currentModer.Coordinates.Top, 0, 0); break;
+                case "right": currentModer.Coordinates = new(currentModer.Coordinates.Left + distance, currentModer.Coordinates.Top, 0, 0); break;
+                case "up": currentModer.Coordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top - distance, 0, 0); break;
+                case "down": currentModer.Coordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top + distance, 0, 0); break;
+            }
+
+            if (currentModer.SecondRotation != null)
+            {
+                switch (currentModer.SecondRotation)
+                {
+                    case "left": currentModer.Coordinates = new(currentModer.Coordinates.Left - distance, currentModer.Coordinates.Top, 0, 0); break;
+                    case "right": currentModer.Coordinates = new(currentModer.Coordinates.Left + distance, currentModer.Coordinates.Top, 0, 0); break;
+                    case "up": currentModer.Coordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top - distance, 0, 0); break;
+                    case "down": currentModer.Coordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top + distance, 0, 0); break;
+                }
+            }
+
+            if (currentModer.Coordinates.Left <= -1850)
+                currentModer.Coordinates = new(-1850, currentModer.Coordinates.Top, 0, 0);
+            else if (currentModer.Coordinates.Left >= 1850)
+                currentModer.Coordinates = new(1850, currentModer.Coordinates.Top, 0, 0);
+            if (currentModer.Coordinates.Top <= -910)
+                currentModer.Coordinates = new(currentModer.Coordinates.Left, -910, 0, 0);
+            else if (currentModer.Coordinates.Top >= 910)
+                currentModer.Coordinates = new(currentModer.Coordinates.Left, 910, 0, 0);
+
+            moderSprite.Margin = currentModer.Coordinates;
         }
 
         void SpriteUpdate()
@@ -649,6 +841,13 @@ namespace MaksLifeInChat
                     chatters[i].ProgressSprite = 0;
                 chatterSprites[i].Source = cashe._unit[(chatters[i].Name + chatters[i].VariationSprite, chatters[i].State, chatters[i].Rotation)][chatters[i].ProgressSprite];
                 chatters[i].ProgressSprite++;
+            }
+            if (currentModer != null)
+            {
+                if (currentModer.ProgressSprite >= cashe._unit[(currentModer.Name, currentModer.State, currentModer.Rotation)].Count)
+                    currentModer.ProgressSprite = 0;
+                moderSprite.Source = cashe._unit[(currentModer.Name, currentModer.State, currentModer.Rotation)][currentModer.ProgressSprite];
+                currentModer.ProgressSprite++;
             }
         }
 
@@ -695,6 +894,8 @@ namespace MaksLifeInChat
                         PlayerRoll();
                 if (e.Key == Key.Escape)
                     PauseGame();
+                if (e.Key == Key.Tab)
+                    developInfo.Visibility = (developInfo.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
             }
             else if (e.Key == Key.Escape)
                 PlayGame();
@@ -760,6 +961,8 @@ namespace MaksLifeInChat
             Constants.ChattersDropEXP = 3;
             Constants.NewbieDropMeat = 1;
             Constants.ChattersDropMeat = 2;
+            currentModer = null;
+            moderSprite = null;
         }
 
         void GameOver()
@@ -770,7 +973,7 @@ namespace MaksLifeInChat
 
         async void SpawnMenu()
         {
-            await Task.Delay(Constants.BossDeathFrameCount);
+            await Task.Delay(Constants.BossDeathFrameCount * Constants.FPS);
             if (menuGrid.Children.Count == 0)
             {
                 toolBarStackPanel.Visibility = Visibility.Collapsed;
@@ -898,6 +1101,53 @@ namespace MaksLifeInChat
             chattersFindCounter.Add(0);
         }
 
+        async void SpawnModer()
+        {
+            isBoss = true;
+            switch (kill_bosses_count) // шира -> аргунта -> бонус -> ланцев -> шерше -> дабль -> ян (но пока только ланц)
+            {
+                case 0:
+                    Thickness lancevCoords = new Thickness(0, -600, 0, 0);
+                    int lancevSize = 150;
+                    SpawnSpeceffectOnDot(lancevCoords, cashe._item["bossdeath"], lancevSize, lancevSize, Constants.DeathFrameCount);
+                    await Task.Delay(Constants.DeathFrameCount);
+                    SpawnSpeceffectOnDot(lancevCoords, cashe._unit[("lancev0", "splash", "down")][0], lancevSize, lancevSize, Constants.BossDeathFrameCount * 2);
+                    await Task.Delay(Constants.BossDeathFrameCount * 2);
+                    SpawnSpeceffectOnDot(lancevCoords, cashe._unit[("lancev0", "splash", "down")][1], lancevSize, lancevSize, Constants.BossDeathFrameCount * 4);
+                    for (int i = chatters.Count-1; i >=0 ; i--)
+                        KillChatters(i);
+                    for (int i = newbies.Count - 1; i >= 0; i--)
+                        KillNewbie(i);
+                    await Task.Delay(Constants.BossDeathFrameCount * 4);
+                    currentModer = new()
+                    {
+                        ID = id_unit_count++,
+                        Name = "lancev0",
+                        RegenMP = 0.06, // 0.07
+                        MaxHP = 150,
+                        HP = 150,
+                        AttackHeight = 440,
+                        AttackWeight = 440,
+                        Attack = 25, // 35
+                        Speed = 6, // 7
+                        Size = lancevSize, //170
+                        Coordinates = lancevCoords
+                    };
+                    break;
+                default:
+                    return;
+            }
+            moderSprite = new()
+            {
+                Width = currentModer.Size,
+                Height = currentModer.Size,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Source = cashe._unit[(currentModer.Name, currentModer.State, currentModer.Rotation)][0],
+                Margin = currentModer.Coordinates
+            };
+            gameUnitMapGrid.Children.Add(moderSprite);
+        }
         void PlayerDamage(double damage)
         {
             if (player.State == "roll")
@@ -907,6 +1157,7 @@ namespace MaksLifeInChat
             if (player.HP < 0)
             {
                 SpawnSpeceffectOnDot(player.Coordinates, cashe._item["bossdeath"], Constants.SizeSpriteDeathPlayer, Constants.SizeSpriteDeathPlayer, Constants.BossDeathFrameCount);
+                playerSprite.Source = null;
                 GameOver();
                 return;
             }
@@ -1117,7 +1368,7 @@ namespace MaksLifeInChat
                     break;
             }
             await Task.Delay(Constants.PlayerAttackFrameCount);
-            for (int i = 0; i < newbies.Count; i++) // пока атака пока действует только на новичков. для остальных отдельные циклы
+            for (int i = 0; i < newbies.Count; i++) 
             {
                 if ((Math.Abs(attackCoordinates.Left - newbies[i].Coordinates.Left) <= attackWeight + newbies[i].Size) && (Math.Abs(attackCoordinates.Top - newbies[i].Coordinates.Top) <= attackHeight + newbies[i].Size) && !newbies[i].IsWelcoming)
                 {
@@ -1142,6 +1393,22 @@ namespace MaksLifeInChat
                         AddMeatCable(meat: Constants.ChattersDropMeat);
                         PlayerAddEXP(Constants.ChattersDropEXP);
                         KillChatters(i);
+                        GetPlayerItem();
+                    }
+                }
+            }
+            if (currentModer != null)
+            {
+                if ((Math.Abs(attackCoordinates.Left - currentModer.Coordinates.Left) <= attackWeight + currentModer.Size) && (Math.Abs(attackCoordinates.Top - currentModer.Coordinates.Top) <= attackHeight + currentModer.Size))
+                {
+                    if ((currentModer.Name == "lancev0" || currentModer.Name == "lancev1") && (currentModer.State == "walk" || currentModer.State == "stand" || currentModer.State == "attack") && currentModer.MP >= currentModer.MPConsuptionRoll)
+                        LancevRoll();
+                    else
+                    {
+                        SpawnSpeceffectOnUnit(currentModer, cashe._item["damage"], currentModer.Size, currentModer.Size, Constants.DamageFrameCount);
+                        currentModer.HP -= GivePlayerAttack();
+                        if (currentModer.HP <= 0)
+                            KillModer();
                     }
                 }
             }
@@ -1217,7 +1484,6 @@ namespace MaksLifeInChat
 
         void KillChatters(int index)
         {
-            GetPlayerItem();
             SpawnSpeceffectOnDot(chatters[index].Coordinates, cashe._item["death"], chatters[index].Size, chatters[index].Size, Constants.DeathFrameCount);
             gameUnitMapGrid.Children.Remove(chatterSprites[index]);
             chatterSprites.RemoveAt(index);
@@ -1225,11 +1491,26 @@ namespace MaksLifeInChat
             chattersFindCounter.RemoveAt(index);
         }
 
+        void KillModer()
+        {
+            if (currentModer.Name == "lancev0")
+            {
+                // ТУТ ПРОПИСАТЬ ЕГО ПЕРЕХОД НА ВТОРУЮ ФАЗУ
+                return;
+            }
+            isBoss = false;
+            kill_bosses_count++;
+            SpawnSpeceffectOnDot(currentModer.Coordinates, cashe._item["bossdeath"], currentModer.Size*2, currentModer.Size*2, Constants.DeathFrameCount);
+            currentModer = null;
+            gameUnitMapGrid.Children.Remove(moderSprite);
+        }
+
         void GetPlayerItem()
         {
             Random rnd = new Random();
             if (rnd.Next(0, 101) > Constants.ChanseGetItem)
                 return;
+            SpawnSpeceffectOnUnit(player, cashe._item["find"], player.Size, player.Size, Constants.LevelUpFrameCount);
             int num = rnd.Next(Constants.ItemCount);
             string name = $"item{num}";
             if (inventoryItems.Count < 4)

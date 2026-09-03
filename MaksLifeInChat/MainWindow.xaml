@@ -4,14 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaksLifeInChat" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" MouseMove="Window_MouseMove" MouseDown="Window_MouseDown"
-        mc:Ignorable="d" WindowStyle="None" WindowState="Maximized"
+        mc:Ignorable="d" WindowStyle="None" WindowState="Maximized" Background="Black"
         Title="MainWindow" Height="600" Width="960">
     <Viewbox>
         <Grid Height="1200" Width="1920">
             <Canvas x:Name="mouseDynamicImageCanvas" Margin="5,5,5,155">
                 <Image x:Name="mouseDynamicImage" Opacity="0.5"></Image>
             </Canvas>
-            <StackPanel x:Name="developInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25">
+            <StackPanel Visibility="Collapsed" x:Name="developInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25">
                 <TextBlock FontSize="16" x:Name="frameCountTB"></TextBlock>
                 <TextBlock FontSize="16" x:Name="timeCountTB"></TextBlock>
                 <TextBlock FontSize="16" x:Name="spriteCountTB"></TextBlock>
@@ -69,11 +69,11 @@
                     <Button Background="Transparent" Click="Button_Building2" x:Name="buildingButton2">
                         <Image x:Name="building2Image"></Image>
                     </Button></Border>
-                <Image Margin="30,0,0,0" Source="/Resource/hp.png" Height="100" Width="100"></Image>
+                <Image ToolTip="Человечность" Margin="30,0,0,0" Source="/Resource/hp.png" Height="100" Width="100"></Image>
                 <Rectangle Name="hpRectangle" Height="120" Width="12" Fill="#c10f17" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
-                <Image Source="/Resource/mp.png" Height="100" Width="100"></Image>
+                <Image ToolTip="Жестокость" Source="/Resource/mp.png" Height="100" Width="100"></Image>
                 <Rectangle Name="mpRectangle" Height="120" Width="12" Fill="#2d36a6" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
-                <Image Source="/Resource/stamina.png" Height="100" Width="100"></Image>
+                <Image ToolTip="Выносливость " Source="/Resource/stamina.png" Height="100" Width="100"></Image>
                 <Rectangle Name="staminaRectangle" Height="120" Width="12" Fill="#1b8b3d" VerticalAlignment="Bottom" Margin="0,0,0,18"></Rectangle>
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock x:Name="dayCountTB" FontSize="24" FontWeight="Bold">0 д.</TextBlock>
@@ -83,6 +83,7 @@
                 </StackPanel>
             </StackPanel>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="pauseTB" Margin="0,50,0,0" FontSize="54" FontWeight="Bold" Visibility="Collapsed" TextAlignment="Center"></TextBlock>
+            <Image Source="/Resource/zastavka.png" x:Name="zastavkaImage"></Image>
         </Grid>
     </Viewbox>
 </Window>

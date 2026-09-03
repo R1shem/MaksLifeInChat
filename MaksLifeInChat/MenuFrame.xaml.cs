@@ -44,6 +44,7 @@ namespace MaksLifeInChat
             volumeSlider.Value = App.volumeSettings;
             playButton.Visibility = Visibility.Collapsed;
             settingsButton.Visibility = Visibility.Collapsed;
+            infoButton.Visibility = Visibility.Collapsed;
             exitButton.Visibility = Visibility.Collapsed;
             backButton.Visibility = Visibility.Visible;
             saveButton.Visibility = Visibility.Visible;
@@ -65,6 +66,7 @@ namespace MaksLifeInChat
         {
             playButton.Visibility = Visibility.Visible;
             settingsButton.Visibility = Visibility.Visible;
+            infoButton.Visibility = Visibility.Visible;
             exitButton.Visibility = Visibility.Visible;
             backButton.Visibility = Visibility.Collapsed;
             saveButton.Visibility = Visibility.Collapsed;
@@ -95,6 +97,11 @@ namespace MaksLifeInChat
         private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             App.mainWindow._mediaPlayer.Volume = volumeSlider.Value;
+        }
+
+        private void infoButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Информация:\r\nПриветствуйте новичков, стукайте чаттерсов, делайте шаурму, восстанавливайте человечность и грабьте караваны, чтобы подготовиться к битве с модерами!\r\r\nУправление:\r\nWASD - двигаться\r\nЛКМ - атаковать / перемещать предметы\r\nПКМ - приветствовать / расщеплять предметы\r\nShift - бег\r\nCtrl - режим кары\r\nF11 - полноэкранный режим\r\nSpace - перекат\r\nEsc - пауза\r\nTab - показать/скрыть дополнительную информацию", "Справка");
         }
     }
 }
