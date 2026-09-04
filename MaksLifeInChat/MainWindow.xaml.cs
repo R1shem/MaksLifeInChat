@@ -958,6 +958,20 @@ namespace MaksLifeInChat
             Constants.ChattersDropMeat = 2;
             currentModer = null;
             moderSprite = null;
+            SortInventory();
+            attackTB.Text = "";
+            cableCountTB.Text = "0 🔌";
+            coordinatesTB.Text = "";
+            dayCountTB.Text = "0 д.";
+            expTB.Text = "";
+            frameCountTB.Text = "";
+            hpTB.Text = "";
+            levelCountTB.Text = "0 ур.";
+            meatCountTB.Text = "0 🍕";
+            mpTB.Text = "";
+            spriteCountTB.Text = "";
+            staminaTB.Text = "";
+            timeCountTB.Text = "";
         }
 
         void GameOver()

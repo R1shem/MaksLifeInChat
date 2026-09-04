@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <AssemblyTitle>Спираль-халяль</AssemblyTitle>
+    <ApplicationIcon>иконка.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -306,6 +308,7 @@
     <None Remove="Resource\stamina_recovery.png" />
     <None Remove="Resource\wallstanddown0.png" />
     <None Remove="Resource\zastavka.png" />
+    <None Remove="Resource\иконка.ico" />
     <None Remove="settings" />
   </ItemGroup>
 
@@ -1213,9 +1216,11 @@
     <Content Include="Resource\saucer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="иконка.ico" />
     <Resource Include="Resource\zastavka.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resource\иконка.ico" />
     <Content Include="settings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
