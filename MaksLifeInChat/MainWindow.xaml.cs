@@ -1034,9 +1034,7 @@ namespace MaksLifeInChat
         {
             player = new() {
                 AttackPiasProcent = Constants.PlayerAttackPiasProcent,
-                ID = id_unit_count++,
-                Attack=500,
-                HP=500
+                ID = id_unit_count++
             };
             playerSprite = new()
             {
