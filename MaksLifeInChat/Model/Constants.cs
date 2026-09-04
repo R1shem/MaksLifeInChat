@@ -17,7 +17,7 @@ namespace MaksLifeInChat.Model
         public static int ItemDropCable = 5;
         public static double ItemModificator = 2;
         public static double ItemStroborezRegenModificator = 0.001;
-        public static int ChanseGetItem = 20;
+        public static int ChanseGetItem = 33;
         public static readonly string[] interfaceNames = 
             { "building" , "saucer" , "inventory", "hand" };
         public static readonly string[] itemNames =

@@ -703,21 +703,22 @@ namespace MaksLifeInChat
                                         attackCoordinates = new(currentModer.Coordinates.Left, currentModer.Coordinates.Top - currentModer.Size * currentModer.AttackPiasProcent, 0, 0);
                                         break;
                                 }
-                                await Task.Delay(Constants.ChattersAttackFrameCount);
-                                if ((Math.Abs(attackCoordinates.Left - player.Coordinates.Left) <= attackWeight + player.Size) &&
+                            await Task.Delay(Constants.ChattersAttackFrameCount);
+                            if (currentModer == null) return;
+                            if ((Math.Abs(attackCoordinates.Left - player.Coordinates.Left) <= attackWeight + player.Size) &&
                                     (Math.Abs(attackCoordinates.Top - player.Coordinates.Top) <= attackHeight + player.Size))
-                                {
-                                    PlayerDamage(currentModer.Attack);
-                                }
-                                SpawnSpeceffectOnDot(attackCoordinates, cashe._item[$"lancev_attack_{currentModer.Rotation}"], attackWeight, attackHeight, currentModer.AttackSpriteDelay);
-                                currentModer.State = "walk";
-                                currentModer.AttackPause = true;
-                                await Task.Delay(Constants.ChattersAttackPauseDelay * 3);
-                                currentModer.AttackPause = false;
+                            {
+                                PlayerDamage(currentModer.Attack);
                             }
-                            else
-                                currentModer.State = "walk";
+                            SpawnSpeceffectOnDot(attackCoordinates, cashe._item[$"lancev_attack_{currentModer.Rotation}"], attackWeight, attackHeight, currentModer.AttackSpriteDelay);
+                            currentModer.State = "walk";
+                            currentModer.AttackPause = true;
+                            await Task.Delay(Constants.ChattersAttackPauseDelay * 3);
+                            currentModer.AttackPause = false;
                         }
+                        else
+                            currentModer.State = "walk";
+                    }
                         else
                         {
                             double dist = GetDistance(currentModer, player);
@@ -972,6 +973,7 @@ namespace MaksLifeInChat
             spriteCountTB.Text = "";
             staminaTB.Text = "";
             timeCountTB.Text = "";
+            kill_bosses_count = 0;
         }
 
         void GameOver()
@@ -1032,7 +1034,9 @@ namespace MaksLifeInChat
         {
             player = new() {
                 AttackPiasProcent = Constants.PlayerAttackPiasProcent,
-                ID = id_unit_count++
+                ID = id_unit_count++,
+                Attack=500,
+                HP=500
             };
             playerSprite = new()
             {
