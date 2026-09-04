@@ -657,13 +657,12 @@ namespace MaksLifeInChat
             if (currentModer != null)
             {
                 ModerMovement();
-                switch (currentModer.Name)
+                if (currentModer.Name == "lancev0" || currentModer.Name == "lancev1")
                 {
-                    case "lancev0":
                         currentModer.MP += currentModer.RegenMP;
                         if (currentModer.MP < 10)
                             currentModer.IsBanish = true;
-                        else if (currentModer.MP >= 80)
+                        else if (currentModer.MP >= 50)
                             currentModer.IsBanish = false;
                         if (currentModer.State == "roll")
                             return;
@@ -758,10 +757,6 @@ namespace MaksLifeInChat
                                 currentModer.SecondRotation = null;
                             }
                         }
-                        break;
-                    case "lancev1": 
-
-                        break;
                 }
             }
         }
@@ -1021,9 +1016,10 @@ namespace MaksLifeInChat
 
         void SpawnPlayer()
         {
-            player = new();
-            player.AttackPiasProcent = Constants.PlayerAttackPiasProcent;
-            player.ID = id_unit_count++;
+            player = new() {
+                AttackPiasProcent = Constants.PlayerAttackPiasProcent,
+                ID = id_unit_count++
+            };
             playerSprite = new()
             {
                 Width = player.Size,
@@ -1085,6 +1081,23 @@ namespace MaksLifeInChat
                 Rotation = newbie.Rotation
             };
             chatter.VariationSprite = rnd.Next(0, chatter.VariationSprite + 1);
+
+            switch (chatter.VariationSprite)
+            {
+                case 1:
+                    chatter.Speed *= 0.8;
+                    chatter.AttackHeight *= 1.3;
+                    chatter.AttackWeight *= 1.3;
+                    break;
+                case 2:
+                    chatter.AttackHeight *= 1.6;
+                    chatter.AttackWeight /= 1.6;
+                    break;
+                case 4:
+                    chatter.Size /= 2;
+                    chatter.Speed *= 1.3;
+                    break;
+            }
 
             Image chatterSprite = new()
             {
@@ -1491,11 +1504,31 @@ namespace MaksLifeInChat
             chattersFindCounter.RemoveAt(index);
         }
 
-        void KillModer()
+        async void KillModer()
         {
             if (currentModer.Name == "lancev0")
             {
-                // ТУТ ПРОПИСАТЬ ЕГО ПЕРЕХОД НА ВТОРУЮ ФАЗУ
+                isPlay = false;
+                moderSprite.Source = null;
+                SpawnSpeceffectOnDot(currentModer.Coordinates, cashe._item["bossdeath"], currentModer.Size, currentModer.Size, Constants.DeathFrameCount);
+                await Task.Delay(Constants.DeathFrameCount);
+                SpawnSpeceffectOnDot(currentModer.Coordinates, cashe._item["lancevshadow0"], currentModer.Size, currentModer.Size, Constants.BossDeathFrameCount);
+                await Task.Delay(Constants.BossDeathFrameCount);
+                SpawnSpeceffectOnDot(currentModer.Coordinates, cashe._item["lancevshadow1"], currentModer.Size, currentModer.Size, Constants.BossDeathFrameCount*3);
+                await Task.Delay(Constants.BossDeathFrameCount*3);
+                SpawnSpeceffectOnDot(currentModer.Coordinates, cashe._unit[("lancev1", "splash", "down")][1], currentModer.Size+20, currentModer.Size, Constants.BossDeathFrameCount * 4);
+                await Task.Delay(Constants.BossDeathFrameCount*4);
+                currentModer.Name = "lancev1";
+                currentModer.RegenMP = 0.07;
+                currentModer.MP = currentModer.MaxMP;
+                currentModer.HP = currentModer.MaxHP;
+                currentModer.Attack = 35;
+                currentModer.Speed = 7;
+                currentModer.Size = 170;
+                moderSprite.Width = 170;
+                moderSprite.Height = 170;
+                isPlay = true;
+                GameTimer();
                 return;
             }
             isBoss = false;
@@ -1503,6 +1536,10 @@ namespace MaksLifeInChat
             SpawnSpeceffectOnDot(currentModer.Coordinates, cashe._item["bossdeath"], currentModer.Size*2, currentModer.Size*2, Constants.DeathFrameCount);
             currentModer = null;
             gameUnitMapGrid.Children.Remove(moderSprite);
+            if (kill_bosses_count == Constants.ModersCount)
+            {
+                MessageBox.Show("Умнички, вы победили!!!");
+            }
         }
 
         void GetPlayerItem()

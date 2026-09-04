@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaksLifeInChat" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" MouseMove="Window_MouseMove" MouseDown="Window_MouseDown"
         mc:Ignorable="d" WindowStyle="None" WindowState="Maximized" Background="Black"
-        Title="MainWindow" Height="600" Width="960">
+        Title="Спираль-халяль" Height="600" Width="960">
     <Viewbox>
         <Grid Height="1200" Width="1920">
             <Canvas x:Name="mouseDynamicImageCanvas" Margin="5,5,5,155">

@@ -12,6 +12,7 @@ namespace MaksLifeInChat.Model
         public static double ProcentShawarmaRegenHP = 0.25;
         public static double ProcentShawarmaRegenMP = 0.30;
         public static int SpriteUpdateFrameCount = 50;
+        public static int ModersCount = 1;
         public static int ItemCount = 20;
         public static int ItemDropCable = 5;
         public static double ItemModificator = 2;
@@ -26,7 +27,7 @@ namespace MaksLifeInChat.Model
             "mana_recovery", "stamina_recovery", "damage", "lancevshadow0" , "lancevshadow1", "find" ,
             "lancev_attack_down", "lancev_attack_up" , "lancev_attack_left" , "lancev_attack_right" };
         public static readonly string[] unitNames = 
-            { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0", "lancev0", "lancev1" };
+            { "kay", "kara", "halalcart", "wall", "newbie0" , "newbie1" , "chatters0", "chatters1", "chatters2", "chatters3", "chatters4", "lancev0", "lancev1" };
         public static readonly string[] states = { "stand", "attack", "walk" , "roll" , "welcome" , "splash" , "shoot" };
         public static readonly string[] rotations = { "down", "left", "up", "right" };
         public static readonly Dictionary<string,string> ItemDescription = new Dictionary<string, string> {
@@ -75,7 +76,7 @@ namespace MaksLifeInChat.Model
         public static int SizeHalalcart = 150;
         public static int SizeWall = 50;
         public static int SpawnNewbieDelaySec = 5;
-        public static int SpawnBossDelaySec = 1;//300
+        public static int SpawnBossDelaySec = 300;//300
         public static double NewbieHP  = 10;
         public static int NewbieDropMeat = 1;
         public static int NewbieDropEXP = 2;

@@ -24,11 +24,9 @@
     <None Remove="Resource\chatters0attackup0.png" />
     <None Remove="Resource\chatters0attackup1.png" />
     <None Remove="Resource\chatters0standdown0.png" />
-    <None Remove="Resource\chatters0standdown1.png" />
     <None Remove="Resource\chatters0standleft0.png" />
     <None Remove="Resource\chatters0standright0.png" />
     <None Remove="Resource\chatters0standup0.png" />
-    <None Remove="Resource\chatters0standup1.png" />
     <None Remove="Resource\chatters0walkdown0.png" />
     <None Remove="Resource\chatters0walkdown1.png" />
     <None Remove="Resource\chatters0walkleft0.png" />
@@ -37,6 +35,86 @@
     <None Remove="Resource\chatters0walkright1.png" />
     <None Remove="Resource\chatters0walkup0.png" />
     <None Remove="Resource\chatters0wallkup1.png" />
+    <None Remove="Resource\chatters1attackdown0.png" />
+    <None Remove="Resource\chatters1attackdown1.png" />
+    <None Remove="Resource\chatters1attackleft0.png" />
+    <None Remove="Resource\chatters1attackleft1.png" />
+    <None Remove="Resource\chatters1attackright0.png" />
+    <None Remove="Resource\chatters1attackright1.png" />
+    <None Remove="Resource\chatters1attackup0.png" />
+    <None Remove="Resource\chatters1attackup1.png" />
+    <None Remove="Resource\chatters1standdown0.png" />
+    <None Remove="Resource\chatters1standleft0.png" />
+    <None Remove="Resource\chatters1standright0.png" />
+    <None Remove="Resource\chatters1standup0.png" />
+    <None Remove="Resource\chatters1walkdown0.png" />
+    <None Remove="Resource\chatters1walkdown1.png" />
+    <None Remove="Resource\chatters1walkleft0.png" />
+    <None Remove="Resource\chatters1walkleft1.png" />
+    <None Remove="Resource\chatters1walkright0.png" />
+    <None Remove="Resource\chatters1walkright1.png" />
+    <None Remove="Resource\chatters1walkup0.png" />
+    <None Remove="Resource\chatters1wallkup1.png" />
+    <None Remove="Resource\chatters2attackdown0.png" />
+    <None Remove="Resource\chatters2attackdown1.png" />
+    <None Remove="Resource\chatters2attackleft0.png" />
+    <None Remove="Resource\chatters2attackleft1.png" />
+    <None Remove="Resource\chatters2attackright0.png" />
+    <None Remove="Resource\chatters2attackright1.png" />
+    <None Remove="Resource\chatters2attackup0.png" />
+    <None Remove="Resource\chatters2attackup1.png" />
+    <None Remove="Resource\chatters2standdown0.png" />
+    <None Remove="Resource\chatters2standleft0.png" />
+    <None Remove="Resource\chatters2standright0.png" />
+    <None Remove="Resource\chatters2standup0.png" />
+    <None Remove="Resource\chatters2walkdown0.png" />
+    <None Remove="Resource\chatters2walkdown1.png" />
+    <None Remove="Resource\chatters2walkleft0.png" />
+    <None Remove="Resource\chatters2walkleft1.png" />
+    <None Remove="Resource\chatters2walkright0.png" />
+    <None Remove="Resource\chatters2walkright1.png" />
+    <None Remove="Resource\chatters2walkup0.png" />
+    <None Remove="Resource\chatters2wallkup1.png" />
+    <None Remove="Resource\chatters3attackdown0.png" />
+    <None Remove="Resource\chatters3attackdown1.png" />
+    <None Remove="Resource\chatters3attackleft0.png" />
+    <None Remove="Resource\chatters3attackleft1.png" />
+    <None Remove="Resource\chatters3attackright0.png" />
+    <None Remove="Resource\chatters3attackright1.png" />
+    <None Remove="Resource\chatters3attackup0.png" />
+    <None Remove="Resource\chatters3attackup1.png" />
+    <None Remove="Resource\chatters3standdown0.png" />
+    <None Remove="Resource\chatters3standleft0.png" />
+    <None Remove="Resource\chatters3standright0.png" />
+    <None Remove="Resource\chatters3standup0.png" />
+    <None Remove="Resource\chatters3walkdown0.png" />
+    <None Remove="Resource\chatters3walkdown1.png" />
+    <None Remove="Resource\chatters3walkleft0.png" />
+    <None Remove="Resource\chatters3walkleft1.png" />
+    <None Remove="Resource\chatters3walkright0.png" />
+    <None Remove="Resource\chatters3walkright1.png" />
+    <None Remove="Resource\chatters3walkup0.png" />
+    <None Remove="Resource\chatters3wallkup1.png" />
+    <None Remove="Resource\chatters4attackdown0.png" />
+    <None Remove="Resource\chatters4attackdown1.png" />
+    <None Remove="Resource\chatters4attackleft0.png" />
+    <None Remove="Resource\chatters4attackleft1.png" />
+    <None Remove="Resource\chatters4attackright0.png" />
+    <None Remove="Resource\chatters4attackright1.png" />
+    <None Remove="Resource\chatters4attackup0.png" />
+    <None Remove="Resource\chatters4attackup1.png" />
+    <None Remove="Resource\chatters4standdown0.png" />
+    <None Remove="Resource\chatters4standleft0.png" />
+    <None Remove="Resource\chatters4standright0.png" />
+    <None Remove="Resource\chatters4standup0.png" />
+    <None Remove="Resource\chatters4walkdown0.png" />
+    <None Remove="Resource\chatters4walkdown1.png" />
+    <None Remove="Resource\chatters4walkleft0.png" />
+    <None Remove="Resource\chatters4walkleft1.png" />
+    <None Remove="Resource\chatters4walkright0.png" />
+    <None Remove="Resource\chatters4walkright1.png" />
+    <None Remove="Resource\chatters4walkup0.png" />
+    <None Remove="Resource\chatters4wallkup1.png" />
     <None Remove="Resource\chatters_attack_down.png" />
     <None Remove="Resource\chatters_attack_left.png" />
     <None Remove="Resource\chatters_attack_right.png" />
@@ -277,9 +355,6 @@
     <Content Include="Resource\chatters0standdown0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\chatters0standdown1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resource\chatters0standleft0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -287,9 +362,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\chatters0standup0.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resource\chatters0standup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\chatters0walkdown0.png">
@@ -314,6 +386,246 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\chatters0wallkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters1wallkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters2wallkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters3wallkup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4attackup1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4standdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4standleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4standright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4standup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkdown0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkdown1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkleft0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkleft1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkright0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkright1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4walkup0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\chatters4wallkup1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\chatters_attack_down.png">
